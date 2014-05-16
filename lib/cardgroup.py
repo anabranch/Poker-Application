@@ -1,4 +1,5 @@
 from card import Card
+from copy import copy
 from collections import Counter
 from equalitymixin import CommonEqualityMixin
 
@@ -22,16 +23,18 @@ class CardGroup(CommonEqualityMixin):
             return False
 
     def is_flush(self):
-        local_cards = self.cards
+        local_cards = copy(self.cards)
         suits = [card.suit for card in local_cards]
         s_counter = Counter(suits)
+        print s_counter
+        print local_cards
         if max(s_counter.values()) > 4:
             return True
         else:
             return False
 
     def flush_details(self):
-        local_cards = self.cards
+        local_cards = copy(self.cards)
         suits = [card.suit for card in local_cards]
         s_counter = Counter(suits)
         fl_suit = None
@@ -45,7 +48,7 @@ class CardGroup(CommonEqualityMixin):
         return self.get_card(mx, fl_suit)
 
     def is_straight(self):
-        local_cards = self.cards
+        local_cards = copy(self.cards)
 
         successives = 1
         for x in local_cards:
@@ -67,7 +70,7 @@ class CardGroup(CommonEqualityMixin):
             return False
 
     def straight_details(self):
-        local_cards = self.cards
+        local_cards = copy(self.cards)
         mx = 0
         for x in local_cards:
             if x.is_ace:
@@ -82,40 +85,71 @@ class CardGroup(CommonEqualityMixin):
             n2, s2 = values[location+1]
             if num+1 == n2:
                 mx = n2
+        print mx
+        print suit
         return self.get_card(mx, suit)
 
     def is_straight_flush(self):
-        local_cards = self.cards
-        
-        if not self.is_straight() and not self.is_flush():
-            return False
-        successives = 1
+        local_cards = copy(self.cards)
         print local_cards
-        print self.cards
+        mx = 0
+        successives = 1
         for x in local_cards:
             if x.is_ace:
-                print local_cards
                 local_cards.append(Card(1,x.suit))
-
-        print local_cards
-        dict_by_suit = {}
-        for c in local_cards:
-            num, suit = c.as_tuple()
-            if suit not in dict_by_suit:
-                dict_by_suit[suit] = [num]
+        grouped_by_suit = {}
+        for x in local_cards:
+            num, suit = x.as_tuple()
+            if suit not in grouped_by_suit:
+                grouped_by_suit[suit] = [num]
             else:
-                dict_by_suit[suit].append(num)
+                grouped_by_suit[suit].append(num)
 
-        for k, v in dict_by_suit.items():
-            if len(sorted(v)) >= 5:
-                print k, sorted(v)
+        suited = None
+        suit = None
+        for k,v in grouped_by_suit.items():
+            if len(v) >= 5:
+                suit = k
+                suited = sorted(grouped_by_suit[k])
 
+        for location, num in enumerate(suited):
+            if location+1 >= len(suited):
+                break
+            n2 = suited[location+1]
+            if num+1 == n2:
+                successives += 1
+                mx = n2        
+        if successives >= 5:
+            return True
         return False
 
     def straight_flush_details(self):
-        local_cards = self.cards
-        successives = 1
+        local_cards = copy(self.cards)
+        print local_cards
         mx = 0
+        for x in local_cards:
+            if x.is_ace:
+                local_cards.append(Card(1,x.suit))
+        grouped_by_suit = {}
+        for x in local_cards:
+            num, suit = x.as_tuple()
+            if suit not in grouped_by_suit:
+                grouped_by_suit[suit] = [num]
+            else:
+                grouped_by_suit[suit].append(num)
+
+        suited = None
         suit = None
-        return self.get_card(mx, suit)
+        for k,v in grouped_by_suit.items():
+            if len(v) >= 5:
+                suit = k
+                suited = sorted(grouped_by_suit[k])
+
+        for location, num in enumerate(suited):
+            if location+1 >= len(suited):
+                break
+            n2 = suited[location+1]
+            if num+1 == n2:
+                mx = n2
+        return self.get_card(mx,suit)
             

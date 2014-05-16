@@ -24,24 +24,42 @@ class TestCardGroup(object):
         self.g3.add_card(Card(5, "Clubs"))
         self.g3.add_card(Card(2, "Clubs"))
 
-    def test_is_straight(self):
-        assert self.g1.is_straight() == True
-        assert self.g1.straight_details() == Card(5, "Diamonds")
-        assert self.g2.is_straight() == True
-        assert self.g2.straight_details() == Card(6, "Spades")
-        assert self.g3.is_straight() == True
-        assert self.g3.straight_details() == Card(6, "Clubs")
+    def test_add_card(self):
+        print self.g1
+        self.g1.add_card(Card(7, "Clubs"))
+        print self.g1
+        assert self.g1
 
-    def test_is_flush(self):
+    # def test_g1_is_straight(self):
+    #     assert self.g1.is_straight() == True
+    #     assert self.g1.straight_details() == Card(5, "Diamonds")
+    
+    # def test_g2_is_straight(self):
+    #     assert self.g2.is_straight() == True
+    #     assert self.g2.straight_details() == Card(6, "Spades")
+
+    # def test_g3_is_straight(self):
+    #     assert self.g3.is_straight() == True
+    #     assert self.g3.straight_details() == Card(6, "Clubs")
+
+    def test_g1_is_flush(self):
         assert self.g1.is_flush() == True
         assert self.g1.flush_details() == Card(14, "Diamonds")
+
+    def test_g2_is_flush(self):
         assert self.g2.is_flush() == True
         assert self.g2.flush_details() == Card(6, "Spades")
+
+    def test_g3_is_flush(self):
         assert self.g3.is_flush() == False
         
-    def test_is_straight_flush(self):
-        assert self.g1.is_straight_flush() == True
-        assert self.g1.straight_flush_details() == Card(5, "Diamonds")
-        assert self.g2.is_straight_flush() == True
-        assert self.g2.straight_flush_details() == Card(6, "Spades")
-        assert self.g3.is_straight_flush() == False
+    # def test_is_g1_straight_flush(self):
+    #     assert self.g1.is_straight_flush() == True
+    #     assert self.g1.straight_flush_details() == Card(5, "Diamonds")
+
+    # def test_is_g2_straight_flush(self):
+    #     assert self.g2.is_straight_flush() == True
+    #     assert self.g2.straight_flush_details() == Card(6, "Spades")
+
+    # def test_is_g3_straight_flush(self):
+    #     assert self.g3.is_straight_flush() == False
