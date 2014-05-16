@@ -27,4 +27,11 @@ class Card(CommonEqualityMixin):
         return self.__str__()
 
     def as_tuple(self):
-        return self.number, self.suit, self.suit_rank
+        return self.number, self.suit_rank, self.suit
+
+    def as_dict(self):
+        return {
+            "Number":self.number,
+            "Suit Rank":self.suit_rank,
+            "Suit": self.suit
+                }
