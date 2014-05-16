@@ -5,10 +5,17 @@ class Card(CommonEqualityMixin):
     def __init__(self, number, suit):
         # need to enforce max card number...
         super(Card, self).__init__()
-        # if number not in range(1,15):
-        #     raise TypeError("Cannot Create a Card with this Number")
+        possible_suits = ['Diamonds', "Clubs", "Hearts", "Spades"]
+        if number not in range(1,15):
+            raise TypeError("Cannot Create a Card with this Number")
+        if suit not in possible_suits:
+            raise TypeError("Cannot Create a Card with this Suit")
         self.number = number
         self.suit = suit
+        self.suit_rank = 0
+        for rank, s in enumerate(possible_suits):
+            if suit == s:
+                self.suit_rank = rank
         self.is_ace = False
         if number % 14 == 0 or number == 1:
             self.is_ace = True
@@ -21,6 +28,3 @@ class Card(CommonEqualityMixin):
 
     def as_tuple(self):
         return self.number, self.suit
-
-if __name__ == '__main__':
-    Card(15,1)
