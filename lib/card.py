@@ -10,7 +10,7 @@ class Card(CommonEqualityMixin):
         self.number = number
         self.suit = suit
         self.is_ace = False
-        if number % 14 == 0:
+        if number % 14 == 0 or number == 1:
             self.is_ace = True
     
     def __str__(self):

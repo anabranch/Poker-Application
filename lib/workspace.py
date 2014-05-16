@@ -1,4 +1,17 @@
 
+    def flush_details(self):
+        local_cards = copy(self.cards)
+        suits = [card.suit for card in local_cards]
+        s_counter = Counter(suits)
+        fl_suit = None
+        for k, v in s_counter.items():
+            if v > 4:
+                fl_suit = k
+        mx = 0
+        for x in local_cards:
+            if mx <= x.number and x.suit == fl_suit:
+                mx = x.number
+        return self.get_card(mx, fl_suit)
     def is_straight(self):
         local_cards = copy(self.cards)
 
