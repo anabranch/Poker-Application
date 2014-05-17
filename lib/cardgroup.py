@@ -116,35 +116,33 @@ class CardGroup(CommonEqualityMixin):
         for k, v in card_suit_dict.items():
             if len(v) >= 5:
                 suit = k
-                vals = sorted(v, key=operator.attrgetter('number'))
-        print "--------"
-        print vals
+                vals = list(reversed(list(reversed(sorted(v, key=operator.attrgetter('number'))))[:5]))
         if suit:
             return {"hand":vals}
         return {}
 
     def straight_flush(self):
         card_suit_dict = self._cards_by_suit()
+        successive = []
         suit = None
         vals = None
         for k, v in card_suit_dict.items():
             if len(v) >= 5:
                 suit = k
-                vals = list(reversed(list(reversed(sorted(v, key=operator.attrgetter('number'))))[:5]))
-        successive = []
+                vals = sorted(v, key=operator.attrgetter('number'))
+                
         for location, val in enumerate(vals):
-            num, card = val
+            num, card, suit_rank = val.as_tuple()
             if location + 1 >= len(vals):
                 break # I bet there's a better way to do this...
-            num2, card2 = vals[location + 1]
+            val2 = vals[location + 1]
+            num2, card2, suit_rank2 = vals[location + 1].as_tuple()
             if num+1 == num2:
-                successive.append(card2[0])
-                if card[0] not in successive:
-                    successive.append(card[0])
+                successive.append(val2)
+                if val not in successive:
+                    successive.append(val)
         if len(successive) >= 5:
             return {"hand":successive}
-        if suit:
-            return {"hand":vals}
         return {}
 
 class PocketCardGroup(CardGroup):
@@ -162,12 +160,18 @@ if __name__ == '__main__':
         ])
     x.add_card(Card(2,"Diamonds"))
     print x.cards
-    # print x.high_cards()
+    print "High Cards"
+    print x.high_cards()
+    print "pairs"
+    print x.pairs()
+    print "trips"
+    print x.trips()
+    print "quads"
+    print x.quads()
+    print "straight"
     print x.straight()
+    print "flush"
     print x.flush()
-    print "---"
+    print "straight flush"
     print x.straight_flush()
-    # print x.pairs()
-    # print x.trips()
-    # print x.quads()
         
