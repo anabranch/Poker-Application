@@ -121,6 +121,18 @@ class CardGroup(CommonEqualityMixin):
             return {"hand":vals}
         return {}
 
+    def two_pair(self):
+        card_num_dict = self._cards_by_number()
+        doubles = []
+        for k, v in card_num_dict.items():
+            if len(v) >= 2:
+                doubles.append({k:v})
+        if len(doubles) >= 2:
+            print max(doubles)
+            print doubles
+        # print card_num_dict
+        return {}
+
     def straight_flush(self):
         card_suit_dict = self._cards_by_suit()
         successive = []
@@ -153,25 +165,27 @@ class PocketCardGroup(CardGroup):
 if __name__ == '__main__':
     x = PocketCardGroup([
             Card(14,"Diamonds"), 
-            Card(11,"Diamonds"), 
+            Card(14,"Spades"), 
             Card(13,"Diamonds"), 
-            Card(10,"Diamonds"), 
-            Card(12, "Diamonds")
+            Card(13,"Clubs"), 
+            Card(13, "Hearts")
         ])
     x.add_card(Card(2,"Diamonds"))
     print x.cards
-    print "High Cards"
-    print x.high_cards()
-    print "pairs"
-    print x.pairs()
-    print "trips"
-    print x.trips()
-    print "quads"
-    print x.quads()
-    print "straight"
-    print x.straight()
-    print "flush"
-    print x.flush()
-    print "straight flush"
-    print x.straight_flush()
+    # print "High Cards"
+    # print x.high_cards()
+    print "Full House"
+    print x.two_pair()
+    # print "pairs"
+    # print x.pairs()
+    # print "trips"
+    # print x.trips()
+    # print "quads"
+    # print x.quads()
+    # print "straight"
+    # print x.straight()
+    # print "flush"
+    # print x.flush()
+    # print "straight flush"
+    # print x.straight_flush()
         
