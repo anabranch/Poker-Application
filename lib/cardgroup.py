@@ -1,5 +1,6 @@
 from copy import copy
 from collections import Counter
+import operator
 
 from equalitymixin import CommonEqualityMixin
 from card import Card
@@ -27,6 +28,15 @@ class CardGroup(CommonEqualityMixin):
                 number_dict[card.number] = []
             number_dict[card.number].append(card)
         return number_dict
+
+    def _cards_by_suit(self):
+        local_cards = self._local_card_copy()
+        suit_dict = {}
+        for card in local_cards:
+            if card.suit not in suit_dict:
+                suit_dict[card.suit] = []
+            suit_dict[card.suit].append(card)
+        return suit_dict
 
     def high_cards(self, remove_cards=[], mx=5):
         if mx > 5:
@@ -84,7 +94,6 @@ class CardGroup(CommonEqualityMixin):
 
     def straight(self):
         card_num_dict = self._cards_by_number()
-        mx = 0
         successive = []
         sorted_num_tuple = sorted(zip(card_num_dict.keys(), card_num_dict.values()))
         for location, val in enumerate(sorted_num_tuple):
@@ -100,6 +109,44 @@ class CardGroup(CommonEqualityMixin):
             return {"hand":successive}
         return {}
 
+    def flush(self):
+        card_suit_dict = self._cards_by_suit()
+        suit = None
+        vals = None
+        for k, v in card_suit_dict.items():
+            if len(v) >= 5:
+                suit = k
+                vals = sorted(v, key=operator.attrgetter('number'))
+        print "--------"
+        print vals
+        if suit:
+            return {"hand":vals}
+        return {}
+
+    def straight_flush(self):
+        card_suit_dict = self._cards_by_suit()
+        suit = None
+        vals = None
+        for k, v in card_suit_dict.items():
+            if len(v) >= 5:
+                suit = k
+                vals = list(reversed(list(reversed(sorted(v, key=operator.attrgetter('number'))))[:5]))
+        successive = []
+        for location, val in enumerate(vals):
+            num, card = val
+            if location + 1 >= len(vals):
+                break # I bet there's a better way to do this...
+            num2, card2 = vals[location + 1]
+            if num+1 == num2:
+                successive.append(card2[0])
+                if card[0] not in successive:
+                    successive.append(card[0])
+        if len(successive) >= 5:
+            return {"hand":successive}
+        if suit:
+            return {"hand":vals}
+        return {}
+
 class PocketCardGroup(CardGroup):
     """docstring for PocketCardGroup"""
     def __init__(self, cards=[]):
@@ -108,15 +155,18 @@ class PocketCardGroup(CardGroup):
 if __name__ == '__main__':
     x = PocketCardGroup([
             Card(14,"Diamonds"), 
-            Card(11,"Clubs"), 
+            Card(11,"Diamonds"), 
             Card(13,"Diamonds"), 
-            Card(10,"Hearts"), 
-            Card(12, "Hearts")
+            Card(10,"Diamonds"), 
+            Card(12, "Diamonds")
         ])
-    x.add_card(Card(14,"Spades"))
+    x.add_card(Card(2,"Diamonds"))
     print x.cards
     # print x.high_cards()
     print x.straight()
+    print x.flush()
+    print "---"
+    print x.straight_flush()
     # print x.pairs()
     # print x.trips()
     # print x.quads()
