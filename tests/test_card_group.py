@@ -562,11 +562,11 @@ class TestCardGroup_full_test_house:
         full_house = self.full_test_house._full_house()
         assert bool(full_house) == True
         hand = full_house['hand']
-        assert c10 in kickers
-        assert d11 in kickers
-        assert c11 in kickers
-        assert h10 in kickers
-        assert s10 in kickers
+        assert c10 in hand
+        assert d11 in hand
+        assert c11 in hand
+        assert h10 in hand
+        assert s10 in hand
 
     def test_straight_flush(self):
         straight_flush = self.full_test_house._straight_flush()
@@ -642,11 +642,12 @@ class TestCardGroup_full_test_house_double_trips:
         full_house = self.full_test_house_double_trips._full_house()
         assert bool(full_house) == True
         hand = full_house['hand']
-        assert c10 in kickers
-        assert d11 in kickers
-        assert c11 in kickers
-        assert h10 in kickers
-        assert s10 in kickers
+        print hand
+        assert c10 in hand
+        assert d11 in hand
+        assert c11 in hand
+        assert h10 in hand
+        assert h11 in hand
 
     def test_straight_flush(self):
         straight_flush = self.full_test_house_double_trips._straight_flush()
