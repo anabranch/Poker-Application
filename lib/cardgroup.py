@@ -20,13 +20,18 @@ class CardGroup(CommonEqualityMixin):
     def _local_card_copy(self):
         return [copy(card) for card in self.cards]
 
-    def _cards_by_number(self):
+    def _cards_by_number(self, add_low_ace=False):
         local_cards = self._local_card_copy()
         number_dict = {}
         for card in local_cards:
             if card.number not in number_dict:
                 number_dict[card.number] = []
             number_dict[card.number].append(card)
+        if add_low_ace:
+            if 14 in number_dict:
+                number_dict[1] = []
+                for val in number_dict[14]:
+                    number_dict[1].append(Card(1, val.suit))
         return number_dict
 
     def _cards_by_suit(self):
@@ -93,7 +98,7 @@ class CardGroup(CommonEqualityMixin):
         return {}
 
     def _straight(self):
-        card_num_dict = self._cards_by_number()
+        card_num_dict = self._cards_by_number(add_low_ace=True)
         successive = []
         sorted_num_tuple = sorted(zip(card_num_dict.keys(), card_num_dict.values()))
         for location, val in enumerate(sorted_num_tuple):
@@ -104,8 +109,11 @@ class CardGroup(CommonEqualityMixin):
             if num+1 == num2:
                 successive.append(card2[0])
                 if card[0] not in successive:
-                    successive.append(card[0])
-            else:
+                    if card[0].number == 1: # Issue here with the ace
+                        successive.insert(0, card_num_dict[14][0])
+                    else:
+                        successive.insert(0, card[0])
+            elif len(successive) < 5:
                 successive = []
         if len(successive) >= 5:
             return {"hand":successive}
@@ -123,9 +131,7 @@ class CardGroup(CommonEqualityMixin):
         doubles = sorted(doubles, reverse=True)
         vals = []
         for dub in doubles:
-            print dub.values()
             vals += dub.values()[0]
-        print vals
         return {"hand":vals, "kickers":self._kickers(vals,1)}
 
     def _flush(self):
@@ -190,19 +196,46 @@ class PocketCardGroup(CardGroup):
         super(PocketCardGroup, self).__init__(cards)
 
 if __name__ == '__main__':
+    d2 = Card(2,"Diamonds")
+    da = Card(14,"Diamonds")
+    sa = Card(14,"Spades")
+    s13 = Card(13,"Spades")
+    d13 = Card(13,"Diamonds")
+    c13 = Card(13,"Clubs")
+    h13 = Card(13, "Hearts")
+    d12 = Card(12,"Diamonds")
+    d10 = Card(10,"Diamonds")
+    d11 = Card(11,"Diamonds")
+    d6 = Card(6,"Diamonds")
+    d3 = Card(3,"Diamonds")
+    c12 = Card(12,"Clubs")
+    c10 = Card(10,"Clubs")
+    c11 = Card(11,"Clubs")
+    c6 = Card(6,"Clubs")
+    c3 = Card(3,"Clubs")
+    h12 = Card(12, "Hearts")
+    h10 = Card(10, "Hearts")
+    h11 = Card(11, "Hearts")
+    h6 = Card(6, "Hearts")
+    h3 = Card(3, "Hearts")
+    d4 = Card(4, 'Diamonds')
+    c5 = Card(5, "Clubs")
+    d7 = Card(7, "Diamonds")
+
     x = PocketCardGroup([
-            Card(14,"Diamonds"), 
-            Card(14,"Spades"), 
-            Card(13,"Diamonds"), 
-            Card(13,"Clubs"), 
-            Card(13, "Hearts")
+                d2,
+                da,
+                h3,
+                d4,
+                c5,
+                h10,
+                d7
         ])
-    x.add_card(Card(2,"Diamonds"))
-    print x.cards
+    print x._straight()
     # print "High Cards"
     # print x.kickers()
-    print "Full House"
-    print x.two_pair()
+    # print "Full House"
+    # print x.two_pair()
     # print "pairs"
     # print x.pairs()
     # print "trips"
