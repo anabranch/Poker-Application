@@ -147,22 +147,28 @@ class CardGroup(CommonEqualityMixin):
         return {}
 
     def _full_house(self):
-        # card_num_dict = self._cards_by_number()
-        # doubles = []
-        # for k, v in card_num_dict.items():
-        #     if len(v) >= 2:
-        #         doubles.append({k:v[:2]})
-        # if len(doubles) < 2:
-        #     return {}
+        card_num_dict = self._cards_by_number()
+        doubles = []
+        triples = []
+        final_combo = []
+        for k, v in card_num_dict.items():
+            if len(v) >= 3:
+                triples.append({k:v[:3]})
+            elif len(v) >= 2:
+                doubles.append({k:v[:2]})
 
-        # doubles = sorted(doubles, reverse=True)
-        # vals = []
-        # for dub in doubles:
-        #     print dub.values()
-        #     vals += dub.values()[0]
-        # print vals
-        # return {"hand":vals, "kickers":self._kickers(vals,1)}
-        return {}
+        if len(triples) == 0 or (len(triples) == 1 and len(doubles) == 0):
+            return {}
+        if len(triples) == 1:
+            final_combo += triples[0].values()[0]
+            final_combo += max(doubles).values()[0]
+        elif len(triples) == 2:
+            sorted_trips = sorted(triples)
+            first = sorted_trips.pop()
+            second = sorted_trips.pop()
+            final_combo += first.values()[:3][0]
+            final_combo += second.values()[:2][0]
+        return {"hand":final_combo}
 
     def _straight_flush(self):
         card_suit_dict = self._cards_by_suit()
