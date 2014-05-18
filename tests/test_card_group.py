@@ -29,7 +29,10 @@ c5 = Card(5, "Clubs")
 d7 = Card(7, "Diamonds")
 d8 = Card(8, "Diamonds")
 d9 = Card(9, "Diamonds")
-
+# d2 = Card(, "Diamonds")
+# d3 = Card(, "Diamonds")
+# d4 = Card(, "Diamonds")
+d5 = Card(5, "Diamonds")
 class TestCardGroup_no_hand:
     def setUp(self):
         self.no_hand = CardGroup([
@@ -652,3 +655,219 @@ class TestCardGroup_full_test_house_double_trips:
     def test_straight_flush(self):
         straight_flush = self.full_test_house_double_trips._straight_flush()
         assert bool(straight_flush) == False
+
+class TestCardGroup_straight_test_flush:
+    def setUp(self):
+        self.straight_test_flush = CardGroup([
+                d2,
+                d8,
+                d9,
+                d10,
+                d11,
+                d12,
+                s10
+            ])
+
+    def test_kickers(self):
+        kickers = self.straight_test_flush._kickers()
+        assert bool(kickers) == True
+        assert d11 in kickers
+        assert d10 in kickers
+        assert s10 in kickers
+        assert d12 in kickers
+        assert d9 in kickers
+
+    def test_pair(self):
+        pair = self.straight_test_flush._pair()
+        assert bool(pair) == True
+        hand = pair['hand']
+        kickers = pair['kickers']
+        assert d11 in kickers
+        assert d10 in hand
+        assert s10 in hand
+        assert d12 in kickers
+        assert d9 in kickers
+
+    def test_trip(self):
+        trip = self.straight_test_flush._trip()
+        assert bool(trip) == False
+
+    def test_quad(self):
+        quad = self.straight_test_flush._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.straight_test_flush._straight()
+        assert bool(straight) == True
+        hand = straight['hand']
+        assert d8 in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+    def test_two_pair(self):
+        two_pair = self.straight_test_flush._two_pair()
+        assert bool(two_pair) == False
+
+    def test_flush(self):
+        flush = self.straight_test_flush._flush()
+        assert bool(flush) == True
+        hand = flush['hand']
+        assert d8 in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+    def test_full_house(self):
+        full_house = self.straight_test_flush._full_house()
+        assert bool(full_house) == False
+
+    def test_straight_flush(self):
+        straight_flush = self.straight_test_flush._straight_flush()
+        assert bool(straight_flush) == True
+
+class TestCardGroup_straight_long_flush:
+    def setUp(self):
+        self.straight_long_flush = CardGroup([
+                d2,
+                d8,
+                d9,
+                d10,
+                d11,
+                d12,
+                da
+            ])
+
+    def test_kickers(self):
+        kickers = self.straight_long_flush._kickers()
+        assert bool(kickers) == True
+        assert d11 in kickers
+        assert d10 in kickers
+        assert da in kickers
+        assert d12 in kickers
+        assert d9 in kickers
+
+    def test_pair(self):
+        pair = self.straight_long_flush._pair()
+        assert bool(pair) == False
+
+    def test_trip(self):
+        trip = self.straight_long_flush._trip()
+        assert bool(trip) == False
+
+    def test_quad(self):
+        quad = self.straight_long_flush._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.straight_long_flush._straight()
+        assert bool(straight) == True
+        hand = straight['hand']
+        assert d8 in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+    def test_two_pair(self):
+        two_pair = self.straight_long_flush._two_pair()
+        assert bool(two_pair) == False
+
+    def test_flush(self):
+        flush = self.straight_long_flush._flush()
+        assert bool(flush) == True
+        hand = flush['hand']
+        assert da in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+    def test_full_house(self):
+        full_house = self.straight_long_flush._full_house()
+        assert bool(full_house) == False
+
+    def test_straight_flush(self):
+        straight_flush = self.straight_long_flush._straight_flush()
+        assert bool(straight_flush) == True
+        hand = straight_flush['hand']
+        assert len(hand) == 5
+        assert d8 in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+class TestCardGroup_straight_low_flush:
+    def setUp(self):
+        self.straight_low_flush = CardGroup([
+                d2,
+                d3,
+                d4,
+                d5,
+                c11,
+                h12,
+                da
+            ])
+
+    def test_kickers(self):
+        kickers = self.straight_low_flush._kickers()
+        assert bool(kickers) == True
+        assert c11 in kickers
+        assert d5 in kickers
+        assert da in kickers
+        assert h12 in kickers
+        assert d4 in kickers
+
+    def test_pair(self):
+        pair = self.straight_low_flush._pair()
+        assert bool(pair) == False
+
+    def test_trip(self):
+        trip = self.straight_low_flush._trip()
+        assert bool(trip) == False
+
+    def test_quad(self):
+        quad = self.straight_low_flush._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.straight_low_flush._straight()
+        assert bool(straight) == True
+        hand = straight['hand']
+        assert d2 in hand
+        assert d3 in hand
+        assert d4 in hand
+        assert d5 in hand
+        assert da in hand
+
+    def test_two_pair(self):
+        two_pair = self.straight_low_flush._two_pair()
+        assert bool(two_pair) == False
+
+    def test_flush(self):
+        flush = self.straight_low_flush._flush()
+        assert bool(flush) == True
+        hand = flush['hand']
+        assert d2 in hand
+        assert d3 in hand
+        assert d4 in hand
+        assert d5 in hand
+        assert da in hand
+
+    def test_full_house(self):
+        full_house = self.straight_low_flush._full_house()
+        assert bool(full_house) == False
+
+    def test_straight_flush(self):
+        straight_flush = self.straight_low_flush._straight_flush()
+        assert bool(straight_flush) == True
+        hand = straight_flush['hand']
+        assert len(hand) == 5
+        assert d2 in hand
+        assert d3 in hand
+        assert d4 in hand
+        assert d5 in hand
+        assert da in hand
