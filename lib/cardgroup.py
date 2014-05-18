@@ -38,17 +38,17 @@ class CardGroup(CommonEqualityMixin):
             suit_dict[card.suit].append(card)
         return suit_dict
 
-    def high_cards(self, remove_cards=[], mx=5):
+    def _kickers(self, remove_cards=[], mx=5):
         if mx > 5:
             mx = 5
         local_cards = self._local_card_copy()
         for card in remove_cards:
             local_cards.pop(local_cards.index(card))
         # need to get this to return cards not a tuple
-        return sorted([card.as_tuple() for card in local_cards], reverse=True)[:mx]
+        return sorted([card for card in local_cards], reverse=True, key=operator.attrgetter('number'))[:mx]
 
-    def pairs(self):
-        pairs = []
+    def _pair(self):
+        pair = []
         pair_value = 0
         card_num_dict = self._cards_by_number()
         for card_num, cards in card_num_dict.items():
@@ -57,12 +57,12 @@ class CardGroup(CommonEqualityMixin):
         for k, v in card_num_dict.items():
             if k > pair_value:
                 pair_value = k
-                pairs = v[:2]
-        if pairs:
-            return {"hand": pairs, "high_cards":self.high_cards(pairs,3)}
+                pair = v[:2]
+        if pair:
+            return {"hand": pair, "kickers":self._kickers(pair,3)}
         return {}
 
-    def trips(self):
+    def _trip(self):
         trips = []
         trip_value = 0
         card_num_dict = self._cards_by_number()
@@ -74,10 +74,10 @@ class CardGroup(CommonEqualityMixin):
                 trip_value = k
                 trips = v[:3]
         if trips:
-            return {"hand": trips, "high_cards":self.high_cards(trips,2)}
+            return {"hand": trips, "kickers":self._kickers(trips,2)}
         return {}
 
-    def quads(self):
+    def _quad(self):
         quads = []
         quad_value = 0
         card_num_dict = self._cards_by_number()
@@ -89,10 +89,10 @@ class CardGroup(CommonEqualityMixin):
                 quad_value = k
                 quads = v[:4]
         if quads:
-            return {"hand": quads, "high_cards":self.high_cards(quads,1)}
+            return {"hand": quads, "kickers":self._kickers(quads,1)}
         return {}
 
-    def straight(self):
+    def _straight(self):
         card_num_dict = self._cards_by_number()
         successive = []
         sorted_num_tuple = sorted(zip(card_num_dict.keys(), card_num_dict.values()))
@@ -105,11 +105,30 @@ class CardGroup(CommonEqualityMixin):
                 successive.append(card2[0])
                 if card[0] not in successive:
                     successive.append(card[0])
+            else:
+                successive = []
         if len(successive) >= 5:
             return {"hand":successive}
         return {}
 
-    def flush(self):
+    def _two_pair(self):
+        card_num_dict = self._cards_by_number()
+        doubles = []
+        for k, v in card_num_dict.items():
+            if len(v) >= 2:
+                doubles.append({k:v[:2]})
+        if len(doubles) < 2:
+            return {}
+
+        doubles = sorted(doubles, reverse=True)
+        vals = []
+        for dub in doubles:
+            print dub.values()
+            vals += dub.values()[0]
+        print vals
+        return {"hand":vals, "kickers":self._kickers(vals,1)}
+
+    def _flush(self):
         card_suit_dict = self._cards_by_suit()
         suit = None
         vals = None
@@ -121,28 +140,34 @@ class CardGroup(CommonEqualityMixin):
             return {"hand":vals}
         return {}
 
-    def two_pair(self):
-        card_num_dict = self._cards_by_number()
-        doubles = []
-        for k, v in card_num_dict.items():
-            if len(v) >= 2:
-                doubles.append({k:v})
-        if len(doubles) >= 2:
-            print max(doubles)
-            print doubles
-        # print card_num_dict
+    def _full_house(self):
+        # card_num_dict = self._cards_by_number()
+        # doubles = []
+        # for k, v in card_num_dict.items():
+        #     if len(v) >= 2:
+        #         doubles.append({k:v[:2]})
+        # if len(doubles) < 2:
+        #     return {}
+
+        # doubles = sorted(doubles, reverse=True)
+        # vals = []
+        # for dub in doubles:
+        #     print dub.values()
+        #     vals += dub.values()[0]
+        # print vals
+        # return {"hand":vals, "kickers":self._kickers(vals,1)}
         return {}
 
-    def straight_flush(self):
+    def _straight_flush(self):
         card_suit_dict = self._cards_by_suit()
         successive = []
         suit = None
-        vals = None
+        vals = []
         for k, v in card_suit_dict.items():
             if len(v) >= 5:
                 suit = k
                 vals = sorted(v, key=operator.attrgetter('number'))
-                
+        print vals
         for location, val in enumerate(vals):
             num, card, suit_rank = val.as_tuple()
             if location + 1 >= len(vals):
@@ -153,6 +178,8 @@ class CardGroup(CommonEqualityMixin):
                 successive.append(val2)
                 if val not in successive:
                     successive.append(val)
+            else:
+                successive = []
         if len(successive) >= 5:
             return {"hand":successive}
         return {}
@@ -173,7 +200,7 @@ if __name__ == '__main__':
     x.add_card(Card(2,"Diamonds"))
     print x.cards
     # print "High Cards"
-    # print x.high_cards()
+    # print x.kickers()
     print "Full House"
     print x.two_pair()
     # print "pairs"
