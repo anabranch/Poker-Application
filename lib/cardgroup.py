@@ -34,13 +34,18 @@ class CardGroup(CommonEqualityMixin):
                     number_dict[1].append(Card(1, val.suit))
         return number_dict
 
-    def _cards_by_suit(self):
+    def _cards_by_suit(self, add_low_ace=False):
         local_cards = self._local_card_copy()
         suit_dict = {}
         for card in local_cards:
             if card.suit not in suit_dict:
                 suit_dict[card.suit] = []
             suit_dict[card.suit].append(card)
+        if add_low_ace:
+            for k, vals in suit_dict.items():
+                nums = [card.number for card in vals]
+                if 14 in nums:
+                    suit_dict[k].append(Card(1,k))
         return suit_dict
 
     def _kickers(self, remove_cards=[], mx=5):
@@ -171,7 +176,7 @@ class CardGroup(CommonEqualityMixin):
         return {"hand":final_combo}
 
     def _straight_flush(self):
-        card_suit_dict = self._cards_by_suit()
+        card_suit_dict = self._cards_by_suit(add_low_ace=True)
         successive = []
         suit = None
         vals = []
@@ -179,7 +184,9 @@ class CardGroup(CommonEqualityMixin):
             if len(v) >= 5:
                 suit = k
                 vals = sorted(v, key=operator.attrgetter('number'))
+        print "----"
         print vals
+        print "----"
         for location, val in enumerate(vals):
             num, card, suit_rank = val.as_tuple()
             if location + 1 >= len(vals):
@@ -188,9 +195,13 @@ class CardGroup(CommonEqualityMixin):
             num2, card2, suit_rank2 = vals[location + 1].as_tuple()
             if num+1 == num2:
                 successive.append(val2)
+                    # successive
                 if val not in successive:
-                    successive.append(val)
-            else:
+                    if num == 1:
+                        successive.insert(0, vals[len(vals)-1]) 
+                    else:
+                        successive.insert(0,val)
+            elif len(successive) < 5:
                 successive = []
         if len(successive) >= 5:
             return {"hand":successive}
