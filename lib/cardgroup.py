@@ -120,8 +120,13 @@ class CardGroup(CommonEqualityMixin):
                         successive.insert(0, card[0])
             elif len(successive) < 5:
                 successive = []
-        if len(successive) >= 5:
+        if len(successive) == 5:
             return {"hand":successive}
+        elif len(successive) > 5:
+            remove = [card.as_tuple() for card in successive if card.number == 14]
+            for c in remove:
+                successive = [card for card in successive if card != Card(c[0],c[2])]
+            return {"hand":sorted(successive, key=operator.attrgetter('number'), reverse=True)[:5]}
         return {}
 
     def _two_pair(self):
@@ -202,7 +207,7 @@ class CardGroup(CommonEqualityMixin):
                 successive = []
         if len(successive) == 5:
             return {"hand":successive}
-        elif len(successive) >= 5:
+        elif len(successive) > 5:
             if Card(14, suit) in successive:
                 successive = [card for card in successive if card != Card(14, suit)]
                 return {"hand":sorted(successive, key=operator.attrgetter('number'), reverse=True)[:5]}
@@ -249,21 +254,4 @@ if __name__ == '__main__':
                 h10,
                 d7
         ])
-    print x._straight()
-    # print "High Cards"
-    # print x.kickers()
-    # print "Full House"
-    # print x.two_pair()
-    # print "pairs"
-    # print x.pairs()
-    # print "trips"
-    # print x.trips()
-    # print "quads"
-    # print x.quads()
-    # print "straight"
-    # print x.straight()
-    # print "flush"
-    # print x.flush()
-    # print "straight flush"
-    # print x.straight_flush()
         
