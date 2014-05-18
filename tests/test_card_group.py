@@ -15,6 +15,7 @@ d6 = Card(6,"Diamonds")
 d3 = Card(3,"Diamonds")
 c12 = Card(12,"Clubs")
 c10 = Card(10,"Clubs")
+s10 = Card(10,"Spades")
 c11 = Card(11,"Clubs")
 c6 = Card(6,"Clubs")
 c3 = Card(3,"Clubs")
@@ -387,8 +388,8 @@ class TestCardGroup_low_straight:
         assert d7 in kickers
 
     def test_pair(self):
-        straight = self.low_straight._pair()
-        assert bool(straight) == False
+        pair = self.low_straight._pair()
+        assert bool(pair) == False
 
     def test_trip(self):
         trip = self.low_straight._trip()
@@ -424,4 +425,229 @@ class TestCardGroup_low_straight:
 
     def test_straight_flush(self):
         straight_flush = self.low_straight._straight_flush()
+        assert bool(straight_flush) == False
+
+class TestCardGroup_two_test_pair:
+    def setUp(self):
+        self.two_test_pair = CardGroup([
+                d2,
+                d8,
+                c10,
+                d11,
+                c11,
+                h10,
+                da
+            ])
+
+    def test_kickers(self):
+        kickers = self.two_test_pair._kickers()
+        assert bool(kickers) == True
+        assert c10 in kickers
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in kickers
+        assert da in kickers
+
+    def test_pair(self):
+        pair = self.two_test_pair._pair()
+        assert bool(pair) == True
+        hand = pair['hand']
+        kickers = pair['kickers']
+        assert c10 in kickers
+        assert h10 in kickers
+        assert da in kickers
+
+    def test_trip(self):
+        trip = self.two_test_pair._trip()
+        assert bool(trip) == False
+
+    def test_quad(self):
+        quad = self.two_test_pair._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.two_test_pair._straight()
+        assert bool(straight) == False
+
+    def test_two_pair(self):
+        two_pair = self.two_test_pair._two_pair()
+        assert bool(two_pair) == True
+        hand = two_pair['hand']
+        kickers = two_pair['kickers']
+        assert c10 in hand
+        assert d11 in hand
+        assert c11 in hand
+        assert h10 in hand
+        assert da in kickers
+
+    def test_flush(self):
+        flush = self.two_test_pair._flush()
+        assert bool(flush) == False
+
+    def test_full_house(self):
+        full_house = self.two_test_pair._full_house()
+        assert bool(full_house) == False
+
+    def test_straight_flush(self):
+        straight_flush = self.two_test_pair._straight_flush()
+        assert bool(straight_flush) == False
+
+class TestCardGroup_full_test_house:
+    def setUp(self):
+        self.full_test_house = CardGroup([
+                d2,
+                d8,
+                c10,
+                d11,
+                c11,
+                h10,
+                s10
+            ])
+
+    def test_kickers(self):
+        kickers = self.full_test_house._kickers()
+        assert bool(kickers) == True
+        assert c10 in kickers
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in kickers
+        assert s10 in kickers
+
+    def test_pair(self):
+        pair = self.full_test_house._pair()
+        assert bool(pair) == True
+        hand = pair['hand']
+        kickers = pair['kickers']
+        assert c10 in kickers
+        assert d11 in hand
+        assert c11 in hand
+        assert h10 in kickers
+        assert s10 in kickers
+
+    def test_trip(self):
+        trip = self.full_test_house._trip()
+        assert bool(trip) == True
+        hand = trip['hand']
+        kickers = trip['kickers']
+        assert c10 in hand
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in hand
+        assert s10 in hand
+
+    def test_quad(self):
+        quad = self.full_test_house._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.full_test_house._straight()
+        assert bool(straight) == False
+
+    def test_two_pair(self):
+        two_pair = self.full_test_house._two_pair()
+        assert bool(two_pair) == True
+        hand = two_pair['hand']
+        kickers = two_pair['kickers']
+        assert c10 in hand
+        assert d11 in hand
+        assert c11 in hand
+        assert h10 in hand
+        assert s10 in kickers
+
+    def test_flush(self):
+        flush = self.full_test_house._flush()
+        assert bool(flush) == False
+
+    def test_full_house(self):
+        full_house = self.full_test_house._full_house()
+        assert bool(full_house) == True
+        hand = full_house['hand']
+        assert c10 in kickers
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in kickers
+        assert s10 in kickers
+
+    def test_straight_flush(self):
+        straight_flush = self.full_test_house._straight_flush()
+        assert bool(straight_flush) == False
+
+class TestCardGroup_full_test_house_double_trips:
+    def setUp(self):
+        self.full_test_house_double_trips = CardGroup([
+                d2,
+                h11,
+                c10,
+                d11,
+                c11,
+                h10,
+                s10
+            ])
+
+    def test_kickers(self):
+        kickers = self.full_test_house_double_trips._kickers()
+        assert bool(kickers) == True
+        assert c10 in kickers
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in kickers
+        assert h11 in kickers
+
+    def test_pair(self):
+        pair = self.full_test_house_double_trips._pair()
+        assert bool(pair) == True
+        hand = pair['hand']
+        kickers = pair['kickers']
+        assert c10 in kickers
+        assert d11 in hand
+        assert h11 in hand
+        assert h10 in kickers
+        assert c11 in kickers
+
+    def test_trip(self):
+        trip = self.full_test_house_double_trips._trip()
+        assert bool(trip) == True
+        hand = trip['hand']
+        kickers = trip['kickers']
+        assert c10 in kickers
+        assert d11 in hand
+        assert c11 in hand
+        assert h11 in hand
+        assert c10 in kickers
+
+    def test_quad(self):
+        quad = self.full_test_house_double_trips._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.full_test_house_double_trips._straight()
+        assert bool(straight) == False
+
+    def test_two_pair(self):
+        two_pair = self.full_test_house_double_trips._two_pair()
+        assert bool(two_pair) == True
+        hand = two_pair['hand']
+        kickers = two_pair['kickers']
+        assert c10 in hand
+        assert d11 in hand
+        assert h11 in hand
+        assert h10 in hand
+        assert c11 in kickers
+
+    def test_flush(self):
+        flush = self.full_test_house_double_trips._flush()
+        assert bool(flush) == False
+
+    def test_full_house(self):
+        full_house = self.full_test_house_double_trips._full_house()
+        assert bool(full_house) == True
+        hand = full_house['hand']
+        assert c10 in kickers
+        assert d11 in kickers
+        assert c11 in kickers
+        assert h10 in kickers
+        assert s10 in kickers
+
+    def test_straight_flush(self):
+        straight_flush = self.full_test_house_double_trips._straight_flush()
         assert bool(straight_flush) == False
