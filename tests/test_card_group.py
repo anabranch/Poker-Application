@@ -979,6 +979,7 @@ class TestCardGroup_straight_low_flush_long_two:
         assert bool(straight) == True
         hand = straight['hand']
         assert len(hand) == 5
+        print hand
         assert d2 in hand
         assert da in hand
         assert d5 in hand
@@ -1009,8 +1010,9 @@ class TestCardGroup_straight_low_flush_long_two:
         assert bool(straight_flush) == True
         hand = straight_flush['hand']
         assert len(hand) == 5
-        assert d7 in hand
-        assert d6 in hand
+        print hand
+        assert da in hand
+        assert d2 in hand
         assert d5 in hand
         assert d3 in hand
         assert d4 in hand
