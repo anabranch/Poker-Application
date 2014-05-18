@@ -184,9 +184,6 @@ class CardGroup(CommonEqualityMixin):
             if len(v) >= 5:
                 suit = k
                 vals = sorted(v, key=operator.attrgetter('number'))
-        print "----"
-        print vals
-        print "----"
         for location, val in enumerate(vals):
             num, card, suit_rank = val.as_tuple()
             if location + 1 >= len(vals):
@@ -203,8 +200,12 @@ class CardGroup(CommonEqualityMixin):
                         successive.insert(0,val)
             elif len(successive) < 5:
                 successive = []
-        if len(successive) >= 5:
+        if len(successive) == 5:
             return {"hand":successive}
+        elif len(successive) >= 5:
+            if Card(14, suit) in successive:
+                successive = [card for card in successive if card != Card(14, suit)]
+                return {"hand":sorted(successive, key=operator.attrgetter('number'), reverse=True)[:5]}
         return {}
 
 class PocketCardGroup(CardGroup):
