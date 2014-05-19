@@ -22,6 +22,36 @@ class CardGroup(CommonEqualityMixin):
     def _local_card_copy(self):
         return [copy(card) for card in self.cards]
 
+    def best_hand(self): # could be optimized but this is fine for now
+        kickers = self._kickers()
+        pair = self._pair()
+        two_pair = self._two_pair()
+        trip = self._trip()
+        quad = self._quad()
+        straight = self._straight()
+        flush = self._flush()
+        fh = self._full_house()
+        straightflush = self._straight_flush()
+        if straightflush:
+            return straightflush
+        if fh:
+            return fh
+        if quad:
+            return quad
+        if flush:
+            return flush
+        if straight:
+            return straight
+        if quad:
+            return quad
+        if trip:
+            return trip
+        if two_pair:
+            return two_pair
+        if pair:
+            return pair
+        return kickers
+
     def _cards_by_number(self, add_low_ace=False):
         local_cards = self._local_card_copy()
         number_dict = {}
