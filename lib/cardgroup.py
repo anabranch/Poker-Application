@@ -1,26 +1,14 @@
-from copy import copy
 from collections import Counter
-from itertools import groupby
 import operator
 
-from equalitymixin import CommonEqualityMixin
+from basecardgroup import BaseCardGroup
 from card import Card
 from utils import longest_sequence
 
-class CardGroup(CommonEqualityMixin):
+class CardGroup(BaseCardGroup):
     """docstring for CardGroup"""
     def __init__(self, cards=[]):
-        super(CardGroup, self).__init__()
-        self.cards = cards
-
-    def __str__(self):
-        return str(self.cards)
-
-    def add_card(self, card):
-        self.cards.append(card)
-
-    def _local_card_copy(self):
-        return [copy(card) for card in self.cards]
+        super(CardGroup, self).__init__(cards)
 
     def best_hand(self): # could be optimized but this is fine for now
         kickers = self._kickers()
@@ -223,46 +211,3 @@ class CardGroup(CommonEqualityMixin):
             seqfinal.append(14)
         vals = [numcarddict[val] for val in seqfinal]
         return {"hand":vals}
-
-class PocketCardGroup(CardGroup):
-    """docstring for PocketCardGroup"""
-    def __init__(self, cards=[]):
-        super(PocketCardGroup, self).__init__(cards)
-
-if __name__ == '__main__':
-    d2 = Card(2,"Diamonds")
-    da = Card(14,"Diamonds")
-    sa = Card(14,"Spades")
-    s13 = Card(13,"Spades")
-    d13 = Card(13,"Diamonds")
-    c13 = Card(13,"Clubs")
-    h13 = Card(13, "Hearts")
-    d12 = Card(12,"Diamonds")
-    d10 = Card(10,"Diamonds")
-    d11 = Card(11,"Diamonds")
-    d6 = Card(6,"Diamonds")
-    d3 = Card(3,"Diamonds")
-    c12 = Card(12,"Clubs")
-    c10 = Card(10,"Clubs")
-    c11 = Card(11,"Clubs")
-    c6 = Card(6,"Clubs")
-    c3 = Card(3,"Clubs")
-    h12 = Card(12, "Hearts")
-    h10 = Card(10, "Hearts")
-    h11 = Card(11, "Hearts")
-    h6 = Card(6, "Hearts")
-    h3 = Card(3, "Hearts")
-    d4 = Card(4, 'Diamonds')
-    c5 = Card(5, "Clubs")
-    d7 = Card(7, "Diamonds")
-
-    x = PocketCardGroup([
-                d2,
-                da,
-                h3,
-                d4,
-                c5,
-                h10,
-                d7
-        ])
-        
