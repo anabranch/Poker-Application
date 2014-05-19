@@ -85,6 +85,9 @@ class TestCardGroup_no_hand:
         straight_flush = self.no_hand._straight_flush()
         assert bool(straight_flush) == False
 
+    def test_best_hand(self):
+        assert self.no_hand.best_hand() == self.no_hand._kickers()
+
 class TestCardGroup_pair:
     def setUp(self):
         self.pair = CardGroup([
@@ -145,6 +148,9 @@ class TestCardGroup_pair:
     def test_straight_flush(self):
         straight_flush = self.pair._straight_flush()
         assert bool(straight_flush) == False
+
+    def test_best_hand(self):
+        assert self.pair.best_hand() == self.pair._pair()
 
 class TestCardGroup_trip:
     def setUp(self):
@@ -213,6 +219,9 @@ class TestCardGroup_trip:
     def test_straight_flush(self):
         straight_flush = self.trip._straight_flush()
         assert bool(straight_flush) == False
+
+    def test_best_hand(self):
+        assert self.trip.best_hand() == self.trip._trip()
 
 class TestCardGroup_quad:
     def setUp(self):
@@ -289,6 +298,9 @@ class TestCardGroup_quad:
         straight_flush = self.quad._straight_flush()
         assert bool(straight_flush) == False
 
+    def test_best_hand(self):
+        assert self.quad.best_hand() == self.quad._quad()
+
 class TestCardGroup_straight_and_flush:
     def setUp(self):
         self.straight_and_flush = CardGroup([
@@ -357,6 +369,9 @@ class TestCardGroup_straight_and_flush:
         straight_flush = self.straight_and_flush._straight_flush()
         assert bool(straight_flush) == False
 
+    def test_best_hand(self):
+        assert self.straight_and_flush.best_hand() == self.straight_and_flush._flush()
+
 class TestCardGroup_almost_straight:
     def setUp(self):
         self.almost_straight = CardGroup([
@@ -410,6 +425,9 @@ class TestCardGroup_almost_straight:
     def test_straight_flush(self):
         straight_flush = self.almost_straight._straight_flush()
         assert bool(straight_flush) == False
+
+    def test_best_hand(self):
+        assert self.almost_straight.best_hand() == self.almost_straight._kickers()
 
 class TestCardGroup_low_straight:
     def setUp(self):
@@ -472,6 +490,9 @@ class TestCardGroup_low_straight:
     def test_straight_flush(self):
         straight_flush = self.low_straight._straight_flush()
         assert bool(straight_flush) == False
+
+    def test_best_hand(self):
+        assert self.low_straight.best_hand() == self.low_straight._straight()
 
 class TestCardGroup_two_test_pair:
     def setUp(self):
@@ -537,6 +558,9 @@ class TestCardGroup_two_test_pair:
     def test_straight_flush(self):
         straight_flush = self.two_test_pair._straight_flush()
         assert bool(straight_flush) == False
+
+    def test_best_hand(self):
+        assert self.two_test_pair.best_hand() == self.two_test_pair._two_pair()
 
 class TestCardGroup_full_test_house:
     def setUp(self):
@@ -618,6 +642,9 @@ class TestCardGroup_full_test_house:
         straight_flush = self.full_test_house._straight_flush()
         assert bool(straight_flush) == False
 
+    def test_best_hand(self):
+        assert self.full_test_house.best_hand() == self.full_test_house._full_house()
+
 class TestCardGroup_full_test_house_double_trips:
     def setUp(self):
         self.full_test_house_double_trips = CardGroup([
@@ -698,6 +725,9 @@ class TestCardGroup_full_test_house_double_trips:
         straight_flush = self.full_test_house_double_trips._straight_flush()
         assert bool(straight_flush) == False
 
+    def test_best_hand(self):
+        assert self.full_test_house_double_trips.best_hand() == self.full_test_house_double_trips._full_house()
+
 class TestCardGroup_straight_test_flush:
     def setUp(self):
         self.straight_test_flush = CardGroup([
@@ -771,6 +801,16 @@ class TestCardGroup_straight_test_flush:
     def test_straight_flush(self):
         straight_flush = self.straight_test_flush._straight_flush()
         assert bool(straight_flush) == True
+        hand = straight_flush['hand']
+        assert len(hand) == 5
+        assert d8 in hand
+        assert d9 in hand
+        assert d10 in hand
+        assert d11 in hand
+        assert d12 in hand
+
+    def test_best_hand(self):
+        assert self.straight_test_flush.best_hand() == self.straight_test_flush._straight_flush()
 
 class TestCardGroup_straight_long_flush:
     def setUp(self):
@@ -920,6 +960,9 @@ class TestCardGroup_straight_low_flush:
         assert d5 in hand
         assert da in hand
 
+    def test_best_hand(self):
+        assert self.straight_low_flush.best_hand() == self.straight_low_flush._straight_flush()
+
 
 class TestCardGroup_straight_low_long_flush:
     def setUp(self):
@@ -994,6 +1037,9 @@ class TestCardGroup_straight_low_long_flush:
         assert d5 in hand
         assert d3 in hand
         assert d4 in hand
+
+    def test_best_hand(self):
+        assert self.straight_low_long_flush.best_hand() == self.straight_low_long_flush._straight_flush()
 
 class TestCardGroup_straight_low_flush_long_two:
     def setUp(self):
@@ -1070,3 +1116,6 @@ class TestCardGroup_straight_low_flush_long_two:
         assert d5 in hand
         assert d3 in hand
         assert d4 in hand
+
+    def test_best_hand(self):
+        assert self.straight_low_flush_long_two.best_hand() == self.straight_low_flush_long_two._straight_flush()
