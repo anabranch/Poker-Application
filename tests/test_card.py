@@ -2,16 +2,9 @@ from lib.card import Card
 
 class TestCard(object):
     def setUp(self):
-        self.c = Card(2,"Diamond")
-        self.ace = Card(14,"Diamond")
+        self.d2 = Card(2,"Diamonds")
+        self.da = Card(14,"Diamonds")
 
     def test_is_ace(self):
-        assert self.ace.is_ace == True
-        assert self.c.is_ace == False
-
-    def test_as_tuple(self):
-        assert self.ace.as_tuple() == (14, "Diamond")
-
-    def test_string(self):
-        assert str(self.c) == "2-Diamond"
-        
+        assert self.da.is_ace == True
+        assert self.d2.is_ace == False
