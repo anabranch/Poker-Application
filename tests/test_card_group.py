@@ -357,6 +357,67 @@ class TestCardGroup_straight_and_flush:
         straight_flush = self.straight_and_flush._straight_flush()
         assert bool(straight_flush) == False
 
+class TestCardGroup_almost_straight:
+    def setUp(self):
+        self.almost_straight = CardGroup([
+                d2,
+                d3,
+                d4,
+                h12,
+                c11,
+                h10,
+                da
+            ])
+
+    def test_kickers(self):
+        kickers = self.almost_straight._kickers()
+        assert bool(kickers) == True
+        
+        assert h12 in kickers
+        assert c11 in kickers
+        assert d4 in kickers
+        assert h10 in kickers
+        assert da in kickers
+
+    def test_pair(self):
+        straight = self.almost_straight._pair()
+        assert bool(straight) == False
+
+    def test_trip(self):
+        trip = self.almost_straight._trip()
+        assert bool(trip) == False
+
+    def test_quad(self):
+        quad = self.almost_straight._quad()
+        assert bool(quad) == False
+
+    def test_straight(self):
+        straight = self.almost_straight._straight()
+        assert bool(straight) == True
+        hand = straight['hand']
+        assert len(hand) == 5
+        assert d8 in hand
+        assert d9 in hand
+        assert d12 in hand
+        assert c11 in hand
+        assert h10 in hand
+
+    def test_two_pair(self):
+        two_pair = self.almost_straight._two_pair()
+        assert bool(two_pair) == False
+
+    def test_flush(self):
+        flush = self.almost_straight._flush()
+        assert bool(flush) == False
+
+    def test_full_house(self):
+        full_house = self.almost_straight._full_house()
+        assert bool(full_house) == False
+
+    def test_straight_flush(self):
+        straight_flush = self.almost_straight._straight_flush()
+        assert bool(straight_flush) == False
+
 class TestCardGroup_low_straight:
     def setUp(self):
         self.low_straight = CardGroup([
