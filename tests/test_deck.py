@@ -11,10 +11,10 @@ class TestDeck(object):
 
     def test_shuffle(self):
         before = self.d._local_card_copy()
-        self.d._shuffle()
+        self.d.shuffle()
         after = self.d._local_card_copy()
         assert before != after
-        self.d._shuffle()
+        self.d.shuffle()
         print after
         print self.d.cards
         assert after == self.d.cards
