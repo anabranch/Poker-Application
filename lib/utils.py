@@ -1,7 +1,11 @@
 def longest_sequence(ls):
+    """
+    Params =  a list of numbers
+    returns a tuple of the length of the seq. and the longest sequence
+    """
     sequences = []
     current_sequence = []
-    for location, num in enumerate(ls):
+    for location, num in enumerate(sorted(ls)):
         if location +1 >= len(ls):
             break
         next_location = location + 1
@@ -17,17 +21,3 @@ def longest_sequence(ls):
     if max(sequences)[0] == 0:
         return (len(current_sequence), current_sequence)
     return max(sequences)
-
-
-
-
-# if __name__ == '__main__':
-#     print longest_sequence([
-#         1,
-#         2,
-#         3,
-#         4,
-#         5,
-#         8,
-#         9,
-#         12])
