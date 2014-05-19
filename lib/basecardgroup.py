@@ -1,10 +1,16 @@
+# Standard Imports
 from copy import copy
 
+#Local Imports
 from card import Card
 from equalitymixin import CommonEqualityMixin
 
 class BaseCardGroup(CommonEqualityMixin):
-    """docstring for CardGroup"""
+    """BaseCardGroup is the very basic card group. We use it to group cards together like
+     - pocket cards
+     - decks
+     - community cards
+     """
     def __init__(self, cards=[]):
         super(BaseCardGroup, self).__init__()
         self.cards = cards
