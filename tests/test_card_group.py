@@ -393,14 +393,7 @@ class TestCardGroup_almost_straight:
 
     def test_straight(self):
         straight = self.almost_straight._straight()
-        assert bool(straight) == True
-        hand = straight['hand']
-        assert len(hand) == 5
-        assert d8 in hand
-        assert d9 in hand
-        assert d12 in hand
-        assert c11 in hand
-        assert h10 in hand
+        assert bool(straight) == False
 
     def test_two_pair(self):
         two_pair = self.almost_straight._two_pair()
