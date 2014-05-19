@@ -1,9 +1,11 @@
 from copy import copy
 from collections import Counter
+from itertools import groupby
 import operator
 
 from equalitymixin import CommonEqualityMixin
 from card import Card
+from utils import longest_sequence
 
 class CardGroup(CommonEqualityMixin):
     """docstring for CardGroup"""
@@ -104,30 +106,18 @@ class CardGroup(CommonEqualityMixin):
 
     def _straight(self):
         card_num_dict = self._cards_by_number(add_low_ace=True)
-        successive = []
-        sorted_num_tuple = sorted(zip(card_num_dict.keys(), card_num_dict.values()))
-        for location, val in enumerate(sorted_num_tuple):
-            num, card = val
-            if location + 1 >= len(card_num_dict):
-                break # I bet there's a better way to do this...
-            num2, card2 = sorted_num_tuple[location + 1]
-            if num+1 == num2:
-                successive.append(card2[0])
-                if card[0] not in successive:
-                    if card[0].number == 1: # Issue here with the ace
-                        successive.insert(0, card_num_dict[14][0])
-                    else:
-                        successive.insert(0, card[0])
-            elif len(successive) < 5:
-                successive = []
-        if len(successive) == 5:
-            return {"hand":successive}
-        elif len(successive) > 5:
-            remove = [card.as_tuple() for card in successive if card.number == 14]
-            for c in remove:
-                successive = [card for card in successive if card != Card(c[0],c[2])]
-            return {"hand":sorted(successive, key=operator.attrgetter('number'), reverse=True)[:5]}
-        return {}
+        sorted_keys_num_dict = sorted(card_num_dict)
+        if len(sorted_keys_num_dict) < 5:
+            return {}
+        seqcount, sequence = longest_sequence(sorted_keys_num_dict)
+        if seqcount < 5:
+            return {}
+        seqfinal = sorted(sequence, reverse=True)[:5]
+        if 1 in seqfinal:
+            seqfinal.remove(1)
+            seqfinal.append(14)
+        vals = [card_num_dict[val][0] for val in seqfinal]
+        return {"hand":vals}
 
     def _two_pair(self):
         card_num_dict = self._cards_by_number()
