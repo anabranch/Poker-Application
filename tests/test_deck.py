@@ -18,3 +18,4 @@ class TestDeck(object):
         print after
         print self.d.cards
         assert after == self.d.cards
+        
