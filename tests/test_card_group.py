@@ -1,5 +1,5 @@
 from lib.card import Card
-from lib.cardgroup import CardGroup
+from lib.valuedcardgroup import ValuedCardGroup
 
 d2 = Card(2,"Diamonds")
 da = Card(14,"Diamonds")
@@ -33,7 +33,7 @@ d5 = Card(5, "Diamonds")
 
 class TestCardGroup_no_hand:
     def setUp(self):
-        self.no_hand = CardGroup([
+        self.no_hand = ValuedCardGroup([
                 d2,
                 d6,
                 da,
@@ -90,7 +90,7 @@ class TestCardGroup_no_hand:
 
 class TestCardGroup_pair:
     def setUp(self):
-        self.pair = CardGroup([
+        self.pair = ValuedCardGroup([
                 d2,
                 sa,
                 d3,
@@ -154,7 +154,7 @@ class TestCardGroup_pair:
 
 class TestCardGroup_trip:
     def setUp(self):
-        self.trip = CardGroup([
+        self.trip = ValuedCardGroup([
                 d2,
                 da,
                 s13,
@@ -225,7 +225,7 @@ class TestCardGroup_trip:
 
 class TestCardGroup_quad:
     def setUp(self):
-        self.quad = CardGroup([
+        self.quad = ValuedCardGroup([
                 d2,
                 da,
                 s13,
@@ -303,7 +303,7 @@ class TestCardGroup_quad:
 
 class TestCardGroup_straight_and_flush:
     def setUp(self):
-        self.straight_and_flush = CardGroup([
+        self.straight_and_flush = ValuedCardGroup([
                 d2,
                 d8,
                 d9,
@@ -374,7 +374,7 @@ class TestCardGroup_straight_and_flush:
 
 class TestCardGroup_almost_straight:
     def setUp(self):
-        self.almost_straight = CardGroup([
+        self.almost_straight = ValuedCardGroup([
                 d2,
                 d3,
                 d4,
@@ -431,7 +431,7 @@ class TestCardGroup_almost_straight:
 
 class TestCardGroup_low_straight:
     def setUp(self):
-        self.low_straight = CardGroup([
+        self.low_straight = ValuedCardGroup([
                 d2,
                 da,
                 h3,
@@ -496,7 +496,7 @@ class TestCardGroup_low_straight:
 
 class TestCardGroup_two_test_pair:
     def setUp(self):
-        self.two_test_pair = CardGroup([
+        self.two_test_pair = ValuedCardGroup([
                 d2,
                 d8,
                 c10,
@@ -564,7 +564,7 @@ class TestCardGroup_two_test_pair:
 
 class TestCardGroup_full_test_house:
     def setUp(self):
-        self.full_test_house = CardGroup([
+        self.full_test_house = ValuedCardGroup([
                 d2,
                 d8,
                 c10,
@@ -647,7 +647,7 @@ class TestCardGroup_full_test_house:
 
 class TestCardGroup_full_test_house_double_trips:
     def setUp(self):
-        self.full_test_house_double_trips = CardGroup([
+        self.full_test_house_double_trips = ValuedCardGroup([
                 d2,
                 h11,
                 c10,
@@ -730,7 +730,7 @@ class TestCardGroup_full_test_house_double_trips:
 
 class TestCardGroup_straight_test_flush:
     def setUp(self):
-        self.straight_test_flush = CardGroup([
+        self.straight_test_flush = ValuedCardGroup([
                 d2,
                 d8,
                 d9,
@@ -814,7 +814,7 @@ class TestCardGroup_straight_test_flush:
 
 class TestCardGroup_straight_long_flush:
     def setUp(self):
-        self.straight_long_flush = CardGroup([
+        self.straight_long_flush = ValuedCardGroup([
                 d2,
                 d8,
                 d9,
@@ -888,7 +888,7 @@ class TestCardGroup_straight_long_flush:
 
 class TestCardGroup_straight_low_flush:
     def setUp(self):
-        self.straight_low_flush = CardGroup([
+        self.straight_low_flush = ValuedCardGroup([
                 d2,
                 d3,
                 d4,
@@ -966,7 +966,7 @@ class TestCardGroup_straight_low_flush:
 
 class TestCardGroup_straight_low_long_flush:
     def setUp(self):
-        self.straight_low_long_flush = CardGroup([
+        self.straight_low_long_flush = ValuedCardGroup([
                 d2,
                 d3,
                 d4,
@@ -1043,7 +1043,7 @@ class TestCardGroup_straight_low_long_flush:
 
 class TestCardGroup_straight_low_flush_long_two:
     def setUp(self):
-        self.straight_low_flush_long_two = CardGroup([
+        self.straight_low_flush_long_two = ValuedCardGroup([
                 d2,
                 d3,
                 d4,

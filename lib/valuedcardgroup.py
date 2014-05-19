@@ -5,10 +5,10 @@ from basecardgroup import BaseCardGroup
 from card import Card
 from utils import longest_sequence
 
-class CardGroup(BaseCardGroup):
-    """docstring for CardGroup"""
+class ValuedCardGroup(BaseCardGroup):
+    """docstring for ValuedCardGroup"""
     def __init__(self, cards=[]):
-        super(CardGroup, self).__init__(cards)
+        super(ValuedCardGroup, self).__init__(cards)
 
     def best_hand(self): # could be optimized but this is fine for now
         kickers = self._kickers()
