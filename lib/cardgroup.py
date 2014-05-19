@@ -172,36 +172,27 @@ class CardGroup(CommonEqualityMixin):
 
     def _straight_flush(self):
         card_suit_dict = self._cards_by_suit(add_low_ace=True)
-        successive = []
         suit = None
-        vals = []
+        numcarddict = {}
+        keys = []
         for k, v in card_suit_dict.items():
             if len(v) >= 5:
                 suit = k
-                vals = sorted(v, key=operator.attrgetter('number'))
-        for location, val in enumerate(vals):
-            num, card, suit_rank = val.as_tuple()
-            if location + 1 >= len(vals):
-                break # I bet there's a better way to do this...
-            val2 = vals[location + 1]
-            num2, card2, suit_rank2 = vals[location + 1].as_tuple()
-            if num+1 == num2:
-                successive.append(val2)
-                    # successive
-                if val not in successive:
-                    if num == 1:
-                        successive.insert(0, vals[len(vals)-1]) 
-                    else:
-                        successive.insert(0,val)
-            elif len(successive) < 5:
-                successive = []
-        if len(successive) == 5:
-            return {"hand":successive}
-        elif len(successive) > 5:
-            if Card(14, suit) in successive:
-                successive = [card for card in successive if card != Card(14, suit)]
-                return {"hand":sorted(successive, key=operator.attrgetter('number'), reverse=True)[:5]}
-        return {}
+                for val in v:
+                    keys.append(val.number)
+                    numcarddict[val.number] = val
+                break
+        if len(keys) < 5:
+            return {}
+        seqcount, sequence = longest_sequence(sorted(keys))
+        if seqcount < 5:
+            return {}
+        seqfinal = sorted(sequence, reverse=True)[:5]
+        if 1 in seqfinal:
+            seqfinal.remove(1)
+            seqfinal.append(14)
+        vals = [numcarddict[val] for val in seqfinal]
+        return {"hand":vals}
 
 class PocketCardGroup(CardGroup):
     """docstring for PocketCardGroup"""
