@@ -3,7 +3,7 @@ from copy import copy
 
 #Local Imports
 from card import Card
-from baseclasses.equalitymixin import CommonEqualityMixin
+from equalitymixin import CommonEqualityMixin
 
 class BaseCardGroup(CommonEqualityMixin):
     """BaseCardGroup is the very basic card group. We use it to group cards together like

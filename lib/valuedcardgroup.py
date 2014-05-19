@@ -1,7 +1,7 @@
 from collections import Counter
 import operator
 
-from basecardgroup import BaseCardGroup
+from baseclasses.basecardgroup import BaseCardGroup
 from card import Card
 from utils import longest_sequence
 

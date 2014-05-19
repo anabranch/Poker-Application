@@ -1,4 +1,4 @@
-from equalitymixin import CommonEqualityMixin
+from baseclasses.equalitymixin import CommonEqualityMixin
 
 class Card(CommonEqualityMixin):
     """docstring for Card"""

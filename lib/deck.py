@@ -1,5 +1,5 @@
 from card import Card
-from basecardgroup import BaseCardGroup
+from baseclasses.basecardgroup import BaseCardGroup
 
 class Deck(BaseCardGroup):
     """docstring for Deck"""
