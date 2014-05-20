@@ -2,8 +2,8 @@ from collections import Counter
 import operator
 from random import shuffle
 
-from baseclasses.basecardgroup import BaseCardGroup
-from baseclasses.statedobject import StatedObject, StatedCardGroup
+from baseclasses.basecardgroups import BaseCardGroup, StatedCardGroup
+from baseclasses.statedobject import StatedObject
 from card import Card
 from utils import longest_sequence
 
