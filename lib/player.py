@@ -1,7 +1,8 @@
 from card import Card
 from cardgroups import PocketCardGroup
+from baseclasses.statedobject import StatedObject
 
-class Player(object):
+class Player(StatedObject):
     """docstring for Player"""
     def __init__(self):
         super(Player, self).__init__()
