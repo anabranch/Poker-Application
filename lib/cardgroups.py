@@ -253,11 +253,11 @@ class BoardCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
         super(BoardCardGroup, self).__init__([])
         self.states = [
-            "pregame",
-            "preflop",
-            "flop",
+            "river",
             "turn",
-            "river"
+            "flop",
+            "preflop",
+            "pregame"
         ]
 
     def add_flop(self, cards):
@@ -273,11 +273,11 @@ class BurnCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
         super(BurnCardGroup, self).__init__([])
         self.states = [
-            "pregame",
-            "preflop",
-            "flop",
+            "river",
             "turn",
-            "river"
+            "flop",
+            "preflop",
+            "pregame"
         ]
 
     def burn(self, card):
