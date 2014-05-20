@@ -20,6 +20,6 @@ class TestDeck(object):
         assert after == self.d.cards
 
     def test_shuffle_and_state(self):
-        assert self.d.state == "Unshuffled"
+        assert self.d.state == "unshuffled"
         self.d.shuffle()
-        assert self.d.state == "Shuffled"
+        assert self.d.state == "shuffled"
