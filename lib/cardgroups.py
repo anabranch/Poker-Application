@@ -247,5 +247,5 @@ class DeckCardGroup(BaseCardGroup, StatedObject):
 
 class BoardCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
-        # pre-flop, flop, turn, river
+        # preflop, flop, turn, river
         self.state = "preflop"
