@@ -3,6 +3,7 @@ import operator
 from random import shuffle
 
 from baseclasses.basecardgroup import BaseCardGroup
+from baseclasses.statedobject import StatedObject
 from card import Card
 from utils import longest_sequence
 
@@ -220,12 +221,11 @@ class PocketCardGroup(BaseCardGroup):
         super(PocketCardGroup, self).__init__(cards)
 
 
-class DeckCardGroup(BaseCardGroup):
+class DeckCardGroup(BaseCardGroup, StatedObject):
     """docstring for Deck"""
     def __init__(self):
-        super(Deck, self).__init__()
-        # potential states :: 'Unshuffled', "Shuffled"
-        self._state = "Unshuffled"
+        super(DeckCardGroup, self).__init__()
+        self.state = "Unshuffled"
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
         self.unshuffled_cards = []
@@ -233,21 +233,14 @@ class DeckCardGroup(BaseCardGroup):
             for card in number:
                 self.cards.append(Card(card, suit))
 
-    def _shuffled_state(self):
-        if self._state != 'Shuffled':
-            return False
-        return True
-
-    def _state_change(self,before,after):
-        self._state = after
-
     def shuffle(self):
-        if not self._shuffled_state():
-            self._state_change(self._state, "Shuffled")
+        if self.state == "Unshuffled":
+            self.state_change(self.state, "Shuffled")
             self.unshuffled_cards = self._local_card_copy()
             shuffle(self.cards)
         else:
             print "cards already shuffled"
 
-    # def pop(self):
-    #     if self._state
+    def pop(self):
+        if self.state == 'Shuffled':
+            return self.cards.pop()
