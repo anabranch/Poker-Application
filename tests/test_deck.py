@@ -10,9 +10,9 @@ class TestDeck(object):
         assert len(self.d.cards) == 52
 
     def test_shuffle(self):
-        before = self.d._local_card_copy()
+        before = self.d.local_card_copy()
         self.d.shuffle()
-        after = self.d._local_card_copy()
+        after = self.d.local_card_copy()
         assert before != after
         self.d.shuffle()
         print after

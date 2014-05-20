@@ -31,7 +31,7 @@ d8 = Card(8, "Diamonds")
 d9 = Card(9, "Diamonds")
 d5 = Card(5, "Diamonds")
 
-class TestCardGroup_no_hand:
+class TestValuedCardGroup_no_hand:
     def setUp(self):
         self.no_hand = ValuedCardGroup([
                 d2,
@@ -88,7 +88,7 @@ class TestCardGroup_no_hand:
     def test_best_hand(self):
         assert self.no_hand.best_hand() == self.no_hand._kickers()
 
-class TestCardGroup_pair:
+class TestValuedCardGroup_pair:
     def setUp(self):
         self.pair = ValuedCardGroup([
                 d2,
@@ -152,7 +152,7 @@ class TestCardGroup_pair:
     def test_best_hand(self):
         assert self.pair.best_hand() == self.pair._pair()
 
-class TestCardGroup_trip:
+class TestValuedCardGroup_trip:
     def setUp(self):
         self.trip = ValuedCardGroup([
                 d2,
@@ -223,7 +223,7 @@ class TestCardGroup_trip:
     def test_best_hand(self):
         assert self.trip.best_hand() == self.trip._trip()
 
-class TestCardGroup_quad:
+class TestValuedCardGroup_quad:
     def setUp(self):
         self.quad = ValuedCardGroup([
                 d2,
@@ -301,7 +301,7 @@ class TestCardGroup_quad:
     def test_best_hand(self):
         assert self.quad.best_hand() == self.quad._quad()
 
-class TestCardGroup_straight_and_flush:
+class TestValuedCardGroup_straight_and_flush:
     def setUp(self):
         self.straight_and_flush = ValuedCardGroup([
                 d2,
@@ -372,7 +372,7 @@ class TestCardGroup_straight_and_flush:
     def test_best_hand(self):
         assert self.straight_and_flush.best_hand() == self.straight_and_flush._flush()
 
-class TestCardGroup_almost_straight:
+class TestValuedCardGroup_almost_straight:
     def setUp(self):
         self.almost_straight = ValuedCardGroup([
                 d2,
@@ -429,7 +429,7 @@ class TestCardGroup_almost_straight:
     def test_best_hand(self):
         assert self.almost_straight.best_hand() == self.almost_straight._kickers()
 
-class TestCardGroup_low_straight:
+class TestValuedCardGroup_low_straight:
     def setUp(self):
         self.low_straight = ValuedCardGroup([
                 d2,
@@ -494,7 +494,7 @@ class TestCardGroup_low_straight:
     def test_best_hand(self):
         assert self.low_straight.best_hand() == self.low_straight._straight()
 
-class TestCardGroup_two_test_pair:
+class TestValuedCardGroup_two_test_pair:
     def setUp(self):
         self.two_test_pair = ValuedCardGroup([
                 d2,
@@ -562,7 +562,7 @@ class TestCardGroup_two_test_pair:
     def test_best_hand(self):
         assert self.two_test_pair.best_hand() == self.two_test_pair._two_pair()
 
-class TestCardGroup_full_test_house:
+class TestValuedCardGroup_full_test_house:
     def setUp(self):
         self.full_test_house = ValuedCardGroup([
                 d2,
@@ -645,7 +645,7 @@ class TestCardGroup_full_test_house:
     def test_best_hand(self):
         assert self.full_test_house.best_hand() == self.full_test_house._full_house()
 
-class TestCardGroup_full_test_house_double_trips:
+class TestValuedCardGroup_full_test_house_double_trips:
     def setUp(self):
         self.full_test_house_double_trips = ValuedCardGroup([
                 d2,
@@ -728,7 +728,7 @@ class TestCardGroup_full_test_house_double_trips:
     def test_best_hand(self):
         assert self.full_test_house_double_trips.best_hand() == self.full_test_house_double_trips._full_house()
 
-class TestCardGroup_straight_test_flush:
+class TestValuedCardGroup_straight_test_flush:
     def setUp(self):
         self.straight_test_flush = ValuedCardGroup([
                 d2,
@@ -812,7 +812,7 @@ class TestCardGroup_straight_test_flush:
     def test_best_hand(self):
         assert self.straight_test_flush.best_hand() == self.straight_test_flush._straight_flush()
 
-class TestCardGroup_straight_long_flush:
+class TestValuedCardGroup_straight_long_flush:
     def setUp(self):
         self.straight_long_flush = ValuedCardGroup([
                 d2,
@@ -886,7 +886,7 @@ class TestCardGroup_straight_long_flush:
         assert d11 in hand
         assert d12 in hand
 
-class TestCardGroup_straight_low_flush:
+class TestValuedCardGroup_straight_low_flush:
     def setUp(self):
         self.straight_low_flush = ValuedCardGroup([
                 d2,
@@ -964,7 +964,7 @@ class TestCardGroup_straight_low_flush:
         assert self.straight_low_flush.best_hand() == self.straight_low_flush._straight_flush()
 
 
-class TestCardGroup_straight_low_long_flush:
+class TestValuedCardGroup_straight_low_long_flush:
     def setUp(self):
         self.straight_low_long_flush = ValuedCardGroup([
                 d2,
@@ -1041,7 +1041,7 @@ class TestCardGroup_straight_low_long_flush:
     def test_best_hand(self):
         assert self.straight_low_long_flush.best_hand() == self.straight_low_long_flush._straight_flush()
 
-class TestCardGroup_straight_low_flush_long_two:
+class TestValuedCardGroup_straight_low_flush_long_two:
     def setUp(self):
         self.straight_low_flush_long_two = ValuedCardGroup([
                 d2,

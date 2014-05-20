@@ -43,7 +43,7 @@ class ValuedCardGroup(BaseCardGroup):
         return kickers
 
     def _cards_by_number(self, add_low_ace=False):
-        local_cards = self._local_card_copy()
+        local_cards = self.local_card_copy()
         number_dict = {}
         for card in local_cards:
             if card.number not in number_dict:
@@ -57,7 +57,7 @@ class ValuedCardGroup(BaseCardGroup):
         return number_dict
 
     def _cards_by_suit(self, add_low_ace=False):
-        local_cards = self._local_card_copy()
+        local_cards = self.local_card_copy()
         suit_dict = {}
         for card in local_cards:
             if card.suit not in suit_dict:
@@ -73,7 +73,7 @@ class ValuedCardGroup(BaseCardGroup):
     def _kickers(self, remove_cards=[], mx=5):
         if mx > 5:
             mx = 5
-        local_cards = self._local_card_copy()
+        local_cards = self.local_card_copy()
         for card in remove_cards:
             local_cards.pop(local_cards.index(card))
         # need to get this to return cards not a tuple
@@ -236,7 +236,7 @@ class DeckCardGroup(BaseCardGroup, StatedObject):
     def shuffle(self):
         if self.state == "unshuffled":
             self.state_change(self.state, "shuffled")
-            self.unshuffled_cards = self._local_card_copy()
+            self.unshuffled_cards = self.local_card_copy()
             shuffle(self.cards)
         else:
             print "cards already shuffled"
