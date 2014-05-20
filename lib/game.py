@@ -1,5 +1,6 @@
 from baseclasses.statedobject import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
+from table import Table
 from chips import PotChips
 
 class PokerGame(StatedObject):
@@ -20,8 +21,8 @@ class PokerGame(StatedObject):
             "pregame"
         ]
 
-        self._players = {} # id, player_instance
-        # all these card groups should have the same state so we can advance them together
+        # self._players = {} # id, player_instance # I also think this will be unnecessary
+        self._table = Table()
         self._deck = DeckCardGroup()
         self._board = BoardCardGroup()
         self._burn = BurnCardGroup()
