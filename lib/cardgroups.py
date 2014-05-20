@@ -3,7 +3,7 @@ import operator
 from random import shuffle
 
 from baseclasses.basecardgroup import BaseCardGroup
-from baseclasses.statedobject import StatedObject
+from baseclasses.statedobject import StatedObject, StatedCardGroup
 from card import Card
 from utils import longest_sequence
 
@@ -221,44 +221,28 @@ class PocketCardGroup(BaseCardGroup):
         super(PocketCardGroup, self).__init__([])
 
 
-class DeckCardGroup(BaseCardGroup, StatedObject):
+class DeckCardGroup(StatedCardGroup):
     """docstring for Deck"""
     def __init__(self):
-        super(DeckCardGroup, self).__init__([])
-        self.states = [
-            "shuffled",
-            "unshuffled"
-        ]
+        super(DeckCardGroup, self).__init__()
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
         self.unshuffled_cards = []
         for suit in suits:
             for card in number:
-                print suit,card
                 self.cards.append(Card(card, suit))
 
     def shuffle(self):
-        if self.current_state == "unshuffled":
-            self.state_change()
+        if self.current_state == None:
             self.unshuffled_cards = self.local_card_copy()
             shuffle(self.cards)
+            self.state_change()
         else:
             print "cards already shuffled"
 
-    def pop(self):
-        if self.current_state == 'shuffled':
-            return self.cards.pop()
-
-class BoardCardGroup(BaseCardGroup, StatedObject):
+class BoardCardGroup(StatedCardGroup):
     def __init__(self):
-        super(BoardCardGroup, self).__init__([])
-        self.states = [
-            "river",
-            "turn",
-            "flop",
-            "preflop",
-            "pregame"
-        ]
+        super(BoardCardGroup, self).__init__()
 
     def add_flop(self, cards):
         self.cards += cards
@@ -269,16 +253,9 @@ class BoardCardGroup(BaseCardGroup, StatedObject):
     def add_river(self, card):
         self.cards += card
 
-class BurnCardGroup(BaseCardGroup, StatedObject):
+class BurnCardGroup(StatedCardGroup):
     def __init__(self):
-        super(BurnCardGroup, self).__init__([])
-        self.states = [
-            "river",
-            "turn",
-            "flop",
-            "preflop",
-            "pregame"
-        ]
+        super(BurnCardGroup, self).__init__()
 
     def burn(self, card):
         pass

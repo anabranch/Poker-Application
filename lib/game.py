@@ -6,7 +6,20 @@ class PokerGame(StatedObject):
     def __init__(self):
         super(PokerGame, self).__init__()
         # pregame, dealing pocket, dealing, etc
-        self.state = "pregame"
+        self.states = [
+            "postgame",
+            "showdown",
+            "riverbetting",
+            "dealriver",
+            "turnbetting",
+            "dealturn",
+            "flopbetting",
+            "dealflop",
+            "preflopbetting",
+            "dealpocket",
+            "pregame"
+        ]
+        
         self.players = []
         # all these card groups should have the same state so we can advance them together
         self.deck = DeckCardGroup()
