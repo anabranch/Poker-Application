@@ -225,7 +225,10 @@ class DeckCardGroup(BaseCardGroup, StatedObject):
     """docstring for Deck"""
     def __init__(self):
         super(DeckCardGroup, self).__init__([])
-        self.state = "unshuffled"
+        self.states = [
+            "shuffled",
+            "unshuffled"
+        ]
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
         self.unshuffled_cards = []
@@ -235,22 +238,27 @@ class DeckCardGroup(BaseCardGroup, StatedObject):
                 self.cards.append(Card(card, suit))
 
     def shuffle(self):
-        if self.state == "unshuffled":
-            self.state_change(self.state, "shuffled")
+        if self.current_state == "unshuffled":
+            self.state_change()
             self.unshuffled_cards = self.local_card_copy()
             shuffle(self.cards)
         else:
             print "cards already shuffled"
 
     def pop(self):
-        if self.state == 'shuffled':
+        if self.current_state == 'shuffled':
             return self.cards.pop()
 
 class BoardCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
         super(BoardCardGroup, self).__init__([])
-        # preflop, flop, turn, river
-        self.state = "preflop"
+        self.states = [
+            "pregame",
+            "preflop",
+            "flop",
+            "turn",
+            "river"
+        ]
 
     def add_flop(self, cards):
         self.cards += cards
@@ -264,8 +272,13 @@ class BoardCardGroup(BaseCardGroup, StatedObject):
 class BurnCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
         super(BurnCardGroup, self).__init__([])
-        # preflop, flop, turn, river
-        self.state = "preflop"
+        self.states = [
+            "pregame",
+            "preflop",
+            "flop",
+            "turn",
+            "river"
+        ]
 
     def burn(self, card):
         pass

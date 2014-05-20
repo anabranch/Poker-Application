@@ -20,6 +20,7 @@ class TestDeck:
         assert len(self.d.cards) == 52
 
     def test_shuffle(self):
+        self.d.state_change()
         before = self.d.local_card_copy()
         self.d.shuffle()
         after = self.d.local_card_copy()
@@ -30,9 +31,10 @@ class TestDeck:
         assert after == self.d.cards
 
     def test_shuffle_and_state(self):
-        assert self.d.state == "unshuffled"
+        self.d.state_change()
+        assert self.d.current_state == "unshuffled"
         self.d.shuffle()
-        assert self.d.state == "shuffled"
+        assert self.d.current_state == "shuffled"
 
 class TestAddition:
     def setUp(self):
@@ -57,3 +59,12 @@ class TestAddition:
         assert h13 in hand
         assert c13 in hand
         assert da in kickers
+
+
+class TestBoardCardGroup:
+    def setUp(self):
+        pass
+
+    def test(self):
+        pass
+        
