@@ -1,5 +1,5 @@
 from baseclasses.statedobject import StatedObject
-from cardgroups import DeckCardGroup, BoardCardGroup
+from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 
 class PokerGame(StatedObject):
     """docstring for PokerGame"""
@@ -7,9 +7,11 @@ class PokerGame(StatedObject):
         super(PokerGame, self).__init__()
         # pregame, dealing pocket, dealing, etc
         self.state = "pregame"
+        self.players = []
+        # all these card groups should have the same state so we can advance them together
         self.deck = DeckCardGroup()
         self.board = BoardCardGroup()
-        self.players = []
+        self.burn = BurnCardGroup)()
 
         # should have no concept of the current table, it should just get it's own table
         # so people can sit and get up without affecting the game
