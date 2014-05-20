@@ -1,6 +1,6 @@
 from copy import copy
 
-from lib.deck import Deck
+from lib.cardgroups import Deck
 
 class TestDeck(object):
     def setUp(self):

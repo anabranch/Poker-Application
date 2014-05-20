@@ -1,5 +1,5 @@
 from lib.card import Card
-from lib.valuedcardgroup import ValuedCardGroup
+from lib.cardgroups import ValuedCardGroup
 
 d2 = Card(2,"Diamonds")
 da = Card(14,"Diamonds")
