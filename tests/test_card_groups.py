@@ -22,26 +22,28 @@ class TestDeck:
     def test_state_changes(self):
         assert self.d.current_state == None
         self.d.state_change()
-        assert self.d.current_state == "unshuffled"
+        assert self.d.current_state == "pregame"
         self.d.state_change()
-        assert self.d.current_state == "shuffled"
+        assert self.d.current_state == "preflop"
+        self.d.state_change()
+        assert self.d.current_state == "flop"
+        self.d.state_change()
+        assert self.d.current_state == "turn"
+        self.d.state_change()
+        assert self.d.current_state == "river"
 
-    def test_shuffle(self):
-        self.d.state_change()
-        before = self.d.local_card_copy()
-        self.d.shuffle()
-        after = self.d.local_card_copy()
-        assert before != after
-        self.d.shuffle()
-        print after
-        print self.d.cards
-        assert after == self.d.cards
+    # def test_shuffle(self):
+    #     before = self.d.local_card_copy()
+    #     self.d.shuffle()
+    #     after = self.d.local_card_copy()
+    #     assert before != after
+    #     self.d.shuffle()
+    #     assert after == self.d.cards
 
-    def test_shuffle_and_state(self):
-        self.d.state_change()
-        assert self.d.current_state == "unshuffled"
-        self.d.shuffle()
-        assert self.d.current_state == "shuffled"
+    # def test_shuffle_and_state(self):
+    #     assert self.d.current_state == None
+    #     self.d.shuffle()
+    #     assert self.d.current_state == "pregame"
 
 class TestAddition:
     def setUp(self):
@@ -75,7 +77,6 @@ class TestBoardCardGroup:
     def test_state_changes(self):
         assert self.b.current_state == None
         self.b.state_change()
-        print self.b.current_state
         assert self.b.current_state == "pregame"
         self.b.state_change()
         assert self.b.current_state == "preflop"
