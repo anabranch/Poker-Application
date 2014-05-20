@@ -217,20 +217,21 @@ class ValuedCardGroup(BaseCardGroup):
 
 class PocketCardGroup(BaseCardGroup):
     """docstring for PocketCardGroup"""
-    def __init__(self, cards=[]):
-        super(PocketCardGroup, self).__init__(cards)
+    def __init__(self):
+        super(PocketCardGroup, self).__init__([])
 
 
 class DeckCardGroup(BaseCardGroup, StatedObject):
     """docstring for Deck"""
     def __init__(self):
-        super(DeckCardGroup, self).__init__()
+        super(DeckCardGroup, self).__init__([])
         self.state = "unshuffled"
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
         self.unshuffled_cards = []
         for suit in suits:
             for card in number:
+                print suit,card
                 self.cards.append(Card(card, suit))
 
     def shuffle(self):
@@ -247,20 +248,22 @@ class DeckCardGroup(BaseCardGroup, StatedObject):
 
 class BoardCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
+        super(BoardCardGroup, self).__init__([])
         # preflop, flop, turn, river
         self.state = "preflop"
 
     def add_flop(self, cards):
-        pass
+        self.cards += cards
 
     def add_turn(self, card):
-        pass
+        self.cards += card
 
     def add_river(self, card):
-        pass
+        self.cards += card
 
 class BurnCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
+        super(BurnCardGroup, self).__init__([])
         # preflop, flop, turn, river
         self.state = "preflop"
 

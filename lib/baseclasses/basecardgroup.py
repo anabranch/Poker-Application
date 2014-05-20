@@ -13,13 +13,20 @@ class BaseCardGroup(CommonEqualityMixin):
      """
     def __init__(self, cards=[]):
         super(BaseCardGroup, self).__init__()
+        self.cards = []
         self.cards = cards
 
     def __str__(self):
         return str(self.cards)
 
+    def __add__(self, other):
+        if isinstance(other, BaseCardGroup):
+            for c in other.local_card_copy():
+                self.add_card(c)
+            return self.cards
+
     def add_card(self, card):
         self.cards.append(card)
 
-    def _local_card_copy(self):
+    def local_card_copy(self):
         return [copy(card) for card in self.cards]
