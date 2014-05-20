@@ -249,3 +249,26 @@ class BoardCardGroup(BaseCardGroup, StatedObject):
     def __init__(self):
         # preflop, flop, turn, river
         self.state = "preflop"
+
+    def add_flop(self):
+        pass
+
+    def add_turn(self):
+        pass
+
+    def add_river(self):
+        pass
+
+class BurnCardGroup(BaseCardGroup, StatedObject):
+    def __init__(self):
+        # preflop, flop, turn, river
+        self.state = "preflop"
+
+    def add_flop(self):
+        pass
+
+    def add_turn(self):
+        pass
+
+    def add_river(self):
+        pass
