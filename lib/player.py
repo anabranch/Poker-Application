@@ -4,11 +4,11 @@ from baseclasses.statedobject import StatedObject
 
 class Player(StatedObject):
     """docstring for Player"""
-    def __init__(self):
+    def __init__(self, _id=0, name=None):
         super(Player, self).__init__()
         # States are Initiated, dealing cards, in_game
-        # and more
         self.state = "Initiated"
-        self._id = 1
+        self.name = name
+        self._id = _id
         self.pocket = PocketCardGroup()
         
