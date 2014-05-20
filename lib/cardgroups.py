@@ -265,3 +265,4 @@ class BurnCardGroup(BaseCardGroup, StatedObject):
         self.state = "preflop"
 
     def burn(self, card):
+        pass
