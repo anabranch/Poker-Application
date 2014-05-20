@@ -250,13 +250,13 @@ class BoardCardGroup(BaseCardGroup, StatedObject):
         # preflop, flop, turn, river
         self.state = "preflop"
 
-    def add_flop(self):
+    def add_flop(self, cards):
         pass
 
-    def add_turn(self):
+    def add_turn(self, card):
         pass
 
-    def add_river(self):
+    def add_river(self, card):
         pass
 
 class BurnCardGroup(BaseCardGroup, StatedObject):
@@ -264,11 +264,4 @@ class BurnCardGroup(BaseCardGroup, StatedObject):
         # preflop, flop, turn, river
         self.state = "preflop"
 
-    def add_flop(self):
-        pass
-
-    def add_turn(self):
-        pass
-
-    def add_river(self):
-        pass
+    def burn(self, card):
