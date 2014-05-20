@@ -220,7 +220,7 @@ class PocketCardGroup(BaseCardGroup):
         super(PocketCardGroup, self).__init__(cards)
 
 
-class Deck(BaseCardGroup):
+class DeckCardGroup(BaseCardGroup):
     """docstring for Deck"""
     def __init__(self):
         super(Deck, self).__init__()

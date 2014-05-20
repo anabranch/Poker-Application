@@ -1,10 +1,10 @@
 from copy import copy
 
-from lib.cardgroups import Deck
+from lib.cardgroups import DeckCardGroup
 
 class TestDeck(object):
     def setUp(self):
-        self.d = Deck()
+        self.d = DeckCardGroup()
 
     def test_length(self):
         assert len(self.d.cards) == 52
