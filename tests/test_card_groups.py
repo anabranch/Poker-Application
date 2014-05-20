@@ -15,11 +15,8 @@ d12 = Card(12,"Diamonds")
 class TestDeck:
     def setUp(self):
         self.d = DeckCardGroup()
-        print self.d.cards
 
     def test_length(self):
-        print len(self.d.cards)
-        print self.d.cards
         assert len(self.d.cards) == 52
 
     def test_shuffle(self):
