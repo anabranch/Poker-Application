@@ -32,14 +32,16 @@ class TestDeck:
         self.d.state_change()
         assert self.d.current_state == "river"
 
-    # def test_shuffle(self):
-    #     before = self.d.local_card_copy()
-    #     self.d.shuffle()
-    #     after = self.d.local_card_copy()
-    #     assert before != after
-    #     self.d.shuffle()
-    #     assert after == self.d.cards
-
+    def test_shuffle(self):
+        before = self.d.local_card_copy()
+        self.d.shuffle()
+        after = self.d.local_card_copy()
+        print before
+        print after
+        assert before != after
+        self.d.shuffle()
+        assert after == self.d.cards
+        assert False
     # def test_shuffle_and_state(self):
     #     assert self.d.current_state == None
     #     self.d.shuffle()
