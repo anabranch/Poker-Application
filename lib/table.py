@@ -12,3 +12,8 @@ class Table(StatedObject):
 
     def seat_player(self, seat_number, player):
         self.positions[seat_number] = player
+
+
+if __name__ == '__main__':
+    t = Table()
+    print t.positions
