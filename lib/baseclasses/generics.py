@@ -92,6 +92,7 @@ class Chips(object):
         self._stack += amount
 
     def remove_from(self, amount):
+        # add error
         self._stack -= amount
 
 class StatedObject(object):
