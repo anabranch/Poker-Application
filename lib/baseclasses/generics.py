@@ -83,7 +83,16 @@ class Chips(object):
     """docstring for Chips"""
     def __init__(self):
         super(Chips, self).__init__()
-        self._stack = 0        
+        self._stack = 0
+
+    def set_stack(self, amount):
+        self._stack = amount
+
+    def add_to(self, amount):
+        self._stack += amount
+
+    def remove_from(self, amount):
+        self._stack -= amount
 
 class StatedObject(object):
     """docstring for StatedObject"""
