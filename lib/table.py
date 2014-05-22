@@ -1,19 +1,10 @@
-from baseclasses.statedobject import StatedObject
+from player import Player
 
-class Table(StatedObject):
+class Table(object):
     """docstring for Table"""
     def __init__(self):
         super(Table, self).__init__()
-        self.state = [
-            "game",
-            "pregame"
-        ]
         self.positions = dict([(x,None) for x in range(0,13)])
 
-    def seat_player(self, seat_number, player):
+    def sit_player(self, seat_number, player):
         self.positions[seat_number] = player
-
-
-if __name__ == '__main__':
-    t = Table()
-    print t.positions
