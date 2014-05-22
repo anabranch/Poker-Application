@@ -1,6 +1,5 @@
 from baseclasses.statedobject import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
-from table import Table
 from chips import PotChips
 
 class PokerHand(StatedObject):
