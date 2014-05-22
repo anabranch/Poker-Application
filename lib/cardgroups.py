@@ -223,7 +223,7 @@ class PocketCardGroup(BaseCardGroup):
     """docstring for PocketCardGroup"""
     def __init__(self):
         super(PocketCardGroup, self).__init__([])
-
+        self.max_cards = 2
 
 class DeckCardGroup(BaseCardGroup):
     """docstring for Deck"""
@@ -234,7 +234,7 @@ class DeckCardGroup(BaseCardGroup):
         self.unshuffled_cards = []
         for suit in suits:
             for card in number:
-                self.cards.append(Card(card, suit))
+                self.add_card(Card(card, suit))
 
     def _pop_card(self):
         return self.cards.pop()
@@ -254,19 +254,21 @@ class DeckCardGroup(BaseCardGroup):
 class BoardCardGroup(BaseCardGroup):
     def __init__(self):
         super(BoardCardGroup, self).__init__([])
+        self.max_cards = 5
 
     def add_flop(self, cards):
-        self.cards += cards
+        for card in cards:
+            self.add_card(card)
 
     def add_turn(self, card):
-        self.cards.append(card)
+        self.add_card(card)
 
     def add_river(self, card):
-        self.cards.append(card)
+        self.add_card(card)
 
 class BurnCardGroup(BaseCardGroup):
     def __init__(self):
         super(BurnCardGroup, self).__init__([])
 
     def burn(self, card):
-        self.cards.append(card)
+        self.add_card(card)
