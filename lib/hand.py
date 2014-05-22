@@ -22,6 +22,8 @@ class PokerHand(StatedObject):
         ]
         self.buttonposition = 0
         self.bigposition = 0
+        self.bigblind = 0
+        self.smallblind = 0
         self.smallposition = 0
         self.positions = dict([(x,None) for x in range(1,13)])
         self.players = {}
@@ -38,6 +40,9 @@ class PokerHand(StatedObject):
                 self.players[player] = pos
                 self.positions[pos] = player
 
+    def set_blinds(self, bigblind=20, smallblind=10):
+        pass
+        
     def get_small_blind_player(self):
         return self.get_player_from_position(self.smallposition)
 
@@ -87,7 +92,9 @@ class PokerHand(StatedObject):
                     self.bigposition = temp
                     break
 
-        
+    def _player_stack_check(self):
+        pass
+
     def pregame_check(self):
         pass
 
