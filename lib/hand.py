@@ -53,7 +53,7 @@ class PokerHand(StatedObject):
     def get_player_from_position(self, position):
         return self.positions[position]
 
-    def _set_blinds(self, buttonposition=0):
+    def _blind_assignment(self, buttonposition=0):
         # this could be a lot easier if we kept track of occupied positions
         if not buttonposition:
             buttonposition = choice(self.players.values())

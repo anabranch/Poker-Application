@@ -50,18 +50,18 @@ class TestPokerHand:
         self.g._set_players(positions)
         assert self.g.get_position_from_player(p1) == 2
 
-    def test_set_blinds_2(self):
+    def test_blind_assignment_2(self):
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         positions[5] = p2
         self.g._set_players(positions)
-        self.g._set_blinds()
+        self.g._blind_assignment()
         assert self.g.bigposition == self.g.buttonposition
         assert self.g.get_big_blind_player() == self.g.get_button_player()
         assert self.g.smallposition != 0
         assert self.g.smallposition != self.g.bigposition
 
-    def test_set_blinds_3(self):
+    def test_blind_assignment_3(self):
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         positions[5] = p2
@@ -69,10 +69,10 @@ class TestPokerHand:
         positions[9] = p4
         positions[7] = p5
         self.g._set_players(positions)
-        self.g._set_blinds(2)
+        self.g._blind_assignment(2)
         assert self.g.buttonposition == 2
         assert self.g.smallposition == 3
         assert self.g.bigposition == 5
         assert self.g.get_button_player() == p1
-        assert self.g.get_big_blind_player() == p2
+        assert  self.g.get_big_blind_player() == p2
         assert self.g.get_small_blind_player() == p3
