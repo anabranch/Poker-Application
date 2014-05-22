@@ -54,6 +54,13 @@ class TestDeck:
         assert s14 == c
         assert len(self.d) == 51
 
+    def test_too_many_cards(self):
+        try:
+            self.d.add_card(s14)
+            assert False
+        except ValueError:
+            assert True
+
 class TestBoardCardGroup:
     def setUp(self):
         self.b = BoardCardGroup()
