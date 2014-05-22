@@ -28,7 +28,9 @@ class PokerHand(StatedObject):
 
     def _set_players(self, playerposdict):
         if len(playerposdict) < 2:
-            TypeError("Cannot have a PokerHand with < 2 Players")
+            raise ValueError("Cannot have a PokerHand with < 2 Players")
+        for pos, player in playerposdict.items():
+            self.positions[pos] = player
 
     def _set_blinds(self, buttonposition):
         # this could be a lot easier if we kept track of occupied positions
@@ -64,8 +66,3 @@ class PokerHand(StatedObject):
 
     def state_change(self):
         super(PokerGame, self).state_change()
-
-
-# if __name__ == '__main__':
-#     p = PokerGame()
-#     p.state_change()
