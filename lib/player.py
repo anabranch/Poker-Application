@@ -12,6 +12,12 @@ class Player(object):
         self.pocket = PocketCardGroup()
         self.stack = PlayerChips()
 
+    def __str__(self):
+        return "%i -- %s" % (self.identifier, self.name)
+
+    def __repr__(self):
+        return str(self)
+
     def dealpocket(self, card):
         self.pocket.add_card(card)
 
