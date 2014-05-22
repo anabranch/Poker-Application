@@ -3,6 +3,10 @@ from lib.player import Player
 
 p1 = Player(1234, "Bill")
 p2 = Player(123, "Bill")
+p3 = Player(1323, "Bill")
+p4 = Player(1243, "Bill")
+p5 = Player(1213, "Bill")
+
 class TestPokerHand:
     def setUp(self):
         self.g = PokerHand()
@@ -56,3 +60,19 @@ class TestPokerHand:
         assert self.g.get_big_blind_player() == self.g.get_button_player()
         assert self.g.smallposition != 0
         assert self.g.smallposition != self.g.bigposition
+
+    def test_set_blinds_3(self):
+        positions = dict([(x,None) for x in range(1,13)])
+        positions[2] = p1
+        positions[5] = p2
+        positions[3] = p3
+        positions[9] = p4
+        positions[7] = p5
+        self.g._set_players(positions)
+        self.g._set_blinds(2)
+        assert self.g.buttonposition == 2
+        assert self.g.smallposition == 3
+        assert self.g.bigposition == 5
+        assert self.g.get_button_player() == p1
+        assert self.g.get_big_blind_player() == p2
+        assert self.g.get_small_blind_player() == p3
