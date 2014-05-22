@@ -1,5 +1,5 @@
 from lib.player import Player
-from lib.card import Card
+from lib.baseclasses.generics import Card
 
 d2 = Card(2,"Diamonds")
 d3 = Card(3,"Diamonds")

@@ -1,8 +1,9 @@
-class PlayerChips(object):
+from baseclasses.generics import Chips
+
+class PlayerChips(Chips):
     """docstring for PlayerChips"""
     def __init__(self):
         super(PlayerChips, self).__init__()
-        self._stack = 0
     # need to implement some checks here
     def commit(self, amount):
         self._stack = self._stack - amount
@@ -11,11 +12,10 @@ class PlayerChips(object):
         self._stack = self._stack + amount
 
 
-class PotChips(object):
+class PotChips(Chips):
     """docstring for PotChips"""
     def __init__(self):
         super(PotChips, self).__init__()
-        self._total = 0
 
     def commit(self, amount):
         self.total += amount

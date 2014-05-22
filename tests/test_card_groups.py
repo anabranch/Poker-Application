@@ -1,6 +1,6 @@
 from copy import copy
 
-from lib.card import Card
+from lib.baseclasses.generics import Card
 from lib.cardgroups import DeckCardGroup, ValuedCardGroup, PocketCardGroup, BoardCardGroup, BurnCardGroup
 
 d2 = Card(2,"Diamonds")

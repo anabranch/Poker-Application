@@ -1,4 +1,4 @@
-from lib.card import Card
+from lib.baseclasses.generics import Card
 
 class TestCard(object):
     def setUp(self):

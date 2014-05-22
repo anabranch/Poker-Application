@@ -1,4 +1,4 @@
-from baseclasses.statedobject import StatedObject
+from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from chips import PotChips
 

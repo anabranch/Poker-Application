@@ -1,4 +1,4 @@
-from card import Card
+from baseclasses.generics import Card
 from cardgroups import PocketCardGroup
 from chips import PlayerChips
 

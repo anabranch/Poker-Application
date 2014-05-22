@@ -1,4 +1,4 @@
-from lib.card import Card
+from lib.baseclasses.generics import Card
 from lib.cardgroups import ValuedCardGroup
 
 d2 = Card(2,"Diamonds")
