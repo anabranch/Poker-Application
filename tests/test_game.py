@@ -1,5 +1,10 @@
-from lib.game import PokerGame
+from lib.hand import PokerHand
 
-class TestPokerGame:
+class TestPokerHand:
     def setUp(self):
-        pass
+        self.g = PokerHand()
+
+    def test_position_count(self):
+        print self.g.positions
+        print len(self.g.positions)
+        assert len(self.g.positions) == 12
