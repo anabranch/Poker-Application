@@ -236,8 +236,20 @@ class DeckCardGroup(BaseCardGroup):
             for card in number:
                 self.cards.append(Card(card, suit))
 
-    def shuffle(self):
-        pass
+    def _pop_card(self):
+        return self.cards.pop()
+
+    def pop_flop(self):
+        return [self._pop_card() for c in range(0,3)]
+        
+    def _pop_burn(self):
+        return self._pop_card()
+
+    def pop_turn(self):
+        return self._pop_card()
+
+    def pop_river(self):
+        return self._pop_card()
 
 class BoardCardGroup(BaseCardGroup):
     def __init__(self):
@@ -247,14 +259,14 @@ class BoardCardGroup(BaseCardGroup):
         self.cards += cards
 
     def add_turn(self, card):
-        self.cards += card
+        self.cards.append(card)
 
     def add_river(self, card):
-        self.cards += card
+        self.cards.append(card)
 
 class BurnCardGroup(BaseCardGroup):
     def __init__(self):
         super(BurnCardGroup, self).__init__([])
 
     def burn(self, card):
-        pass
+        self.cards.append(card)
