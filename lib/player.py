@@ -12,6 +12,9 @@ class Player(object):
         self.pocket = PocketCardGroup()
         self.stack = PlayerChips()
 
+    def dealpocket(self, card):
+        self.pocket.add_card(card)
+
     def buyin(self, amount):
         pass
         
