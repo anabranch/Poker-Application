@@ -2,7 +2,7 @@ from collections import Counter
 import operator
 from random import shuffle
 
-from baseclasses.basecardgroups import BaseCardGroup, StatedCardGroup
+from baseclasses.basecardgroups import BaseCardGroup
 from baseclasses.statedobject import StatedObject
 from card import Card
 from utils import longest_sequence
@@ -126,7 +126,11 @@ class ValuedCardGroup(BaseCardGroup):
 
     def _straight(self):
         card_num_dict = self._cards_by_number(add_low_ace=True)
+
         sorted_keys_num_dict = sorted(card_num_dict)
+        print self.cards
+        print sorted_keys_num_dict
+
         if len(sorted_keys_num_dict) < 5:
             return {}
         seqcount, sequence = longest_sequence(sorted_keys_num_dict)
@@ -221,10 +225,10 @@ class PocketCardGroup(BaseCardGroup):
         super(PocketCardGroup, self).__init__([])
 
 
-class DeckCardGroup(StatedCardGroup):
+class DeckCardGroup(BaseCardGroup):
     """docstring for Deck"""
     def __init__(self):
-        super(DeckCardGroup, self).__init__()
+        super(DeckCardGroup, self).__init__([])
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
         self.unshuffled_cards = []
@@ -233,16 +237,11 @@ class DeckCardGroup(StatedCardGroup):
                 self.cards.append(Card(card, suit))
 
     def shuffle(self):
-        if self.current_state == None:
-            self.unshuffled_cards = self.local_card_copy()
-            shuffle(self.cards)
-            self.state_change()
-        else:
-            print "cards already shuffled"
+        pass
 
-class BoardCardGroup(StatedCardGroup):
+class BoardCardGroup(BaseCardGroup):
     def __init__(self):
-        super(BoardCardGroup, self).__init__()
+        super(BoardCardGroup, self).__init__([])
 
     def add_flop(self, cards):
         self.cards += cards
@@ -253,9 +252,9 @@ class BoardCardGroup(StatedCardGroup):
     def add_river(self, card):
         self.cards += card
 
-class BurnCardGroup(StatedCardGroup):
+class BurnCardGroup(BaseCardGroup):
     def __init__(self):
-        super(BurnCardGroup, self).__init__()
+        super(BurnCardGroup, self).__init__([])
 
     def burn(self, card):
         pass

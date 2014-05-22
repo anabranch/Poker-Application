@@ -17,35 +17,8 @@ class TestDeck:
         self.d = DeckCardGroup()
 
     def test_length(self):
+        print self.d.cards
         assert len(self.d.cards) == 52
-
-    def test_state_changes(self):
-        assert self.d.current_state == None
-        self.d.state_change()
-        assert self.d.current_state == "pregame"
-        self.d.state_change()
-        assert self.d.current_state == "preflop"
-        self.d.state_change()
-        assert self.d.current_state == "flop"
-        self.d.state_change()
-        assert self.d.current_state == "turn"
-        self.d.state_change()
-        assert self.d.current_state == "river"
-
-    def test_shuffle(self):
-        before = self.d.local_card_copy()
-        self.d.shuffle()
-        after = self.d.local_card_copy()
-        print before
-        print after
-        assert before != after
-        self.d.shuffle()
-        assert after == self.d.cards
-        assert False
-    # def test_shuffle_and_state(self):
-    #     assert self.d.current_state == None
-    #     self.d.shuffle()
-    #     assert self.d.current_state == "pregame"
 
 class TestAddition:
     def setUp(self):
@@ -75,40 +48,7 @@ class TestAddition:
 class TestBoardCardGroup:
     def setUp(self):
         self.b = BoardCardGroup()
-
-    def test_state_changes(self):
-        assert self.b.current_state == None
-        self.b.state_change()
-        assert self.b.current_state == "pregame"
-        self.b.state_change()
-        assert self.b.current_state == "preflop"
-        self.b.state_change()
-        assert self.b.current_state == "flop"
-        self.b.state_change()
-        assert self.b.current_state == "turn"
-        self.b.state_change()
-        assert self.b.current_state == "river"
-
-    def test(self):
-        pass
         
 class TestBurnCardGroup:
     def setUp(self):
         self.b = BoardCardGroup()
-
-    def test_state_changes(self):
-        assert self.b.current_state == None
-        self.b.state_change()
-        assert self.b.current_state == "pregame"
-        self.b.state_change()
-        assert self.b.current_state == "preflop"
-        self.b.state_change()
-        assert self.b.current_state == "flop"
-        self.b.state_change()
-        assert self.b.current_state == "turn"
-        self.b.state_change()
-        assert self.b.current_state == "river"
-
-    def test(self):
-        pass
-        
