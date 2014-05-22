@@ -1,13 +1,16 @@
 from copy import copy
 
 from lib.card import Card
-from lib.cardgroups import DeckCardGroup, ValuedCardGroup, PocketCardGroup, BoardCardGroup
+from lib.cardgroups import DeckCardGroup, ValuedCardGroup, PocketCardGroup, BoardCardGroup, BurnCardGroup
 
 d2 = Card(2,"Diamonds")
 da = Card(14,"Diamonds")
 sa = Card(14,"Spades")
-s13 = Card(13,"Spades")
 d13 = Card(13,"Diamonds")
+s11 = Card(11,"Spades")
+s12 = Card(12,"Spades")
+s13 = Card(13,"Spades")
+s14 = Card(14,"Spades")
 c13 = Card(13,"Clubs")
 h13 = Card(13, "Hearts")
 d12 = Card(12,"Diamonds")
@@ -19,6 +22,63 @@ class TestDeck:
     def test_length(self):
         print self.d.cards
         assert len(self.d.cards) == 52
+
+    def test_pop_card(self):
+        c = self.d._pop_card()
+        print c
+        assert s14 == c
+        assert len(self.d.cards) == 51
+
+    def test_pop_burn(self):
+        c = self.d._pop_card()
+        print c
+        assert s14 == c
+        assert len(self.d.cards) == 51
+
+    def test_pop_flop(self):
+        c = self.d.pop_flop()
+        assert len(c) == 3
+        assert s14 in c
+        assert s13 in c
+        assert s12 in c
+        assert len(self.d.cards) == 49
+
+    def test_pop_turn(self):
+        c = self.d.pop_turn()
+        assert s14 == c
+        assert len(self.d.cards) == 51
+
+    def test_pop_river(self):
+        c = self.d.pop_river()
+        assert s14 == c
+        assert len(self.d.cards) == 51
+
+class TestBoardCardGroup:
+    def setUp(self):
+        self.b = BoardCardGroup()
+
+    def test_add_flop(self):
+        cs = [s12,s13,s14]
+        self.b.add_flop(cs)
+        assert len(self.b.cards) == 3
+
+    def test_add_turn(self):
+        cs = s14
+        self.b.add_turn(cs)
+        assert len(self.b.cards) == 1
+
+    def test_add_river(self):
+        cs = s14
+        self.b.add_river(cs)
+        assert len(self.b.cards) == 1
+        
+class TestBurnCardGroup:
+    def setUp(self):
+        self.b = BurnCardGroup()
+
+    def test_burn(self):
+        self.b.burn(s14)
+        assert len(self.b.cards) == 1
 
 class TestAddition:
     def setUp(self):
@@ -43,12 +103,3 @@ class TestAddition:
         assert h13 in hand
         assert c13 in hand
         assert da in kickers
-
-
-class TestBoardCardGroup:
-    def setUp(self):
-        self.b = BoardCardGroup()
-        
-class TestBurnCardGroup:
-    def setUp(self):
-        self.b = BoardCardGroup()
