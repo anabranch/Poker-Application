@@ -21,7 +21,7 @@ class TestPokerHand:
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         try:
-            self.g._set_players(positions)
+            self.g.set_players(positions)
             assert False
         except ValueError:
             assert True
@@ -31,7 +31,7 @@ class TestPokerHand:
         positions[2] = p1
         positions[5] = p2
         assert len(self.g.players) == 0
-        self.g._set_players(positions)
+        self.g.set_players(positions)
         assert self.g.positions[2] == p1
         assert self.g.positions[5] == p2
         assert len(self.g.players) == 2
@@ -40,21 +40,21 @@ class TestPokerHand:
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         positions[5] = p2
-        self.g._set_players(positions)
+        self.g.set_players(positions)
         assert self.g.get_player_from_position(2) == p1
 
     def test_get_position(self):
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         positions[5] = p2
-        self.g._set_players(positions)
+        self.g.set_players(positions)
         assert self.g.get_position_from_player(p1) == 2
 
     def test_blind_assignment_2(self):
         positions = dict([(x,None) for x in range(1,13)])
         positions[2] = p1
         positions[5] = p2
-        self.g._set_players(positions)
+        self.g.set_players(positions)
         self.g._blind_assignment()
         assert self.g.bigposition == self.g.buttonposition
         assert self.g.get_big_blind_player() == self.g.get_button_player()
@@ -68,7 +68,7 @@ class TestPokerHand:
         positions[3] = p3
         positions[9] = p4
         positions[7] = p5
-        self.g._set_players(positions)
+        self.g.set_players(positions)
         self.g._blind_assignment(2)
         assert self.g.buttonposition == 2
         assert self.g.smallposition == 3
@@ -76,3 +76,32 @@ class TestPokerHand:
         assert self.g.get_button_player() == p1
         assert  self.g.get_big_blind_player() == p2
         assert self.g.get_small_blind_player() == p3
+
+    def test_blind_set_1(self):
+        positions = dict([(x,None) for x in range(1,13)])
+        positions[2] = p1
+        positions[5] = p2
+        positions[3] = p3
+        positions[9] = p4
+        positions[7] = p5
+        self.g.set_players(positions)
+        self.g._blind_assignment(2)
+        self.g.set_blinds()
+        assert self.g.bigblind == 20
+        assert self.g.smallblind == 10
+
+    def test_blind_set_2(self):
+        positions = dict([(x,None) for x in range(1,13)])
+        positions[2] = p1
+        positions[5] = p2
+        positions[3] = p3
+        positions[9] = p4
+        positions[7] = p5
+        self.g.set_players(positions)
+        self.g._blind_assignment(2)
+        self.g.set_blinds(40, 20)
+        assert self.g.bigblind == 40
+        assert self.g.smallblind == 20
+
+
+

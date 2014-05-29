@@ -20,19 +20,19 @@ class PokerHand(StatedObject):
             "dealpocket",
             "pregame"
         ]
-        self.buttonposition = 0
-        self.bigposition = 0
         self.bigblind = 0
         self.smallblind = 0
+        self.buttonposition = 0
+        self.bigposition = 0
         self.smallposition = 0
         self.positions = dict([(x,None) for x in range(1,13)])
         self.players = {}
         self._deck = DeckCardGroup()
         self._board = BoardCardGroup()
         self._burn = BurnCardGroup()
-        self._pot = PotChips()
+        self._pot = PotChips() # we're going to need multiple pots that sort of belong to people
 
-    def _set_players(self, playerposdict):
+    def set_players(self, playerposdict):
         if len([player for pos, player in playerposdict.items() if player != None]) < 2:
             raise ValueError("Cannot have a PokerHand with < 2 Players")
         for pos, player in playerposdict.items():
@@ -41,7 +41,8 @@ class PokerHand(StatedObject):
                 self.positions[pos] = player
 
     def set_blinds(self, bigblind=20, smallblind=10):
-        pass
+        self.bigblind = bigblind
+        self.smallblind = smallblind
         
     def get_small_blind_player(self):
         return self.get_player_from_position(self.smallposition)
@@ -92,8 +93,6 @@ class PokerHand(StatedObject):
                     self.bigposition = temp
                     break
 
-    def _player_stack_check(self):
-        pass
 
     def pregame_check(self):
         pass
