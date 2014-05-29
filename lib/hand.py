@@ -1,6 +1,6 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
-from chips import PotChips
+from chips import PotChips, CommittedPotChips
 from random import choice
 
 class PokerHand(StatedObject):
@@ -30,7 +30,9 @@ class PokerHand(StatedObject):
         self._deck = DeckCardGroup()
         self._board = BoardCardGroup()
         self._burn = BurnCardGroup()
-        self._pot = PotChips() # we're going to need multiple pots that sort of belong to people
+        self._livepot = PotChips()
+        self._currentcommittedpot = CommittedPotChips()
+        self.committedpots = []
 
     def set_players(self, playerposdict):
         if len([player for pos, player in playerposdict.items() if player != None]) < 2:
