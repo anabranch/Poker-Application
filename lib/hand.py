@@ -34,18 +34,6 @@ class PokerHand(StatedObject):
         self._currentcommittedpot = CommittedPotChips()
         self.committedpots = []
 
-    def set_players(self, playerposdict):
-        if len([player for pos, player in playerposdict.items() if player != None]) < 2:
-            raise ValueError("Cannot have a PokerHand with < 2 Players")
-        for pos, player in playerposdict.items():
-            if player:
-                self.players[player] = pos
-                self.positions[pos] = player
-
-    def set_blinds(self, bigblind=20, smallblind=10):
-        self.bigblind = bigblind
-        self.smallblind = smallblind
-        
     def get_small_blind_player(self):
         return self.get_player_from_position(self.smallposition)
 
@@ -61,6 +49,18 @@ class PokerHand(StatedObject):
     def get_player_from_position(self, position):
         return self.positions[position]
 
+    def set_players(self, playerposdict):
+        if len([player for pos, player in playerposdict.items() if player != None]) < 2:
+            raise ValueError("Cannot have a PokerHand with < 2 Players")
+        for pos, player in playerposdict.items():
+            if player:
+                self.players[player] = pos
+                self.positions[pos] = player
+
+    def set_blinds(self, bigblind=20, smallblind=10):
+        self.bigblind = bigblind
+        self.smallblind = smallblind
+        
     def _blind_assignment(self, buttonposition=0):
         # this could be a lot easier if we kept track of occupied positions
         if not buttonposition:
@@ -98,6 +98,8 @@ class PokerHand(StatedObject):
 
     def pregame_check(self):
         pass
+
+    # should we do an amount check so that you have to have enough for the big blind?
 
     def postgame_check(self):
         pass
