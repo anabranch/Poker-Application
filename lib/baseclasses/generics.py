@@ -119,3 +119,78 @@ class Player(object):
 
     def __repr__(self):
         return str(self)
+
+class Table(StatedObject):
+    """docstring for Table"""
+    def __init__(self):
+        super(Table, self).__init__()
+        self.states = ["game"]
+        # position dictionary, this is master
+        self.positions = dict([(x,None) for x in range(1,13)])
+        # helper lists
+        self.occupiedseats = []
+        self.activeseats = []
+        # position helpers
+        self.dealerposition = 0
+        self.currentactor = 0
+
+
+    def sit(self, seatnumber, player):
+        if not self.positions[seatnumber]:
+            self.positions[seatnumber] = player
+            self.occupiedseats.append(seatnumber)
+            self.activate_seat(seatnumber)
+
+    def getup(self, seatnumber):
+        self.positions[seatnumber] = None
+        self.occupiedseats.remove(seatnumber)
+        self.deactivate_seat(seatnumber)
+
+    def activate_seat(self, seatnumber):
+        if self.currentstate != "game":
+            self.activeseats.append(seatnumber)
+
+    def deactivate_seat(self, seatnumber):
+        self.activeseats.remove(seatnumber)
+
+    def set_actor_to_dealer(self):
+        self.currentactor = self.dealerposition
+
+    def get_actor_as_player(self):
+        return self.positions[self.currentactor]
+
+    def get_actor_as_seat(self):
+        return self.currentactor
+
+    def next_active_seat(self, position=0):
+        if len(self.activeseats) == 0 or self.dealerposition == 0:
+            return # verified that there are people at the table
+
+        if not self.currentactor: #no previous position
+            self.currentactor = self.dealerposition
+            if self.currentactor in self.activeseats:
+                return self.currentactor
+        
+        if not position:
+            position = self.currentactor
+
+        if position == 12:
+            position = 0
+
+        position += 1
+        while True:
+            if position in self.activeseats:
+                self.currentactor = position
+                return self.currentactor
+            else:
+                position += 1
+                if position == 12:
+                    position = 0
+
+    def set_button(self, button=0):
+        if not button:
+            self.dealerposition = choice(self.positions.keys())
+        else:
+            if button in self.activeseats:
+                self.dealerposition = button
+                self.set_actor_to_dealer()
