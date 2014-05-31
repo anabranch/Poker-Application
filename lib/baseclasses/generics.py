@@ -128,61 +128,52 @@ class Table(StatedObject):
         # position dictionary, this is master
         self.seat_count = 12
 
-        
-        self.positions = dict([(x,None) for x in range(1,13)])
-        # helper lists
-        self.activeplayers = []
-        self.occupiedseats = []
-        self.activeseats = []
+        # Active dictionarys
+        self.active = {}
+        self.passive = {}
+
         # position helpers
         self.dealerposition = 0
         self.currentactor = 0
 
+        #clean up helpers
+        leaving_at_end_of_hand = []
+
 
     def sit(self, seatnumber, player):
-        if not self.positions[seatnumber]:
-            self.positions[seatnumber] = player
-            self.occupiedseats.append(seatnumber)
-            self.activate_seat(seatnumber)
-            self.activate_player(player)
+        if self.currentstate == "Game":
+            if seatnumber not in self.passive.keys() and player not in self.passive.values():
+                self.passive[seatnumber] = player
+        else:
+            if seatnumber not in self.active.keys() and player not in self.active.values():
+                self.active[seatnumber] = player
+                self.passive[seatnumber] = player
+
+    def leave_hand(self, seatnumber):
+        leaving_at_end_of_hand.append(seatnumber)
+
 
     def getup(self, seatnumber):
-        player = self.positions[seatnumber]
-        self.positions[seatnumber] = None
-        self.occupiedseats.remove(seatnumber)
-        self.deactivate_seat(seatnumber)
-        self.deactivate_player(player)
-
-    def activate_player(self, player):
-        if self.currentstate != "game":
-            self.activeplayers.append(player)
-
-    def deactivate_player(self, player):
-        self.activeplayers.remove(player)
-
-    def activate_seat(self, seatnumber):
-        if self.currentstate != "game":
-            self.activeseats.append(seatnumber)
-
-    def deactivate_seat(self, seatnumber):
-        self.activeseats.remove(seatnumber)
+        if seatnumber in self.active:
+            del(self.active[seatnumber])
+        del(self.passive[seatnumber])
 
     def set_actor_to_dealer(self):
         self.currentactor = self.dealerposition
 
     def get_actor_as_player(self):
-        return self.positions[self.currentactor]
+        return self.active[self.currentactor]
 
     def get_actor_as_seat(self):
         return self.currentactor
 
     def next_active_seat(self, position=0):
-        if len(self.activeseats) == 0 or self.dealerposition == 0:
+        if len(self.active) == 0 or self.dealerposition == 0:
             return # verified that there are people at the table
 
         if not self.currentactor: #no previous position
             self.currentactor = self.dealerposition
-            if self.currentactor in self.activeseats:
+            if self.currentactor in self.active:
                 return self.currentactor
         
         if not position:
@@ -193,7 +184,7 @@ class Table(StatedObject):
 
         position += 1
         while True:
-            if position in self.activeseats:
+            if position in self.active:
                 self.currentactor = position
                 return self.currentactor
             else:
@@ -202,11 +193,11 @@ class Table(StatedObject):
                     position = 0
 
     def next_active_player(self, position=0):
-        return self.positions[self.next_active_seat(position)]
+        return self.active[self.next_active_seat(position)]
 
     def set_button(self, button=0):
         if not button:
-            self.dealerposition = choice(self.positions.keys())
+            self.dealerposition = choice(self.active.keys())
         else:
             if button in self.activeseats:
                 self.dealerposition = button
