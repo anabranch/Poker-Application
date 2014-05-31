@@ -141,10 +141,10 @@ class Table(object):
         # position helpers
         self.dealerposition = 0
         self.currentactor = 0
+        self.lastactor = 0
 
         #clean up helpers
         leaving_at_end_of_hand = []
-
 
     def add_player(self, seatnumber, player):
         if seatnumber > self.seat_count:
@@ -161,11 +161,13 @@ class Table(object):
         if player in active_players.keys():
             self.remove_by_seat(active_players[player])
 
+
     def set_actor(self, position=0):
         if not position:
             self.currentactor = self.dealerposition
         else:
             self.currentactor = position
+
 
     def get_actor_as_player(self):
         return self.active[self.currentactor]

@@ -49,5 +49,5 @@ class TestPokerHand:
         self.hand.pregame(4)
         self.hand.deal_pocket()
         print self.hand.hand_status()
-        assert False
+        assert self.hand.action() == True
 

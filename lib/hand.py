@@ -41,6 +41,7 @@ class PokerHand(StatedObject):
         self.callamount = 0
 
         #Pots
+        # there needs to be a pot manager to see if we need to split a pot or something, just not there yet
         self.mainpot = PotChips()
         self.sides = []
 
@@ -73,18 +74,25 @@ class PokerHand(StatedObject):
         self.currentactions.remove("check")
         self.state_change()
 
-    def action(self, details):
-        actiontype = details['type']
-        player = details['player']
-        amount = details['amount']
-        if actiontype == 'Fold':
-            pass
-        elif actiontype == 'Call':
-            pass
-        elif actiontype == 'Bet':
-            pass
-        elif actiontype == "Check":
-            pass
+    def action(self, details={}):
+        success = False
+        if details:
+            actiontype = details['type']
+            player = details['player']
+            amount = details['amount']
+            if actiontype == 'Fold':
+                pass
+            elif actiontype == 'Call':
+                pass
+            elif actiontype == 'Bet':
+                pass
+            elif actiontype == "Check":
+                pass
+
+        if success:
+            self.table.next_active_player()
+            return True
+        return False
 
 
     def hand_status(self):
@@ -93,5 +101,9 @@ class PokerHand(StatedObject):
             "table": self.table.as_dict(),
             "actor": self.table.get_actor_as_player().as_dict(),
             "actions": self.currentactions,
+            "min_bet":self.minbet,
+            "call_amount": self.callamount,
+            "main_pot": self.mainpot.as_dict(),
+            "side_pots": self.sides,
             "state": self.currentstate
         }
