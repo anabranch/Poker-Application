@@ -1,7 +1,6 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from betting import BettingController
-from copy import copy
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""
@@ -59,30 +58,35 @@ class PokerHand(StatedObject):
         self.table.next_active_player()
         self.state_change()
 
-    # def action(self, details):
-    #     actiontype = details['type']
-    #     seat = details['seat']
-    #     amount = details['amount']
-    #     success = False
-    #     #first check that it's the current actors turn
-    #     if seat != self.table.get_actor_as_seat():
-    #         return False
-        
-    #     if actiontype == 'fold':
-    #         self.table.remove_by_seat(seat)
-    #         success = True
-    #     elif actiontype == 'call':
-    #         pass
-    #     elif actiontype == 'bet':
-    #         self.bet(amount)
-    #         success = True #need to make sure we're not pulling too much
-    #     elif actiontype == "check":
-    #         pass
+    def action(self, details):
+        action = details['action']
+        seat = details['seat']
+        amount = details['amount']
+        success = False
+        if seat != self.table.get_actor_as_seat():
+            return False
+        if action not in self.bet.get_actions():
+            return False
+        print self.bet.raiseposition
+        print seat
 
-    #     if success:
-    #         self.table.next_active_player()
-    #         return True
-    #     return False
+        if action == "fold":
+            if self.bet.fold():
+                return True
+
+        elif action == "call":
+            if self.bet.call(amount):
+                return True
+
+        elif action == "check":
+            if self.bet.check():
+                return True
+
+        elif action == "bet":
+            if self.bet.bet(amount):
+                return True
+
+        return False
 
 
     def hand_status(self):

@@ -155,10 +155,11 @@ class Table(object):
 
     def remove_by_player(self, player):
         active_players = {v:k for k,v in self.active.items()}
-        print active_players
         if player in active_players.keys():
             self.remove_by_seat(active_players[player])
 
+    def active_players_list(self):
+        return self.active.values()
 
     def set_actor(self, position=0):
         if not position:
