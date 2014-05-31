@@ -1,7 +1,7 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from pots import PotController
-from random import choice
+
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""

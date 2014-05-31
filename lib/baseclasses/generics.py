@@ -100,8 +100,22 @@ class StatedObject(object):
     def __init__(self):
         super(StatedObject, self).__init__()
         self.states = []
-        self.current_state = None
+        self.currentstate = None
 
     def state_change(self):
         after = self.states.pop()
-        self.current_state = after
+        self.currentstate = after
+
+class Player(object):
+    """docstring for Player"""
+    def __init__(self, uniqueid=0, name=None):
+        super(Player, self).__init__()
+        # States are Initiated, dealing cards, in_game
+        self.name = name
+        self.uniqueid = uniqueid
+
+    def __str__(self):
+        return "%i -- %s" % (self.uniqueid, self.name)
+
+    def __repr__(self):
+        return str(self)
