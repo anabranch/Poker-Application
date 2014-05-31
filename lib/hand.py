@@ -1,6 +1,5 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
-from chips import PotChips, CommittedPotChips
 from random import choice
 
 class PokerHand(StatedObject):
@@ -20,19 +19,21 @@ class PokerHand(StatedObject):
             "dealpocket",
             "pregame"
         ]
+        # Blind Information
         self.bigblind = 0
         self.smallblind = 0
         self.buttonposition = 0
         self.bigposition = 0
         self.smallposition = 0
+
+        # Players/Seats
         self.positions = dict([(x,None) for x in range(1,13)])
         self.players = {}
-        self._deck = DeckCardGroup()
-        self._board = BoardCardGroup()
-        self._burn = BurnCardGroup()
-        self._livepot = PotChips()
-        self._currentcommittedpot = CommittedPotChips()
-        self.committedpots = []
+
+        # Cards
+        self.deck = DeckCardGroup()
+        self.board = BoardCardGroup()
+        self.burn = BurnCardGroup()
 
     def get_small_blind_player(self):
         return self.get_player_from_position(self.smallposition)
@@ -95,13 +96,7 @@ class PokerHand(StatedObject):
                     self.bigposition = temp
                     break
 
-
-    def pregame_check(self):
-        pass
-
-    # should we do an amount check so that you have to have enough for the big blind?
-
-    def postgame_check(self):
+    def betting_round(self):
         pass
 
     def state_change(self):

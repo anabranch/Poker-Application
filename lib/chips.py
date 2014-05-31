@@ -10,11 +10,5 @@ class PotChips(Chips):
     """docstring for PotChips"""
     def __init__(self):
         super(PotChips, self).__init__()
-
-
-class CommittedPotChips(Chips):
-    """docstring for CommittedPotChips"""
-    def __init__(self):
-        super(CommittedPotChips, self).__init__()
         self.involvedplayers = []
-        
+

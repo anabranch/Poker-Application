@@ -11,13 +11,13 @@ class TestPlayer:
     def test_name(self):
         assert self.p.name == "Bill"
 
-    def test_identifier(self):
-        assert self.p.identifier == 1234
+    def test_uniqueid(self):
+        assert self.p.uniqueid == 1234
 
     def test_pocket(self):
-        self.p.dealpocket(d2)
+        self.p.deal_pocket_card(d2)
         assert len(self.p.pocket.cards) == 1
         assert self.p.pocket.cards == [d2]
-        self.p.dealpocket(da)
+        self.p.deal_pocket_card(da)
         assert len(self.p.pocket.cards) == 2
         assert self.p.pocket.cards == [d2, da]
