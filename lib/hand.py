@@ -1,5 +1,6 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
+from pots import PotController
 from random import choice
 
 class PokerHand(StatedObject):
@@ -34,6 +35,9 @@ class PokerHand(StatedObject):
         self.deck = DeckCardGroup()
         self.board = BoardCardGroup()
         self.burn = BurnCardGroup()
+
+        # Pot Controller
+        self.pot = PotController()
 
     def get_small_blind_player(self):
         return self.get_player_from_position(self.smallposition)
