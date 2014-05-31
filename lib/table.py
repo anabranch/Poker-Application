@@ -1,6 +1,5 @@
 from baseclasses.generics import Table
 
-
 class PokerHandTable(Table):
     """docstring for PokerHandTable"""
     def __init__(self):
@@ -19,5 +18,5 @@ class PokerHandTable(Table):
             "big": self.bigposition,
             "button": self.dealerposition,
             "current_actor": self.currentactor,
-            "active_players": [(s, p.as_dict()) for s, p in self.active.items()]
+            "active_players": dict([(s, p.as_dict()) for s, p in self.active.items()])
         }

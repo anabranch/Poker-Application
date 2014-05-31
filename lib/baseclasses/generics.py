@@ -143,7 +143,6 @@ class Table(object):
         # position helpers
         self.dealerposition = 0
         self.currentactor = 0
-        self.lastactor = 0
 
     def add_player(self, seatnumber, player):
         if seatnumber > self.seat_count:

@@ -29,10 +29,9 @@ class TestPokerHand:
     def test_pregame(self):
         assert self.hand.currentstate == None
         self.hand.pregame(4)
-        print self.hand.bigblind
-        assert self.hand.bigblind == 20
-        assert self.hand.smallblind == 10
-        assert self.hand.minbet == 20
+        assert self.hand.bet.bigblind == 20
+        assert self.hand.bet.smallblind == 10
+        assert self.hand.bet.minraise == 20
         assert self.hand.table.smallposition == 5
         assert self.hand.table.bigposition == 6
         assert self.hand.table.dealerposition == 4
@@ -59,6 +58,7 @@ class TestPokerHand:
     def test_preflop_betting(self):
         self.hand.pregame(4)
         self.hand.deal_pocket()
+        pretty(self.hand.hand_status())
         assert self.hand.action({ # 10 folds
             "type":"fold",
             "amount":0,
@@ -71,6 +71,5 @@ class TestPokerHand:
             "amount": 60,
             "seat": 2
             }) == True
-        pretty(self.hand.hand_status())
         assert False
 
