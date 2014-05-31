@@ -1,12 +1,9 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
-from pots import PotController
-from tables import PokerHandTable
-
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""
-    def __init__(self, pokertable):
+    def __init__(self, pokertable, bettingcontrol):
         super(PokerHand, self).__init__()
         self.states = [
             "postgame",
@@ -28,7 +25,7 @@ class PokerHand(StatedObject):
         self.burn = BurnCardGroup()
 
         # Pot Controller
-        self.pot = PotController()
+        self.bet = bettingcontrol
 
         # Table
         self.table = pokertable
@@ -38,10 +35,12 @@ class PokerHand(StatedObject):
             "board":self.board.as_json(),
             "pot": self.pot.as_json(),
             "table": self.table.as_json(),
+            "actor": {
+                "player":self.table.get_actor_as_player().to_json(),
+                "actions":self.bettingcontrol.to_json()
+            },
             "state": self.currentstate
         }
-
-    # def preflop(self):
 
 
 

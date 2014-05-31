@@ -126,8 +126,12 @@ class Table(StatedObject):
         super(Table, self).__init__()
         self.states = ["game"]
         # position dictionary, this is master
+        self.seat_count = 12
+
+        
         self.positions = dict([(x,None) for x in range(1,13)])
         # helper lists
+        self.activeplayers = []
         self.occupiedseats = []
         self.activeseats = []
         # position helpers
@@ -140,11 +144,21 @@ class Table(StatedObject):
             self.positions[seatnumber] = player
             self.occupiedseats.append(seatnumber)
             self.activate_seat(seatnumber)
+            self.activate_player(player)
 
     def getup(self, seatnumber):
+        player = self.positions[seatnumber]
         self.positions[seatnumber] = None
         self.occupiedseats.remove(seatnumber)
         self.deactivate_seat(seatnumber)
+        self.deactivate_player(player)
+
+    def activate_player(self, player):
+        if self.currentstate != "game":
+            self.activeplayers.append(player)
+
+    def deactivate_player(self, player):
+        self.activeplayers.remove(player)
 
     def activate_seat(self, seatnumber):
         if self.currentstate != "game":
@@ -186,6 +200,9 @@ class Table(StatedObject):
                 position += 1
                 if position == 12:
                     position = 0
+
+    def next_active_player(self, position=0):
+        return self.positions[self.next_active_seat(position)]
 
     def set_button(self, button=0):
         if not button:

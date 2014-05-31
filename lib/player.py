@@ -11,6 +11,6 @@ class PokerPlayer(Player):
         
     def deal_pocket_card(self, card):
         self.pocket.add_card(card)
-
+        
     def buyin(self, amount):
         pass
