@@ -216,7 +216,6 @@ class ValuedCardGroup(BaseCardGroup):
         vals = [numcarddict[val] for val in seqfinal]
         return {"hand":vals}
 
-
 class PocketCardGroup(BaseCardGroup):
     """docstring for PocketCardGroup"""
     def __init__(self):
@@ -229,16 +228,21 @@ class DeckCardGroup(BaseCardGroup):
         super(DeckCardGroup, self).__init__([])
         suits = ["Diamonds","Clubs","Hearts","Spades"]
         number = range(2,15)
-        self.unshuffled_cards = []
         for suit in suits:
             for card in number:
                 self.add_card(Card(card, suit))
 
+    def shuffle(self):
+        shuffle(self.cards)
+        
     def _pop_card(self):
         return self.cards.pop()
 
     def pop_flop(self):
         return [self._pop_card() for c in range(0,3)]
+
+    def pop_pocket(self):
+        return self.cards.pop()
         
     def _pop_burn(self):
         return self._pop_card()

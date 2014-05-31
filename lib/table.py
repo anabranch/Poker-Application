@@ -1,5 +1,5 @@
 from baseclasses.generics import Table
-from random import choice
+
 
 class PokerHandTable(Table):
     """docstring for PokerHandTable"""
@@ -10,5 +10,13 @@ class PokerHandTable(Table):
 
     def assign_blinds(self):
         self.smallposition = self.next_active_seat()
-        self.bigposition = self.next_active_seat()        
-        self.set_actor_to_dealer()
+        self.bigposition = self.next_active_seat()
+        self.next_active_seat()       
+
+    def as_dict(self):
+        return {
+            "small": self.smallposition,
+            "big": self.bigposition,
+            "button": self.dealerposition,
+            "current_actor": self.currentactor,
+        }

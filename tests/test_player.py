@@ -1,9 +1,11 @@
 # from lib.player import Player
-# from lib.baseclasses.generics import Card
 
-# d2 = Card(2,"Diamonds")
-# d3 = Card(3,"Diamonds")
-# da = Card(14,"Diamonds")
+# # from lib.baseclasses.generics import Card
+
+# # d2 = Card(2,"Diamonds")
+# # d3 = Card(3,"Diamonds")
+# # da = Card(14,"Diamonds")
+
 # class TestPlayer:
 #     def setUp(self):
 #         self.p = Player(1234, "Bill")

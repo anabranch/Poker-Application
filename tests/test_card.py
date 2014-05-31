@@ -9,6 +9,12 @@ class TestCard(object):
         assert self.da.is_ace == True
         assert self.d2.is_ace == False
 
+    def test_as_tuple(self):
+        assert (2,0,"Diamonds") == self.d2.as_tuple()
+
+    def test_as_dict(self):
+        assert {"number":2,"suit_rank":0,"suit":"Diamonds"} == self.d2.as_dict()
+
     def test_wrong_number(self):
         try:
             Card(15, "Spades")

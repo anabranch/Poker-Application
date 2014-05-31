@@ -61,6 +61,12 @@ class TestDeck:
         except ValueError:
             assert True
 
+    def test_shuffles(self):
+        x = self.d.local_card_copy()
+        self.d.shuffle()
+        assert x[0] != self.d.cards[0]
+
+
 class TestBoardCardGroup:
     def setUp(self):
         self.b = BoardCardGroup()

@@ -1,5 +1,6 @@
 # Standard Imports
 from copy import copy
+from random import choice
 
 class CommonEqualityMixin(object):
     def __eq__(self, other):
@@ -42,6 +43,9 @@ class BaseCardGroup(CommonEqualityMixin):
 
     def local_card_copy(self):
         return [copy(card) for card in self.cards]
+
+    def as_dict(self):
+        return [card.as_dict() for card in self.cards]
         
 class Card(CommonEqualityMixin):
     """docstring for Card"""
@@ -74,26 +78,31 @@ class Card(CommonEqualityMixin):
 
     def as_dict(self):
         return {
-            "Number":self.number,
-            "Suit Rank":self.suit_rank,
-            "Suit": self.suit
+            "number":self.number,
+            "suit_rank":self.suit_rank,
+            "suit": self.suit
                 }
 
 class Chips(object):
     """docstring for Chips"""
     def __init__(self):
         super(Chips, self).__init__()
-        self._stack = 0
+        self.stack = 0
 
     def set_stack(self, amount):
-        self._stack = amount
+        self.stack = amount
 
-    def add_to(self, amount):
-        self._stack += amount
+    def add(self, amount):
+        self.stack += amount
 
-    def remove_from(self, amount):
+    def remove(self, amount):
         # add error
-        self._stack -= amount
+        self.stack -= amount
+
+    def as_dict(self):
+        return {
+            "stack": self.stack
+        }
 
 class StatedObject(object):
     """docstring for StatedObject"""
@@ -108,29 +117,26 @@ class StatedObject(object):
 
 class Player(object):
     """docstring for Player"""
-    def __init__(self, uniqueid=0, name=None):
+    def __init__(self, pk=0, name=None):
         super(Player, self).__init__()
         # States are Initiated, dealing cards, in_game
         self.name = name
-        self.uniqueid = uniqueid
+        self.pk = pk
 
     def __str__(self):
-        return "%i -- %s" % (self.uniqueid, self.name)
+        return "%i -- %s" % (self.pk, self.name)
 
     def __repr__(self):
         return str(self)
 
-class Table(StatedObject):
+class Table(object):
     """docstring for Table"""
     def __init__(self):
         super(Table, self).__init__()
-        self.states = ["game"]
-        # position dictionary, this is master
         self.seat_count = 12
 
         # Active dictionarys
         self.active = {}
-        self.passive = {}
 
         # position helpers
         self.dealerposition = 0
@@ -140,26 +146,26 @@ class Table(StatedObject):
         leaving_at_end_of_hand = []
 
 
-    def sit(self, seatnumber, player):
-        if self.currentstate == "Game":
-            if seatnumber not in self.passive.keys() and player not in self.passive.values():
-                self.passive[seatnumber] = player
-        else:
-            if seatnumber not in self.active.keys() and player not in self.active.values():
-                self.active[seatnumber] = player
-                self.passive[seatnumber] = player
+    def add_player(self, seatnumber, player):
+        if seatnumber > self.seat_count:
+            raise ValueError("Seat Number too High")
+        self.active[seatnumber] = player
 
-    def leave_hand(self, seatnumber):
-        leaving_at_end_of_hand.append(seatnumber)
-
-
-    def getup(self, seatnumber):
+    def remove_by_seat(self, seatnumber):
         if seatnumber in self.active:
             del(self.active[seatnumber])
-        del(self.passive[seatnumber])
 
-    def set_actor_to_dealer(self):
-        self.currentactor = self.dealerposition
+    def remove_player(self, player):
+        active_players = {v:k for k,v in self.active.items()}
+        print active_players
+        if player in active_players.keys():
+            self.remove_by_seat(active_players[player])
+
+    def set_actor(self, position=0):
+        if not position:
+            self.currentactor = self.dealerposition
+        else:
+            self.currentactor = position
 
     def get_actor_as_player(self):
         return self.active[self.currentactor]
@@ -199,6 +205,6 @@ class Table(StatedObject):
         if not button:
             self.dealerposition = choice(self.active.keys())
         else:
-            if button in self.activeseats:
+            if button in self.active:
                 self.dealerposition = button
-                self.set_actor_to_dealer()
+                self.set_actor()
