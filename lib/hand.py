@@ -1,6 +1,7 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from chips import PotChips
+from copy import copy
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""
@@ -28,7 +29,7 @@ class PokerHand(StatedObject):
         self.burn = BurnCardGroup()
 
         # action Controls
-        self.defaultactions = ["Check", "Fold", "Bet", "Call"]
+        self.defaultactions = ["check", "fold", "bet", "call"]
         self.currentactions = []
 
         # Static Pot Controls
@@ -57,7 +58,6 @@ class PokerHand(StatedObject):
         self.callamount = bigblind
         self.table.set_button(dealerposition)
         self.table.assign_blinds()
-
         self.deck.shuffle()
         self.table.set_actor(self.table.smallposition)
         self.state_change()
@@ -69,6 +69,8 @@ class PokerHand(StatedObject):
             self.table.next_active_player()
         self.table.set_actor(self.table.bigposition)
         self.table.next_active_player()
+        self.currentactions = copy(self.defaultactions)
+        self.currentactions.remove("check")
         self.state_change()
 
     def action(self, details):
@@ -89,7 +91,7 @@ class PokerHand(StatedObject):
         return {
             "board":self.board.as_dict(),
             "table": self.table.as_dict(),
-            "actor": self.get_actor_as_player().as_dict(),
+            "actor": self.table.get_actor_as_player().as_dict(),
             "actions": self.currentactions,
             "state": self.currentstate
         }

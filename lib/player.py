@@ -20,5 +20,4 @@ class PokerPlayer(Player):
         return {
             "name":self.name,
             "stack":self.stack.as_dict(),
-            "pocket": self.pocket.as_dict()
         }
