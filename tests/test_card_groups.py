@@ -64,6 +64,8 @@ class TestDeck:
     def test_shuffles(self):
         x = self.d.local_card_copy()
         self.d.shuffle()
+        print x
+        print self.d.cards
         assert x[0] != self.d.cards[0]
 
 

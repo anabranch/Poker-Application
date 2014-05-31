@@ -11,7 +11,7 @@ class PokerHandTable(Table):
     def assign_blinds(self):
         self.smallposition = self.next_active_seat()
         self.bigposition = self.next_active_seat()
-        self.next_active_seat()       
+        self.set_actor(self.smallposition)
 
     def as_dict(self):
         return {
@@ -19,4 +19,5 @@ class PokerHandTable(Table):
             "big": self.bigposition,
             "button": self.dealerposition,
             "current_actor": self.currentactor,
+            "active_players": [(s, p.as_dict()) for s, p in self.active.items()]
         }

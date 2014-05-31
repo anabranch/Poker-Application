@@ -22,7 +22,7 @@ class TestTable:
         assert len(self.table.active) == 0
 
     def test_remove_2(self):
-        self.table.remove_player("x")
+        self.table.remove_by_player("x")
         assert len(self.table.active) == 0
 
     def test_set_button_and_more(self):

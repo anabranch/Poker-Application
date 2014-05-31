@@ -96,7 +96,8 @@ class Chips(object):
         self.stack += amount
 
     def remove(self, amount):
-        # add error
+        if amount > self.stack:
+            raise ValueError("Too much to remove from stack")
         self.stack -= amount
 
     def as_dict(self):
@@ -122,6 +123,7 @@ class Player(object):
         # States are Initiated, dealing cards, in_game
         self.name = name
         self.pk = pk
+        self.total_chip_count = 0
 
     def __str__(self):
         return "%i -- %s" % (self.pk, self.name)
@@ -143,9 +145,6 @@ class Table(object):
         self.currentactor = 0
         self.lastactor = 0
 
-        #clean up helpers
-        leaving_at_end_of_hand = []
-
     def add_player(self, seatnumber, player):
         if seatnumber > self.seat_count:
             raise ValueError("Seat Number too High")
@@ -155,7 +154,7 @@ class Table(object):
         if seatnumber in self.active:
             del(self.active[seatnumber])
 
-    def remove_player(self, player):
+    def remove_by_player(self, player):
         active_players = {v:k for k,v in self.active.items()}
         print active_players
         if player in active_players.keys():
