@@ -19,6 +19,12 @@ class PokerHand(StatedObject):
             "dealpocket",
             "pregame"
         ]
+        self.bettingstates = [
+            "riverbetting",
+            "turnbetting",
+            "flopbetting",
+            "preflopbetting"
+        ]
 
         self.pk = handid
 
@@ -58,42 +64,61 @@ class PokerHand(StatedObject):
         self.table.next_active_player()
         self.state_change()
 
+    def reset_after_betting(self):
+        self.state_change()
+        self.bet.reset_after_betting()
+        self.table.set_actor()
+        self.table.next_active_player()
+
     def action(self, details):
+        if self.currentstate not in self.bettingstates:
+            return False
+
         action = details['action']
         seat = details['seat']
         amount = details['amount']
         success = False
         if seat != self.table.get_actor_as_seat():
-            return False
+            return success
         if action not in self.bet.get_actions():
-            return False
-        print self.bet.raiseposition
-        print seat
+            return success
 
         if action == "fold":
             if self.bet.fold():
-                return True
+                success = True
 
         elif action == "call":
             if self.bet.call(amount):
-                return True
+                success = True
 
         elif action == "check":
             if self.bet.check():
-                return True
+                success = True
 
         elif action == "bet":
             if self.bet.bet(amount):
-                return True
+                success = True
 
-        return False
+        if self.table.get_actor_as_seat() == self.bet.raiseposition:
+            self.reset_after_betting()
+
+        # if no one in the game, go to showdown
+        return success
 
 
     def hand_status(self):
+        if self.currentstate not in self.bettingstates:
+            return {
+                "board":self.board.as_dict(),
+                "table": self.table.as_dict(),
+                "actor": None,
+                "bet":self.bet.as_dict(False),
+                "state": self.currentstate
+            }
         return {
             "board":self.board.as_dict(),
             "table": self.table.as_dict(),
             "actor": self.table.get_actor_as_player().as_dict(),
-            "bet_controller":self.bet.as_dict(),
+            "bet":self.bet.as_dict(),
             "state": self.currentstate
         }

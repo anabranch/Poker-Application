@@ -26,6 +26,19 @@ class BettingController(object):
         self.bigblind = bigblind
         self.smallblind = smallblind
 
+    def reset_after_betting(self):
+        self.minraise = self.bigblind
+        self.raiseplayer = None
+        self.raiseposition = 0
+        self.pot.commitrequirement = 0
+
+    def get_bet_delta(self):
+        temp = self.pot.commitrequirement - \
+        self.pot.player_commit_amounts[self.table.get_actor_as_player()]
+        if temp < 0:
+            temp = 0
+        return temp
+
     def bet(self, amount):
         p = self.table.get_actor_as_player()
         pos = self.table.get_actor_as_seat()
@@ -46,9 +59,9 @@ class BettingController(object):
         self.table.next_active_player()
         return True
 
-    def call(self, amount):        
+    def call(self, amount):
+        # need to enforce some amount thing here....
         self.bet(amount)
-        self.table.next_active_player()
         return True
 
     def check(self):
@@ -69,13 +82,25 @@ class BettingController(object):
         return actions
 
 
-    def as_dict(self):
+    def as_dict(self, betting_state=True):
+        if betting_state:
+            return {
+                "big_blind_amount": self.bigblind,
+                "small_blind_amount": self.smallblind,
+                "min_raise": self.minraise,
+                "raise_player": self.raiseplayer.as_dict(),
+                "raise_position":self.raiseposition,
+                "pot": self.pot.as_dict(),
+                "bet_delta": self.get_bet_delta(),
+                "actions":self.get_actions()
+            }
         return {
             "big_blind_amount": self.bigblind,
             "small_blind_amount": self.smallblind,
             "min_raise": self.minraise,
-            "raise_player": self.raiseplayer.as_dict(),
-            "raise_position":self.raiseposition,
+            "raise_player": {},
+            "raise_position": self.raiseposition,
             "pot": self.pot.as_dict(),
-            "actions":self.get_actions()
+            "bet_delta": self.get_bet_delta(),
+            "actions":[]
         }
