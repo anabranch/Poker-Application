@@ -6,7 +6,7 @@ def longest_sequence(ls):
     sequences = []
     current_sequence = []
     for location, num in enumerate(sorted(ls)):
-        if location +1 >= len(ls):
+        if location + 1 >= len(ls):
             break
         next_location = location + 1
         next_num = ls[next_location]
@@ -18,6 +18,7 @@ def longest_sequence(ls):
         else:
             sequences.append((len(current_sequence), current_sequence))
             current_sequence = []
+    sequences.append((len(current_sequence), current_sequence))
     if max(sequences)[0] == 0:
         return (len(current_sequence), current_sequence)
     return max(sequences)
