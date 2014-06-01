@@ -42,345 +42,2168 @@ d5 = Card(5, "Diamonds")
 
 
 
-class TestRanker:
+class TestRankerNoHand:
     def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
         self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
         self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
         self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
         self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
-        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
         self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
         self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
 
-    def test_two_kind_1(self):
-        result = get_two_kind(self.hand_is_two_two_kind_1)
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_no_hand(self):
+        result = get_no_hand(self.no_hand_1)
+        kickers = get_kickers(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
         assert result["s_or_sf_high_card"] == None
         assert result["three_kind_value"] == None
         assert result["four_kind_value"] == None
-        assert result["two_kind_value"] != None
+        assert result["two_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
-        #real stuff
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_2(self):
+        result = get_no_hand(self.hand_is_pair_1)
+        kickers = get_kickers(self.hand_is_pair_1)
+        print self.hand_is_pair_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_3(self):
+        result = get_no_hand(self.hand_is_pair_2)
+        kickers = get_kickers(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_4(self):
+        result = get_no_hand(self.hand_is_two_two_kind_1)
+        kickers = get_kickers(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_5(self):
+        result = get_no_hand(self.hand_is_three_kind_1)
+        kickers = get_kickers(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_6(self):
+        result = get_no_hand(self.hand_is_double_trips)
+        kickers = get_kickers(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_7(self):
+        result = get_no_hand(self.hand_is_four_kind_1)
+        kickers = get_kickers(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_8(self):
+        result = get_no_hand(self.hand_is_full_house_1)
+        kickers = get_kickers(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_9(self):
+        result = get_no_hand(self.hand_is_full_house_2)
+        kickers = get_kickers(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_10(self):
+        result = get_no_hand(self.hand_is_full_house_3)
+        kickers = get_kickers(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_11(self):
+        result = get_no_hand(self.hand_is_almost_straight)
+        kickers = get_kickers(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_12(self):
+        result = get_no_hand(self.hand_is_high_straight_1)
+        kickers = get_kickers(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_13(self):
+        result = get_no_hand(self.hand_is_low_straight)
+        kickers = get_kickers(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_14(self):
+        result = get_no_hand(self.hand_is_flush_1)
+        kickers = get_kickers(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_15(self):
+        result = get_no_hand(self.hand_is_straight_flush_1)
+        kickers = get_kickers(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_16(self):
+        result = get_no_hand(self.hand_is_straight_flush_2)
+        kickers = get_kickers(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_17(self):
+        result = get_no_hand(self.hand_is_straight_flush_3)
+        kickers = get_kickers(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_18(self):
+        result = get_no_hand(self.hand_is_straight_flush_4)
+        kickers = get_kickers(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+    def test_no_hand_19(self):
+        result = get_no_hand(self.hand_is_straight_flush_5)
+        kickers = get_kickers(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "High Card"
+        assert result['hand_rank'] == 0
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+        print kickers
+        assert result["ordered_kickers"] == kickers
+
+class TestRankerTwoKind:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_two_kind(self):
+        result = get_two_kind(self.no_hand_1)
+        print self.no_hand_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_2(self):
+        result = get_two_kind(self.hand_is_pair_1)
+        print self.hand_is_pair_1
+        pretty(result)
+        assert result != {}
         assert result['name'] == "Pair"
         assert result['hand_rank'] == 1
-        assert result["two_kind_value"] == 14
-        assert da in result['all_cards']
-        assert sa in result['all_cards']
-        assert s13 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert d6 in result['all_cards']
-        assert s13 in result['ordered_kickers']
-        assert d13 in result['ordered_kickers']
-        assert d6 in result['ordered_kickers']
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
 
-    def test_two_kind_2_id(self):
-        result = get_two_kind(self.hand_is_two_two_kind_1)
+    def test_two_kind_3(self):
+        result = get_two_kind(self.hand_is_pair_2)
+        print self.hand_is_pair_2
         pretty(result)
-        assert id(da) in [id(x) for x in result['all_cards']]
-        assert id(sa) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['ordered_kickers']]
-        assert id(d13) in [id(x) for x in result['ordered_kickers']]
-        assert id(d6) in [id(x) for x in result['ordered_kickers']]
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
 
-    def test_three_kind_1(self):
-        result = get_three_kind(self.hand_is_two_two_kind_1)
+    def test_two_kind_4(self):
+        result = get_two_kind(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 14
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_5(self):
+        result = get_two_kind(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_6(self):
+        result = get_two_kind(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_7(self):
+        result = get_two_kind(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_8(self):
+        result = get_two_kind(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_9(self):
+        result = get_two_kind(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_10(self):
+        result = get_two_kind(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_11(self):
+        result = get_two_kind(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_12(self):
+        result = get_two_kind(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_13(self):
+        result = get_two_kind(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_14(self):
+        result = get_two_kind(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 14
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_15(self):
+        result = get_two_kind(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Pair"
+        assert result['hand_rank'] == 1
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 3
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 10
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_two_kind_16(self):
+        result = get_two_kind(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_17(self):
+        result = get_two_kind(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_18(self):
+        result = get_two_kind(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == {}
+
+    def test_two_kind_19(self):
+        result = get_two_kind(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result == {}
+
+
+class TestRankerTwoTwoKind:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_two_two_kind(self):
+        result = get_two_two_kind(self.no_hand_1)
+        print self.no_hand_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_2(self):
+        result = get_two_two_kind(self.hand_is_pair_1)
+        print self.hand_is_pair_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == 10
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_3(self):
+        result = get_two_two_kind(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_4(self):
+        result = get_two_two_kind(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 14
+        assert result["two_kind_value_2"] == 13
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_5(self):
+        result = get_two_two_kind(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_6(self):
+        result = get_two_two_kind(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == 10
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_7(self):
+        result = get_two_two_kind(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_8(self):
+        result = get_two_two_kind(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == 6
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_9(self):
+        result = get_two_two_kind(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 13
+        assert result["two_kind_value_2"] == 6
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_10(self):
+        result = get_two_two_kind(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Two Pair"
+        assert result['hand_rank'] == 2
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == 11
+        assert result["two_kind_value_2"] == 10
+        assert result["ordered_kickers"] != []
+
+    def test_two_two_kind_11(self):
+        result = get_two_two_kind(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_12(self):
+        result = get_two_two_kind(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_13(self):
+        result = get_two_two_kind(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_14(self):
+        result = get_two_two_kind(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_15(self):
+        result = get_two_two_kind(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_16(self):
+        result = get_two_two_kind(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_17(self):
+        result = get_two_two_kind(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_18(self):
+        result = get_two_two_kind(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == {}
+
+    def test_two_two_kind_19(self):
+        result = get_two_two_kind(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result == {}
+
+class TestRankerThreeKind:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_three_kind(self):
+        result = get_three_kind(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
         assert result == {}
 
     def test_three_kind_2(self):
-        result = get_three_kind(self.hand_is_three_kind_1)
+        result = get_three_kind(self.hand_is_pair_1)
+        print self.hand_is_pair_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result == {}
+
+    def test_three_kind_3(self):
+        result = get_three_kind(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_4(self):
+        result = get_three_kind(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_5(self):
+        result = get_three_kind(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Three of a Kind"
+        assert result['hand_rank'] == 3
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
         assert result["s_or_sf_high_card"] == None
-        assert result["three_kind_value"] != None
+        assert result["three_kind_value"] == 13
         assert result["four_kind_value"] == None
         assert result["two_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
 
+    def test_three_kind_6(self):
+        result = get_three_kind(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result != {}
         assert result['name'] == "Three of a Kind"
         assert result['hand_rank'] == 3
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == 11
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_three_kind_7(self):
+        result = get_three_kind(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Three of a Kind"
+        assert result['hand_rank'] == 3
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
+        assert result["s_or_sf_high_card"] == None
         assert result["three_kind_value"] == 13
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
 
-    def test_three_kind_3_id(self):
-        result = get_three_kind(self.hand_is_three_kind_1)
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(h13) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(d5) in [id(x) for x in result['all_cards']]
-        assert id(d5) in [id(x) for x in result['ordered_kickers']]
-        assert id(d6) in [id(x) for x in result['ordered_kickers']]
-
-    def test_two_two_kind_1(self):
-        result = get_two_two_kind(self.hand_is_two_two_kind_1)
+    def test_three_kind_8(self):
+        result = get_three_kind(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result != {}
+        assert result['name'] == "Three of a Kind"
+        assert result['hand_rank'] == 3
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
         assert result["s_or_sf_high_card"] == None
-        assert result["three_kind_value"] == None
+        assert result["three_kind_value"] == 13
         assert result["four_kind_value"] == None
-        assert result["two_kind_value"] != None
-        assert result["two_kind_value_2"] != None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
-        #real stuff
-        assert result['name'] == "Two Pair"
-        assert result['hand_rank'] == 2
-        assert result["two_kind_value"] == 14
-        assert result["two_kind_value_2"] == 13
-        assert da in result['all_cards']
-        assert sa in result['all_cards']
-        assert s13 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert d6 in result['all_cards']
-        assert d6 in result['ordered_kickers']
 
-    def test_two_two_kind_2(self):
-        result = get_two_two_kind(self.hand_is_full_house_1)
+    def test_three_kind_9(self):
+        result = get_three_kind(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result != {}
+        assert result['name'] == "Three of a Kind"
+        assert result['hand_rank'] == 3
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
         assert result["s_or_sf_high_card"] == None
-        assert result["three_kind_value"] == None
+        assert result["three_kind_value"] == 6
         assert result["four_kind_value"] == None
-        assert result["two_kind_value"] != None
-        assert result["two_kind_value_2"] != None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
-        #real stuff
-        assert result['name'] == "Two Pair"
-        assert result['hand_rank'] == 2
-        assert result["two_kind_value"] == 13
-        assert result["two_kind_value_2"] == 6
-        assert h13 in result['all_cards']
-        assert s13 in result['all_cards']
-        assert c6 in result['all_cards']
-        assert d6 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert d13 in result['ordered_kickers']
 
-    def test_two_two_kind_ids(self):
-        result = get_two_two_kind(self.hand_is_two_two_kind_1)
-        assert id(da) in [id(x) for x in result['all_cards']]
-        assert id(sa) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(d6) in [id(x) for x in result['ordered_kickers']]
+    def test_three_kind_10(self):
+        result = get_three_kind(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Three of a Kind"
+        assert result['hand_rank'] == 3
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 2
+        assert result["s_or_sf_high_card"] == None
+        assert result["three_kind_value"] == 10
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
 
-    def test_four_kind_1(self):
-        result = get_four_kind(self.hand_is_two_two_kind_1)
+    def test_three_kind_11(self):
+        result = get_three_kind(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_12(self):
+        result = get_three_kind(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_13(self):
+        result = get_three_kind(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_14(self):
+        result = get_three_kind(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_15(self):
+        result = get_three_kind(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_16(self):
+        result = get_three_kind(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_17(self):
+        result = get_three_kind(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_18(self):
+        result = get_three_kind(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == {}
+
+    def test_three_kind_19(self):
+        result = get_three_kind(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result == {}
+
+class TestRankerFourKind:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_four_kind(self):
+        result = get_four_kind(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
         assert result == {}
 
     def test_four_kind_2(self):
-        result = get_four_kind(self.hand_is_four_kind_1)
+        result = get_four_kind(self.hand_is_pair_1)
+        print self.hand_is_pair_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result == {}
+
+    def test_four_kind_3(self):
+        result = get_four_kind(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_4(self):
+        result = get_four_kind(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_5(self):
+        result = get_four_kind(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_6(self):
+        result = get_four_kind(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_7(self):
+        result = get_four_kind(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Four of a Kind"
+        assert result['hand_rank'] == 7
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 1
         assert result["s_or_sf_high_card"] == None
         assert result["three_kind_value"] == None
-        assert result["four_kind_value"] != None
+        assert result["four_kind_value"] == 13
         assert result["two_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
 
-        assert result['name'] == "Four of a Kind"
-        assert result['hand_rank'] == 7
-        assert result["four_kind_value"] == 13
-        assert c13 in result['all_cards']
-        assert h13 in result['all_cards']
-        assert s13 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert d5 in result['all_cards']
-        assert d5 in result['ordered_kickers']
+    def test_four_kind_8(self):
+        result = get_four_kind(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_9(self):
+        result = get_four_kind(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_10(self):
+        result = get_four_kind(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_11(self):
+        result = get_four_kind(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_12(self):
+        result = get_four_kind(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_13(self):
+        result = get_four_kind(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_14(self):
+        result = get_four_kind(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_15(self):
+        result = get_four_kind(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_16(self):
+        result = get_four_kind(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_17(self):
+        result = get_four_kind(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_18(self):
+        result = get_four_kind(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == {}
+
+    def test_four_kind_19(self):
+        result = get_four_kind(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result == {}
+
+
+class TestRankerStraight:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
         
-    def test_four_kind_3_id(self):
-        result = get_four_kind(self.hand_is_four_kind_1)
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
 
-        assert id(c13) in [id(x) for x in result['all_cards']]
-        assert id(h13) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(d5) in [id(x) for x in result['all_cards']]
-        assert id(d5) in [id(x) for x in result['ordered_kickers']]
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
 
-    def test_straight_1(self):
-        result = get_straight(self.hand_is_two_two_kind_1)
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_straight(self):
+        result = get_straight(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
         assert result == {}
 
     def test_straight_2(self):
-        result = get_straight(self.hand_is_high_straight_1)
+        result = get_straight(self.hand_is_pair_1)
+        print self.hand_is_pair_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result == {}
+
+    def test_straight_3(self):
+        result = get_straight(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_straight_4(self):
+        result = get_straight(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_5(self):
+        result = get_straight(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_6(self):
+        result = get_straight(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result == {}
+
+    def test_straight_7(self):
+        result = get_straight(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_8(self):
+        result = get_straight(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_9(self):
+        result = get_straight(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result == {}
+
+    def test_straight_10(self):
+        result = get_straight(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result == {}
+
+    def test_straight_11(self):
+        result = get_straight(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_straight_12(self):
+        result = get_straight(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
-        assert result["s_or_sf_high_card"] != None
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 14
         assert result["three_kind_value"] == None
         assert result["four_kind_value"] == None
         assert result["two_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] == []
 
+    def test_straight_13(self):
+        result = get_straight(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result != {}
         assert result['name'] == "Straight"
         assert result['hand_rank'] == 4
-        assert result["s_or_sf_high_card"] == sa
-        assert h12 in result['all_cards']
-        assert h10 in result['all_cards']
-        assert d11 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert sa in result['all_cards']
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 5
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
 
-    def test_straight_2_id(self):
-        result = get_straight(self.hand_is_high_straight_1)
-        assert id(h12) in [id(x) for x in result['all_cards']]
-        assert id(h10) in [id(x) for x in result['all_cards']]
-        assert id(d11) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(sa) in [id(x) for x in result['all_cards']]
+    def test_straight_14(self):
+        result = get_straight(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
 
-    def test_flush_1(self):
-        result = get_flush(self.hand_is_high_straight_1)
+    def test_straight_15(self):
+        result = get_straight(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 12
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_16(self):
+        result = get_straight(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 12
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_17(self):
+        result = get_straight(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 5
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_18(self):
+        result = get_straight(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 7
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_19(self):
+        result = get_straight(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight"
+        assert result['hand_rank'] == 4
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 5
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+
+class TestRankerFlush:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_flush(self):
+        result = get_flush(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
         assert result == {}
 
     def test_flush_2(self):
-        result = get_flush(self.hand_is_flush_1)
+        result = get_flush(self.hand_is_pair_1)
+        print self.hand_is_pair_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
-        assert result["suit"] != None
+        assert result == {}
+
+    def test_flush_3(self):
+        result = get_flush(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_flush_4(self):
+        result = get_flush(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
-        assert result["s_or_sf_high_card"] == None
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
         assert result["three_kind_value"] == None
         assert result["four_kind_value"] == None
         assert result["two_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] != []
 
+    def test_flush_5(self):
+        result = get_flush(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_flush_6(self):
+        result = get_flush(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result == {}
+
+    def test_flush_7(self):
+        result = get_flush(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_flush_8(self):
+        result = get_flush(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result == {}
+
+    def test_flush_9(self):
+        result = get_flush(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result == {}
+
+    def test_flush_10(self):
+        result = get_flush(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result == {}
+
+    def test_flush_11(self):
+        result = get_flush(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_flush_12(self):
+        result = get_flush(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_flush_13(self):
+        result = get_flush(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_flush_14(self):
+        result = get_flush(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result != {}
         assert result['name'] == "Flush"
         assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
 
-        assert da in result['all_cards']
-        assert da in result['ordered_kickers']
-        assert d8 in result['all_cards']
-        assert d8 in result['ordered_kickers']
-        assert d13 in result['all_cards']
-        assert d13 in result['ordered_kickers']
-        assert d6 in result['all_cards']
-        assert d6 in result['ordered_kickers']
-        assert d5 in result['all_cards']
-        assert d5 in result['ordered_kickers']
+    def test_flush_15(self):
+        result = get_flush(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_flush_16(self):
+        result = get_flush(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_flush_17(self):
+        result = get_flush(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_flush_18(self):
+        result = get_flush(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+    def test_flush_19(self):
+        result = get_flush(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Flush"
+        assert result['hand_rank'] == 5
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 5
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] != []
+
+class TestRankerFullHouse:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
 
 
-    def test_flush_2_id(self):
-        result = get_flush(self.hand_is_flush_1)
-        assert id(da) in [id(x) for x in result['all_cards']]
-        assert id(da) in [id(x) for x in result['ordered_kickers']]
-        assert id(d8) in [id(x) for x in result['all_cards']]
-        assert id(d8) in [id(x) for x in result['ordered_kickers']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['ordered_kickers']]
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(d6) in [id(x) for x in result['ordered_kickers']]
-        assert id(d5) in [id(x) for x in result['all_cards']]
-        assert id(d5) in [id(x) for x in result['ordered_kickers']]
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
 
-    def test_full_house_1(self):
-        result = get_full_house(self.hand_is_high_straight_1)
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_full_house(self):
+        result = get_full_house(self.no_hand_1)
+        print self.no_hand_1
         pretty(result)
         assert result == {}
 
     def test_full_house_2(self):
-        result = get_full_house(self.hand_is_full_house_1)
+        result = get_full_house(self.hand_is_pair_1)
+        print self.hand_is_pair_1
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
-        assert result["suit"] == None
-        assert result["all_cards"] != []
-        assert len(result['all_cards']) == 5
-        assert result["s_or_sf_high_card"] == None
-        assert result["three_kind_value"] != None
-        assert result["four_kind_value"] == None
-        assert result["two_kind_value"] != None
-        assert result["two_kind_value_2"] == None
-        assert result["ordered_kickers"] == []
-
-        assert result['name'] == "Full House"
-        assert result['hand_rank'] == 6
-
-        assert d6 in result['all_cards']
-        assert c6 in result['all_cards']
-        assert d13 in result['all_cards']
-        assert h13 in result['all_cards']
-        assert s13 in result['all_cards']
-
-
-    def test_full_house_2_id(self):
-        result = get_full_house(self.hand_is_full_house_1)
-
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(c6) in [id(x) for x in result['all_cards']]
-        assert id(d13) in [id(x) for x in result['all_cards']]
-        assert id(h13) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
-
+        assert result == {}
 
     def test_full_house_3(self):
-        result = get_full_house(self.hand_is_full_house_2)
+        result = get_full_house(self.hand_is_pair_2)
+        print self.hand_is_pair_2
         pretty(result)
-        assert result["name"] != None
-        assert result["hand_rank"] != None
+        assert result == {}
+
+    def test_full_house_4(self):
+        result = get_full_house(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_5(self):
+        result = get_full_house(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_6(self):
+        result = get_full_house(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Full House"
+        assert result['hand_rank'] == 6
         assert result["suit"] == None
         assert result["all_cards"] != []
         assert len(result['all_cards']) == 5
-        assert result["s_or_sf_high_card"] == None
-        assert result["three_kind_value"] != None
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == 11
+        assert result["two_kind_value"] == 10
         assert result["four_kind_value"] == None
-        assert result["two_kind_value"] != None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] == []
 
+    def test_full_house_7(self):
+        result = get_full_house(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_8(self):
+        result = get_full_house(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result != {}
         assert result['name'] == "Full House"
         assert result['hand_rank'] == 6
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == 13
+        assert result["two_kind_value"] == 6
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
 
-        assert d6 in result['all_cards']
-        assert c6 in result['all_cards']
-        assert h6 in result['all_cards']
-        assert h13 in result['all_cards']
-        assert s13 in result['all_cards']
-
-
-    def test_full_house_3_id(self):
+    def test_full_house_9(self):
         result = get_full_house(self.hand_is_full_house_2)
-        assert id(d6) in [id(x) for x in result['all_cards']]
-        assert id(c6) in [id(x) for x in result['all_cards']]
-        assert id(h6) in [id(x) for x in result['all_cards']]
-        assert id(h13) in [id(x) for x in result['all_cards']]
-        assert id(s13) in [id(x) for x in result['all_cards']]
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Full House"
+        assert result['hand_rank'] == 6
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == 6
+        assert result["two_kind_value"] == 13
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
 
+    def test_full_house_10(self):
+        result = get_full_house(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Full House"
+        assert result['hand_rank'] == 6
+        assert result["suit"] == None
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == None 
+        assert result["three_kind_value"] == 10
+        assert result["two_kind_value"] == 11
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_full_house_11(self):
+        result = get_full_house(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_12(self):
+        result = get_full_house(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_13(self):
+        result = get_full_house(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_14(self):
+        result = get_full_house(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_15(self):
+        result = get_full_house(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_16(self):
+        result = get_full_house(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_17(self):
+        result = get_full_house(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_18(self):
+        result = get_full_house(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == {}
+
+    def test_full_house_19(self):
+        result = get_full_house(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result == {}
+
+class TestRankerStraightFlush:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_straight_flush(self):
+        result = get_straight_flush(self.no_hand_1)
+        print self.no_hand_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_2(self):
+        result = get_straight_flush(self.hand_is_pair_1)
+        print self.hand_is_pair_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_3(self):
+        result = get_straight_flush(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_4(self):
+        result = get_straight_flush(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_5(self):
+        result = get_straight_flush(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_6(self):
+        result = get_straight_flush(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_7(self):
+        result = get_straight_flush(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_8(self):
+        result = get_straight_flush(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_9(self):
+        result = get_straight_flush(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_10(self):
+        result = get_straight_flush(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_11(self):
+        result = get_straight_flush(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_12(self):
+        result = get_straight_flush(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_13(self):
+        result = get_straight_flush(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_14(self):
+        result = get_straight_flush(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == {}
+
+    def test_straight_flush_15(self):
+        result = get_straight_flush(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight Flush"
+        assert result['hand_rank'] == 8
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 12
+        assert result["three_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_flush_16(self):
+        result = get_straight_flush(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight Flush"
+        assert result['hand_rank'] == 8
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 12
+        assert result["three_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_flush_17(self):
+        result = get_straight_flush(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight Flush"
+        assert result['hand_rank'] == 8
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 5 
+        assert result["three_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_flush_18(self):
+        result = get_straight_flush(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight Flush"
+        assert result['hand_rank'] == 8
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 7
+        assert result["three_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
+
+    def test_straight_flush_19(self):
+        result = get_straight_flush(self.hand_is_straight_flush_5)
+        print self.hand_is_straight_flush_5
+        pretty(result)
+        assert result != {}
+        assert result['name'] == "Straight Flush"
+        assert result['hand_rank'] == 8
+        assert result["suit"] == "Diamonds"
+        assert result["all_cards"] != []
+        assert len(result['all_cards']) == 5
+        assert len(result['ordered_kickers']) == 0
+        assert result["s_or_sf_high_card"] == 5 
+        assert result["three_kind_value"] == None
+        assert result["two_kind_value"] == None
+        assert result["four_kind_value"] == None
+        assert result["two_kind_value_2"] == None
+        assert result["ordered_kickers"] == []
