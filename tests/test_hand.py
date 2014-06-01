@@ -1,107 +1,101 @@
 from lib.hand import PokerHand
-from lib.player import Player
+from lib.table import PokerHandTable
+from lib.player import PokerPlayer
+import json
 
-p1 = Player(1234, "Bill")
-p2 = Player(123, "Bill")
-p3 = Player(1323, "Bill")
-p4 = Player(1243, "Bill")
-p5 = Player(1213, "Bill")
+def pretty(_dict):
+    print json.dumps(_dict, sort_keys=True, indent=4)
 
 class TestPokerHand:
     def setUp(self):
-        self.g = PokerHand()
+        p1 = PokerPlayer(1234, "Bill")
+        p1.stack.set_stack(5000)
+        p2 = PokerPlayer(123, "Frank")
+        p2.stack.set_stack(5000)
+        p3 = PokerPlayer(1323, "Twizz")
+        p3.stack.set_stack(5000)
+        p4 = PokerPlayer(1243, "Bass")
+        p4.stack.set_stack(5000)
+        p5 = PokerPlayer(1213, "Jew")
+        p5.stack.set_stack(5000)
+        table = PokerHandTable()
+        table.add_player(2, p1)
+        table.add_player(4, p2)
+        table.add_player(5, p3)
+        table.add_player(6, p4)
+        table.add_player(10, p5)
+        self.hand = PokerHand(123,table)
 
-    def test_position_count(self):
-        assert len(self.g.positions) == 12
+    def test_pregame(self):
+        assert self.hand.currentstate == None
+        self.hand.pregame(4)
+        assert self.hand.bet.bigblind == 20
+        assert self.hand.bet.smallblind == 10
+        print self.hand.bet.minraise
+        assert self.hand.bet.minraise == 20
+        assert self.hand.table.smallposition == 5
+        assert self.hand.table.bigposition == 6
+        assert self.hand.table.dealerposition == 4
+        assert self.hand.currentstate == "dealpocket"
 
-    def test_players_count(self):
-        assert len(self.g.players) == 0
+    def test_dealpocket(self):
+        self.hand.pregame(4)
+        cards = list(reversed(self.hand.deck.local_card_copy()))
+        self.hand.deal_pocket()
+        assert len(self.hand.deck) == 42
+        print cards
+        print self.hand.table.active[4].pocket.cards
+        assert cards[4] in self.hand.table.active[4].pocket.cards
+        assert cards[9] in self.hand.table.active[4].pocket.cards
+        assert cards[0] in self.hand.table.active[5].pocket.cards
+        assert cards[5] in self.hand.table.active[5].pocket.cards
+        assert cards[2] in self.hand.table.active[10].pocket.cards
+        assert cards[7] in self.hand.table.active[10].pocket.cards
+        assert cards[2] in self.hand.table.active[10].pocket.cards
+        assert cards[7] in self.hand.table.active[10].pocket.cards
+        assert self.hand.table.currentactor == 10
+        assert self.hand.currentstate == 'preflopbetting'
 
-    def test_set_players_1(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        try:
-            self.g.set_players(positions)
-            assert False
-        except ValueError:
-            assert True
+    def test_preflop_betting(self):
+        self.hand.pregame(4)
+        self.hand.deal_pocket()
+        print self.hand.hand_status()['bet']['bet_delta']
+        assert self.hand.action({ # 10 folds
+            "action":"fold",
+            "amount":0,
+            "seat": 10
+            }) == True
 
-    def test_set_players(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        assert len(self.g.players) == 0
-        self.g.set_players(positions)
-        assert self.g.positions[2] == p1
-        assert self.g.positions[5] == p2
-        assert len(self.g.players) == 2
+        assert self.hand.table.currentactor == 2
+        assert len(self.hand.table.active) == 4
 
-    def test_get_player(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        self.g.set_players(positions)
-        assert self.g.get_player_from_position(2) == p1
-
-    def test_get_position(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        self.g.set_players(positions)
-        assert self.g.get_position_from_player(p1) == 2
-
-    def test_blind_assignment_2(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        self.g.set_players(positions)
-        self.g._blind_assignment()
-        assert self.g.bigposition == self.g.buttonposition
-        assert self.g.get_big_blind_player() == self.g.get_button_player()
-        assert self.g.smallposition != 0
-        assert self.g.smallposition != self.g.bigposition
-
-    def test_blind_assignment_3(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        positions[3] = p3
-        positions[9] = p4
-        positions[7] = p5
-        self.g.set_players(positions)
-        self.g._blind_assignment(2)
-        assert self.g.buttonposition == 2
-        assert self.g.smallposition == 3
-        assert self.g.bigposition == 5
-        assert self.g.get_button_player() == p1
-        assert  self.g.get_big_blind_player() == p2
-        assert self.g.get_small_blind_player() == p3
-
-    def test_blind_set_1(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        positions[3] = p3
-        positions[9] = p4
-        positions[7] = p5
-        self.g.set_players(positions)
-        self.g._blind_assignment(2)
-        self.g.set_blinds()
-        assert self.g.bigblind == 20
-        assert self.g.smallblind == 10
-
-    def test_blind_set_2(self):
-        positions = dict([(x,None) for x in range(1,13)])
-        positions[2] = p1
-        positions[5] = p2
-        positions[3] = p3
-        positions[9] = p4
-        positions[7] = p5
-        self.g.set_players(positions)
-        self.g._blind_assignment(2)
-        self.g.set_blinds(40, 20)
-        assert self.g.bigblind == 40
-        assert self.g.smallblind == 20
-
+        print self.hand.hand_status()['bet']['bet_delta']
+        assert self.hand.action({
+            "action": "bet",
+            "amount": 60,
+            "seat": 2
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 4
+            }) == True
+        
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 5
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 6
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 6
+            }) == False
+        pretty(self.hand.hand_status())
 
 

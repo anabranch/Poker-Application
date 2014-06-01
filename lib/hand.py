@@ -1,11 +1,10 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
-from pots import PotController
-from random import choice
+from betting import BettingController
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""
-    def __init__(self):
+    def __init__(self, handid, pokertable):
         super(PokerHand, self).__init__()
         self.states = [
             "postgame",
@@ -20,88 +19,121 @@ class PokerHand(StatedObject):
             "dealpocket",
             "pregame"
         ]
-        # Blind Information
-        self.bigblind = 0
-        self.smallblind = 0
-        self.buttonposition = 0
-        self.bigposition = 0
-        self.smallposition = 0
+        self.bettingstates = [
+            "riverbetting",
+            "turnbetting",
+            "flopbetting",
+            "preflopbetting"
+        ]
 
-        # Players/Seats
-        self.positions = dict([(x,None) for x in range(1,13)])
-        self.players = {}
+        self.pk = handid
 
         # Cards
         self.deck = DeckCardGroup()
         self.board = BoardCardGroup()
         self.burn = BurnCardGroup()
 
-        # Pot Controller
-        self.pot = PotController()
+        # Table
+        self.table = pokertable
 
-    def get_small_blind_player(self):
-        return self.get_player_from_position(self.smallposition)
-
-    def get_big_blind_player(self):
-        return self.get_player_from_position(self.bigposition)
-
-    def get_button_player(self):
-        return self.get_player_from_position(self.buttonposition)
-
-    def get_position_from_player(self, player):
-        return self.players[player]
-
-    def get_player_from_position(self, position):
-        return self.positions[position]
-
-    def set_players(self, playerposdict):
-        if len([player for pos, player in playerposdict.items() if player != None]) < 2:
-            raise ValueError("Cannot have a PokerHand with < 2 Players")
-        for pos, player in playerposdict.items():
-            if player:
-                self.players[player] = pos
-                self.positions[pos] = player
-
-    def set_blinds(self, bigblind=20, smallblind=10):
-        self.bigblind = bigblind
-        self.smallblind = smallblind
-        
-    def _blind_assignment(self, buttonposition=0):
-        # this could be a lot easier if we kept track of occupied positions
-        if not buttonposition:
-            buttonposition = choice(self.players.values())
-        self.buttonposition = buttonposition
-        temp = buttonposition
-        # this can be optimized a ton, interate through keys of active players
-        if len(self.players) == 2:
-            while True:
-                if temp >= 12:
-                    temp = 0
-                temp = temp + 1
-                if self.positions[temp]:
-                    self.smallposition = temp
-                    self.bigposition = buttonposition
-                    break
-        else:
-            temp = buttonposition
-            while temp < 12:
-                if temp >= 12:
-                    temp = 0
-                temp = temp + 1
-                if self.positions[temp]:
-                    self.smallposition = temp
-                    break
-            temp = self.smallposition
-            while temp < 12:
-                if temp >= 12:
-                    temp = 0
-                temp = temp + 1
-                if self.positions[temp]:
-                    self.bigposition = temp
-                    break
-
-    def betting_round(self):
-        pass
+        self.bet = BettingController(pokertable)
 
     def state_change(self):
-        super(PokerGame, self).state_change()
+        super(PokerHand, self).state_change()
+
+    def assign_button_blinds(self, dealerposition):
+        self.table.set_button(dealerposition)
+        self.table.assign_blinds()
+
+    def pregame(self, dealerposition=0, bigblind=20, smallblind=10):
+        self.state_change() # entered pregame
+        self.bet.set_blinds(bigblind, smallblind) # set blind amounts
+        self.assign_button_blinds(dealerposition) # assignments
+        self.deck.shuffle()
+        # CURRENT ACTOR SHOULD BE SMALL BLIND
+        self.bet.commit_blinds()
+        self.table.set_actor(self.table.smallposition) # reset back to smallblind
+        self.state_change()
+
+    def deal_pocket(self):
+        small = self.table.smallposition
+        for x in range(0, len(self.table.active)*2):
+            self.table.get_actor_as_player().deal_pocket_card(self.deck.pop_pocket())
+            self.table.next_active_player()
+        self.table.set_actor(self.table.bigposition)
+        self.table.next_active_player()
+        self.state_change()
+
+    def deal_flop(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_flop(self.deck.pop_flop())
+        self.state_change()
+
+    def deal_turn(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_turn(self.deck.pop_turn())
+        self.state_change()
+
+    def deal_river(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_turn(self.deck.pop_river())
+        self.state_change()
+
+    def reset_after_betting(self):
+        self.state_change()
+        self.bet.reset_after_betting()
+        self.table.set_actor()
+        self.table.next_active_player()
+
+    def action(self, details):
+        if self.currentstate not in self.bettingstates:
+            return False
+
+        action = details['action']
+        seat = details['seat']
+        amount = details['amount']
+        success = False
+        if seat != self.table.get_actor_as_seat():
+            return success
+        if action not in self.bet.get_actions():
+            return success
+
+        if action == "fold":
+            if self.bet.fold():
+                success = True
+
+        elif action == "call":
+            if self.bet.call(amount):
+                success = True
+
+        elif action == "check":
+            if self.bet.check():
+                success = True
+
+        elif action == "bet":
+            if self.bet.bet(amount):
+                success = True
+
+        if self.table.get_actor_as_seat() == self.bet.raiseposition:
+            self.reset_after_betting()
+
+        # if no one in the game, go to showdown
+        return success
+
+
+    def hand_status(self):
+        if self.currentstate not in self.bettingstates:
+            return {
+                "board":self.board.as_dict(),
+                "table": self.table.as_dict(),
+                "actor": None,
+                "bet":self.bet.as_dict(False),
+                "state": self.currentstate
+            }
+        return {
+            "board":self.board.as_dict(),
+            "table": self.table.as_dict(),
+            "actor": self.table.get_actor_as_player().as_dict(),
+            "bet":self.bet.as_dict(),
+            "state": self.currentstate
+        }
