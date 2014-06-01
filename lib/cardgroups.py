@@ -3,7 +3,7 @@ import operator
 from random import shuffle
 
 from baseclasses.generics import BaseCardGroup, StatedObject, Card
-from utils import longest_sequence
+from utils import longest_sequence, card_value_dict
 
 class ValuedCardGroup(BaseCardGroup):
     """docstring for ValuedCardGroup"""
@@ -38,7 +38,9 @@ class ValuedCardGroup(BaseCardGroup):
             return two_pair
         if pair:
             return pair
-        return {"hand":kickers}
+        resp = card_value_dict()
+        resp['kickers'] = kickers
+        return resp
 
     def _cards_by_number(self, add_low_ace=False):
         local_cards = self.local_card_copy()
@@ -89,7 +91,13 @@ class ValuedCardGroup(BaseCardGroup):
                 pair_value = k
                 pair = v[:2]
         if pair:
-            return {"hand": pair, "kickers":self._kickers(pair,3)}
+            kickers = self._kickers(pair,3)
+            resp = card_value_dict(hand_type="Pair",rank=1,pair_number=pair_value)
+            resp['cards'] += pair
+            for count, c in enumerate(sorted(kickers)):
+                resp["cards"].append(c)
+                resp['kicker_'+str(count)] = c
+            return resp
         return {}
 
     def _trip(self):
@@ -104,7 +112,12 @@ class ValuedCardGroup(BaseCardGroup):
                 trip_value = k
                 trips = v[:3]
         if trips:
-            return {"hand": trips, "kickers":self._kickers(trips,2)}
+            resp = card_value_dict()
+            resp['type'] = "trips"
+            resp['rank'] = 3
+            resp['trip'] = trip
+            resp['kickers'] = self._kickers(trips,2)
+            return resp
         return {}
 
     def _quad(self):
@@ -119,7 +132,12 @@ class ValuedCardGroup(BaseCardGroup):
                 quad_value = k
                 quads = v[:4]
         if quads:
-            return {"hand": quads, "kickers":self._kickers(quads,1)}
+            resp = card_value_dict()
+            resp['type'] = "quads"
+            resp['rank'] = 6
+            resp['quad'] = quad
+            resp['kickers'] = self._kickers(quads,1)
+            return resp
         return {}
 
     def _straight(self):
@@ -133,11 +151,19 @@ class ValuedCardGroup(BaseCardGroup):
         if seqcount < 5:
             return {}
         seqfinal = sorted(sequence, reverse=True)[:5]
+        high_card = max(seqfinal)
+        print high_card
         if 1 in seqfinal:
             seqfinal.remove(1)
             seqfinal.append(14)
         vals = [card_num_dict[val][0] for val in seqfinal]
-        return {"hand":vals}
+        resp = card_value_dict(hand_type="Straight",rank=4)
+        print vals
+        for count, c in enumerate(sorted(vals, reverse=True)):
+            resp["cards"].append(c)
+            resp['kicker_'+str(count)] = c
+        print resp
+        return resp
 
     def _two_pair(self):
         card_num_dict = self._cards_by_number()
@@ -147,12 +173,22 @@ class ValuedCardGroup(BaseCardGroup):
                 doubles.append({k:v[:2]})
         if len(doubles) < 2:
             return {}
-
         doubles = sorted(doubles, reverse=True)
         vals = []
         for dub in doubles:
             vals += dub.values()[0]
-        return {"hand":vals, "kickers":self._kickers(vals,1)}
+        print vals
+        doubles = sorted(doubles)
+        kicker = self._kickers(vals,1).pop()
+        resp = card_value_dict(
+            hand_type="Two Pair", rank=2, \
+            pair_number=doubles.pop().keys()[0],
+            pair_number_2=doubles.pop().keys()[0],
+            kicker_0=kicker
+        )
+        resp['cards'] += vals
+        resp['cards'].append(kicker)
+        return resp
 
     def _flush(self):
         card_suit_dict = self._cards_by_suit()

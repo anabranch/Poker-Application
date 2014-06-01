@@ -144,10 +144,11 @@ class TestAddition:
 
     def test_addition_2(self):
         vals = ValuedCardGroup(self.p + self.b).best_hand()
-        hand = vals['hand']
-        kickers = vals['kickers']
-        assert s13 in hand
-        assert d13 in hand
-        assert h13 in hand
-        assert c13 in hand
-        assert da in kickers
+        assert False
+        # hand = vals['hand']
+        # kickers = vals['kickers']
+        # assert s13 in hand
+        # assert d13 in hand
+        # assert h13 in hand
+        # assert c13 in hand
+        # assert da in kickers

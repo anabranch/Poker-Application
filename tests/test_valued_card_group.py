@@ -31,6 +31,7 @@ d8 = Card(8, "Diamonds")
 d9 = Card(9, "Diamonds")
 d5 = Card(5, "Diamonds")
 
+
 class TestValuedCardGroup_no_hand:
     def setUp(self):
         self.no_hand = ValuedCardGroup([
@@ -167,7 +168,6 @@ class TestValuedCardGroup_trip:
     def test_kickers(self):
         kickers = self.trip._kickers()
         assert bool(kickers) == True
-        
         assert s13 in kickers
         assert da in kickers
         assert h10 in kickers
@@ -177,8 +177,6 @@ class TestValuedCardGroup_trip:
     def test_pair(self):
         trip = self.trip._pair()
         assert bool(trip) == True
-        hand = trip['hand']
-        kickers = trip['kickers']
         assert da in kickers
         assert s13 in hand
         assert d13 in hand
@@ -442,15 +440,8 @@ class TestValuedCardGroup_low_straight:
             ])
 
     def test_kickers(self):
-        kickers = self.low_straight._kickers()
-        assert bool(kickers) == True
-        # assert d2 in kickers
-        assert da in kickers
-        # assert h3 in kickers
-        assert d4 in kickers
-        assert c5 in kickers
-        assert h10 in kickers
-        assert d7 in kickers
+        hand_value = self.low_straight._kickers()
+        assert bool(hand_value) == True
 
     def test_pair(self):
         pair = self.low_straight._pair()
@@ -465,15 +456,16 @@ class TestValuedCardGroup_low_straight:
         assert bool(quad) == False
 
     def test_straight(self):
-        straight = self.low_straight._straight()
-        assert bool(straight) == True
-        hand = straight['hand']
-        assert len(hand) == 5
-        assert d2 in hand
-        assert da in hand
-        assert h3 in hand
-        assert d4 in hand
-        assert c5 in hand
+        hand_value = self.low_straight._straight()
+        assert bool(hand_value) == True
+        assert hand_value['rank'] == 4
+        assert hand_value['hand_type'] == "Straight"
+        assert da in hand_value['cards']
+        assert d4 in hand_value['cards']
+        assert c5 in hand_value['cards']
+        assert h10 in hand_value['cards']
+        assert d7 in hand_value['cards']
+
 
     def test_two_pair(self):
         two_pair = self.low_straight._two_pair()
@@ -518,11 +510,13 @@ class TestValuedCardGroup_two_test_pair:
     def test_pair(self):
         pair = self.two_test_pair._pair()
         assert bool(pair) == True
-        hand = pair['hand']
-        kickers = pair['kickers']
-        assert c10 in kickers
-        assert h10 in kickers
-        assert da in kickers
+        print pair
+        assert pair['pair_number'] == 11
+        assert c11 in pair['cards']
+        assert d11 in pair['cards']
+        assert c10 in pair['cards']
+        assert h10 in pair['cards']
+        assert da in pair['cards']
 
     def test_trip(self):
         trip = self.two_test_pair._trip()
@@ -539,13 +533,16 @@ class TestValuedCardGroup_two_test_pair:
     def test_two_pair(self):
         two_pair = self.two_test_pair._two_pair()
         assert bool(two_pair) == True
-        hand = two_pair['hand']
-        kickers = two_pair['kickers']
-        assert c10 in hand
-        assert d11 in hand
-        assert c11 in hand
-        assert h10 in hand
-        assert da in kickers
+        print two_pair
+        assert two_pair['hand_type'] == "Two Pair"
+        assert two_pair['rank'] == 2
+        assert two_pair['pair_number'] == 11
+        assert two_pair['pair_number_2'] == 10
+        assert c10 in two_pair['cards']
+        assert d11 in two_pair['cards']
+        assert c11 in two_pair['cards']
+        assert h10 in two_pair['cards']
+        assert da in two_pair['cards']
 
     def test_flush(self):
         flush = self.two_test_pair._flush()
