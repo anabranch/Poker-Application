@@ -1,5 +1,5 @@
 from baseclasses.generics import StatedObject
-from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup, ValuedCardGroup
+from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from betting import BettingController
 
 class PokerHand(StatedObject):

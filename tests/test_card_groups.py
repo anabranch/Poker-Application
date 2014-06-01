@@ -1,7 +1,7 @@
 from copy import copy
 
 from lib.baseclasses.generics import Card
-from lib.cardgroups import DeckCardGroup, ValuedCardGroup, PocketCardGroup, BoardCardGroup, BurnCardGroup
+from lib.cardgroups import DeckCardGroup, PocketCardGroup, BoardCardGroup, BurnCardGroup
 
 d2 = Card(2,"Diamonds")
 da = Card(14,"Diamonds")
@@ -140,15 +140,5 @@ class TestAddition:
         self.b.add_card(c13)
 
     def test_addition(self):
-        assert [d2,da,s13,d13,h13, c13] == self.p + self.b
+        assert [d2,da,s13,d13,h13,c13] == self.p + self.b
 
-    def test_addition_2(self):
-        vals = ValuedCardGroup(self.p + self.b).best_hand()
-        assert False
-        # hand = vals['hand']
-        # kickers = vals['kickers']
-        # assert s13 in hand
-        # assert d13 in hand
-        # assert h13 in hand
-        # assert c13 in hand
-        # assert da in kickers

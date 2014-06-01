@@ -1,3 +1,5 @@
 *.pyc
 .DS_STORE
 /*.pyc
+/tests/old*.py
+/lib/workspace.py

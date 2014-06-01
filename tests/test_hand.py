@@ -158,6 +158,6 @@ class TestPokerHand:
             }) == True
         assert self.hand.currentstate == "showdown"
         # pretty(self.hand.hand_status())
-        self.hand.showdown()
-        assert False
+        # self.hand.showdown()
+        # assert False
 
