@@ -38,7 +38,7 @@ class ValuedCardGroup(BaseCardGroup):
             return two_pair
         if pair:
             return pair
-        return kickers
+        return {"hand":kickers}
 
     def _cards_by_number(self, add_low_ace=False):
         local_cards = self.local_card_copy()
@@ -126,8 +126,6 @@ class ValuedCardGroup(BaseCardGroup):
         card_num_dict = self._cards_by_number(add_low_ace=True)
 
         sorted_keys_num_dict = sorted(card_num_dict)
-        print self.cards
-        print sorted_keys_num_dict
 
         if len(sorted_keys_num_dict) < 5:
             return {}

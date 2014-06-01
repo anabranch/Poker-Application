@@ -86,7 +86,7 @@ class TestValuedCardGroup_no_hand:
         assert bool(straight_flush) == False
 
     def test_best_hand(self):
-        assert self.no_hand.best_hand() == self.no_hand._kickers()
+        assert self.no_hand.best_hand()['hand'] == self.no_hand._kickers()
 
 class TestValuedCardGroup_pair:
     def setUp(self):
@@ -427,7 +427,7 @@ class TestValuedCardGroup_almost_straight:
         assert bool(straight_flush) == False
 
     def test_best_hand(self):
-        assert self.almost_straight.best_hand() == self.almost_straight._kickers()
+        assert self.almost_straight.best_hand()['hand'] == self.almost_straight._kickers()
 
 class TestValuedCardGroup_low_straight:
     def setUp(self):

@@ -1,5 +1,5 @@
 from baseclasses.generics import StatedObject
-from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
+from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup, ValuedCardGroup
 from betting import BettingController
 
 class PokerHand(StatedObject):
@@ -90,6 +90,13 @@ class PokerHand(StatedObject):
     def reset_after_betting(self):
         self.state_change()
         self.bet.reset_after_betting()
+
+    def showdown(self):
+        for person in self.table.active.values():
+            print "-----"
+            print ValuedCardGroup(person.pocket + self.board).best_hand()
+            print "-----"
+        # print self.bet.pot.player_commit_amounts
 
     def action(self, details):
         if self.currentstate not in self.bettingstates:
