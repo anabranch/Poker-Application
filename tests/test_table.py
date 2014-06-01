@@ -1,5 +1,5 @@
 from lib.baseclasses.generics import Table
-from lib.tables import PokerHandTable
+from lib.table import PokerHandTable
 from lib.player import PokerPlayer
 
 p1 = PokerPlayer(1234, "Bill")
@@ -54,15 +54,4 @@ class TestPokerTable:
         self.table.assign_blinds()
         assert self.table.smallposition == 5
         assert self.table.bigposition == 6
-        assert self.table.currentactor == 10
 
-    def test_as_dict(self):
-        self.table.set_button(4)
-        self.table.assign_blinds()
-        print self.table.as_dict()
-        assert self.table.as_dict() == {
-            "small": 5,
-            "big": 6,
-            "button": 4,
-            "current_actor": 10
-        }

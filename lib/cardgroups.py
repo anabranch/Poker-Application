@@ -3,7 +3,7 @@ import operator
 from random import shuffle
 
 from baseclasses.generics import BaseCardGroup, StatedObject, Card
-from utils import longest_sequence, card_value_dict
+from utils import longest_sequence
 
 class PocketCardGroup(BaseCardGroup):
     """docstring for PocketCardGroup"""

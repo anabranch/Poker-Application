@@ -62,7 +62,7 @@ class TestDeck:
             assert True
 
     def test_shuffles(self):
-        x = self.d.local_card_copy()
+        x = [copy(c) for c in self.d.cards]
         self.d.shuffle()
         print x
         print self.d.cards
@@ -128,17 +128,17 @@ class TestPocketCardGroup:
         except ValueError:
             assert True
 
-class TestAddition:
-    def setUp(self):
-        self.p = PocketCardGroup()
-        self.p.add_card(d2)
-        self.p.add_card(da)
-        self.b = BoardCardGroup()
-        self.b.add_card(s13)
-        self.b.add_card(d13)
-        self.b.add_card(h13)
-        self.b.add_card(c13)
+# class TestAddition:
+#     def setUp(self):
+#         self.p = PocketCardGroup()
+#         self.p.add_card(d2)
+#         self.p.add_card(da)
+#         self.b = BoardCardGroup()
+#         self.b.add_card(s13)
+#         self.b.add_card(d13)
+#         self.b.add_card(h13)
+#         self.b.add_card(c13)
 
-    def test_addition(self):
-        assert [d2,da,s13,d13,h13,c13] == self.p + self.b
+#     def test_addition(self):
+#         assert [d2,da,s13,d13,h13,c13] == self.p + self.b
 

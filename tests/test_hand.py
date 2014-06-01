@@ -1,6 +1,7 @@
 from lib.hand import PokerHand
 from lib.table import PokerHandTable
 from lib.player import PokerPlayer
+from copy import copy
 import json
 
 def pretty(_dict):
@@ -40,7 +41,7 @@ class TestPokerHand:
 
     def test_dealpocket(self):
         self.hand.pregame(4)
-        cards = list(reversed(self.hand.deck.local_card_copy()))
+        cards = list(reversed([copy(c) for c in self.hand.deck.cards]))
         self.hand.deal_pocket()
         assert len(self.hand.deck) == 42
         print cards
