@@ -22,3 +22,17 @@ def longest_sequence(ls):
     if max(sequences)[0] == 0:
         return (len(current_sequence), current_sequence)
     return max(sequences)
+
+def pretty(d, indent=1):
+    if isinstance(d, dict):
+        for key, value in d.iteritems():
+            print '\t' * indent + str(key)
+            if isinstance(value, dict):
+                pretty(value, indent+1)
+            else:
+                print '\t' * (indent+1) + str(value)
+    elif isinstance(d, list):
+        for val in d:
+            pretty(val)
+    else:
+        print '\t' * (indent+1) + str(d)

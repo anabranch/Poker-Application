@@ -60,7 +60,6 @@ class TestPokerHand:
     def test_complete_hand(self):
         self.hand.pregame(4)
         self.hand.deal_pocket()
-        print self.hand.hand_status()['bet']['bet_delta']
         assert self.hand.action({ # 10 folds
             "action":"fold",
             "amount":0,
@@ -70,7 +69,6 @@ class TestPokerHand:
         assert self.hand.table.currentactor == 2
         assert len(self.hand.table.active) == 4
 
-        print self.hand.hand_status()['bet']['bet_delta']
         assert self.hand.action({
             "action": "bet",
             "amount": 60,
@@ -159,6 +157,6 @@ class TestPokerHand:
             }) == True
         assert self.hand.currentstate == "showdown"
         # pretty(self.hand.hand_status())
-        # self.hand.showdown()
-        # assert False
+        self.hand.showdown()
+        assert False
 

@@ -1,6 +1,7 @@
 from baseclasses.generics import StatedObject
 from cardgroups import DeckCardGroup, BoardCardGroup, BurnCardGroup
 from betting import BettingController
+from ranker import rank_hands
 
 class PokerHand(StatedObject):
     """docstring for PokerHand"""
@@ -92,11 +93,9 @@ class PokerHand(StatedObject):
         self.bet.reset_after_betting()
 
     def showdown(self):
-        for person in self.table.active.values():
-            print "-----"
-            print ValuedCardGroup(person.pocket + self.board).best_hand()
-            print "-----"
+        ranked = rank_hands(dict([(seat, (person.pocket.cards + self.board.cards)) for seat, person in self.table.active.items()]))
         # print self.bet.pot.player_commit_amounts
+        return False
 
     def action(self, details):
         if self.currentstate not in self.bettingstates:

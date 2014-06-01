@@ -1,6 +1,6 @@
 from collections import Counter
 import operator
-from utils import longest_sequence
+from utils import longest_sequence, pretty
 
 from baseclasses.generics import Card
 
@@ -69,7 +69,6 @@ def get_two_kind(cards):
 
     if not two_kind_val:
         return {}
-    print two_kind
     two_kind = c_by_num[two_kind_val][:2]
     kickers = get_kickers(cards, two_kind, 3)
     resp = hand_val_gen(hand_rank=1,name='Pair',two_kind_value=two_kind_val)
@@ -252,5 +251,27 @@ def get_best_hand(cards):
     if nh:
         return nh
 
+# def rank_pairs()
+
+def rank_hands(hands):
+    ranked = dict((count, []) for count in range(0,9))
+    final_rank = []
+
+    for seat, hand in hands.items():
+        bh = get_best_hand(hand)
+        ranked[bh['hand_rank']].append({
+            "seat": seat,
+            "original": hand,
+            "ranked": bh
+            })
+    for x in reversed(range(0,9)):
+        if len(ranked[x]) == 1:
+            final_rank.append(ranked[x][0])
+        if len(ranked[x]) > 1:
+            print "**"*20
+            pretty(ranked[x])
+    print "-"*50
+    pretty(final_rank)
+    # ranked = sorted(ranked, key=operator.attrgetter('ranked.hand_rank'))
     
 

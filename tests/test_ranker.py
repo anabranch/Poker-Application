@@ -10,6 +10,7 @@ def pretty(d, indent=2):
       else:
          print '\t' * (indent+1) + str(value)
 
+
 d2 = Card(2,"Diamonds")
 da = Card(14,"Diamonds")
 sa = Card(14,"Spades")
