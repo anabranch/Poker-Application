@@ -2207,3 +2207,169 @@ class TestRankerStraightFlush:
         assert result["four_kind_value"] == None
         assert result["two_kind_value_2"] == None
         assert result["ordered_kickers"] == []
+
+class TestRankerBestHand:
+    def setUp(self):
+        self.no_hand_1 = [d2,d6,da,h11,c10,h13,d3]
+
+        self.hand_is_pair_1 = [d2,d8,c10,d11,c11,h10,da]
+        self.hand_is_pair_2 = [d2,sa,d3,d6,c11,h13,d11]
+
+        self.hand_is_two_two_kind_1 = [d2,da,sa,s13,d13,d6,d5]
+
+        self.hand_is_three_kind_1 = [d2,c3,h13,s13,d13,d6,d5]
+        self.hand_is_double_trips = [d2,h11,c10,d11,c11,h10,s10]
+
+
+        self.hand_is_four_kind_1 = [d2,c3,h13,c13,d13,s13,d5]
+        
+        self.hand_is_full_house_1 = [d2,c6,h13,s13,d13,d6,d5]
+        self.hand_is_full_house_2 = [d2,c6,h13,s13,h6,d6,d5]
+        self.hand_is_full_house_3 = [d2,d8,c10,d11,c11,h10,s10]
+
+        self.hand_is_almost_straight = [d2, d3, d4, h12, c11, h10, da]
+
+        self.hand_is_high_straight_1 = [d2,d5,h12,h10,d11,d13,sa]
+        self.hand_is_low_straight = [d2,da,h3,d4,c5,h10,d7]
+
+        self.hand_is_flush_1 = [d2,da,sa,d8,d13,d6,d5]
+
+        self.hand_is_straight_flush_1 = [d2, d8, d9, d10, d11, d12, s10]
+        self.hand_is_straight_flush_2 = [d2,d8,d9,d10,d11,d12,da]
+        self.hand_is_straight_flush_3 = [d2,d3,d4,d5,c11,h12,da]
+        self.hand_is_straight_flush_4 = [d2,d3,d4,d5,d6,d7,da]
+        self.hand_is_straight_flush_5 = [d2,d3,d4,d5,d8,d9,da]
+
+    def test_best_hand(self):
+        result = get_best_hand(self.no_hand_1)
+        r2 = get_no_hand(self.no_hand_1)
+        print self.no_hand_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_2(self):
+        result = get_best_hand(self.hand_is_pair_1)
+        r2 = get_two_two_kind(self.hand_is_pair_1)
+        print self.hand_is_pair_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_3(self):
+        result = get_best_hand(self.hand_is_pair_2)
+        r2 = get_two_kind(self.hand_is_pair_2)
+        print self.hand_is_pair_2
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_4(self):
+        result = get_best_hand(self.hand_is_two_two_kind_1)
+        r2 = get_flush(self.hand_is_two_two_kind_1)
+        print self.hand_is_two_two_kind_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_5(self):
+        result = get_best_hand(self.hand_is_three_kind_1)
+        r2 = get_three_kind(self.hand_is_three_kind_1)
+        print self.hand_is_three_kind_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_6(self):
+        result = get_best_hand(self.hand_is_double_trips)
+        r2 = get_full_house(self.hand_is_double_trips)
+        print self.hand_is_double_trips
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_7(self):
+        result = get_best_hand(self.hand_is_four_kind_1)
+        r2 = get_four_kind(self.hand_is_four_kind_1)
+        print self.hand_is_four_kind_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_8(self):
+        result = get_best_hand(self.hand_is_full_house_1)
+        r2 = get_full_house(self.hand_is_full_house_1)
+        print self.hand_is_full_house_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_9(self):
+        result = get_best_hand(self.hand_is_full_house_2)
+        r2 = get_full_house(self.hand_is_full_house_2)
+        print self.hand_is_full_house_2
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_10(self):
+        result = get_best_hand(self.hand_is_full_house_3)
+        r2 = get_full_house(self.hand_is_full_house_3)
+        print self.hand_is_full_house_3
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_11(self):
+        result = get_best_hand(self.hand_is_almost_straight)
+        r2 = get_no_hand(self.hand_is_almost_straight)
+        print self.hand_is_almost_straight
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_12(self):
+        result = get_best_hand(self.hand_is_high_straight_1)
+        r2 = get_straight(self.hand_is_high_straight_1)
+        print self.hand_is_high_straight_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_13(self):
+        result = get_best_hand(self.hand_is_low_straight)
+        r2 = get_straight(self.hand_is_low_straight)
+        print self.hand_is_low_straight
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_14(self):
+        result = get_best_hand(self.hand_is_flush_1)
+        r2 = get_flush(self.hand_is_flush_1)
+        print self.hand_is_flush_1
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_15(self):
+        result = get_best_hand(self.hand_is_straight_flush_1)
+        r2 = get_straight_flush(self.hand_is_straight_flush_1)
+        print self.hand_is_straight_flush_1
+        pretty(result)
+        assert result == r2
+
+
+    def test_best_hand_16(self):
+        result = get_best_hand(self.hand_is_straight_flush_2)
+        r2 = get_straight_flush(self.hand_is_straight_flush_2)
+        print self.hand_is_straight_flush_2
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_17(self):
+        result = get_best_hand(self.hand_is_straight_flush_3)
+        r2 = get_straight_flush(self.hand_is_straight_flush_3)
+        print self.hand_is_straight_flush_3
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_18(self):
+        result = get_best_hand(self.hand_is_straight_flush_4)
+        r2 = get_straight_flush(self.hand_is_straight_flush_4)
+        print self.hand_is_straight_flush_4
+        pretty(result)
+        assert result == r2
+
+    def test_best_hand_19(self):
+        result = get_best_hand(self.hand_is_straight_flush_5)
+        r2 = get_straight_flush(self.hand_is_straight_flush_5)
+        pretty(result)
+        assert result == r2
+
