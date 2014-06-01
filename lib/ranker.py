@@ -5,10 +5,6 @@ from utils import longest_sequence
 from baseclasses.generics import Card
 
 def hand_val_gen(**kwargs):
-    """
-    Generates a card_value_dictionary to
-    to easily give hand rank information
-    """
     dic = {
         "name": None,
         "hand_rank": None,
@@ -47,20 +43,12 @@ def group_by_suit(cards):
     return suit_dictionary
 
 def get_no_hand(cards):
-    """
-    Takes in a list of cards and a max return count
-    and returns a hand val generated dictionary
-    """
     cards = sorted([card for card in cards], key=operator.attrgetter('number'))[-5:]
     resp = hand_val_gen(hand_rank=0,name="High Card", \
     all_cards=cards, ordered_kickers=cards)
     return resp
 
 def get_kickers(cards, exclude_cards=[], mx=5):
-    """
-    Takes in a list of cards and a max return count
-    and returns an ordered list of kickers
-    """
     cs = []
     if mx > 5:
         mx = 5
@@ -70,10 +58,6 @@ def get_kickers(cards, exclude_cards=[], mx=5):
     return sorted(cs, key=operator.attrgetter('number'))[-mx:]
 
 def get_two_kind(cards):
-    """
-    Gets the highest two_kind in a list of cards
-    and returns a hand val generated dictionary
-    """
     two_kind_val = 0
     two_kind = []
     c_by_num = group_by_num(cards)
@@ -112,10 +96,6 @@ def get_two_two_kind(cards):
     return resp
 
 def get_three_kind(cards):
-    """
-    Gets the highest set of 3 of a kind in a list of cards
-    and returns a hand val generated dictionary
-    """
     three_kind_val = 0
     three_kind = []
     c_by_num = group_by_num(cards)
@@ -135,10 +115,6 @@ def get_three_kind(cards):
     return resp
 
 def get_four_kind(cards):
-    """
-    Gets the highest set of 4 of a kind in a list of cards
-    and returns a hand val generated dictionary
-    """
     four_kind_val = 0
     four_kind = []
     c_by_num = group_by_num(cards)
@@ -158,10 +134,6 @@ def get_four_kind(cards):
     return resp
 
 def get_straight(cards):
-    """
-    Gets the highest straight in a list of cards
-    and returns a hand val generated dictionary
-    """
     high_card = 0
     straight = []
 
@@ -239,7 +211,46 @@ def get_straight_flush(cards):
     resp['all_cards'] = suited_cards['all_cards']
     return resp
 
+def get_best_hand(cards):
+    sf = get_straight_flush(cards)
+    if sf:
+        return sf
 
+    fk = get_four_kind(cards)
+    if fk:
+        return fk
+
+    fh = get_full_house(cards)
+    if fh:
+        return fh
+
+    flush = get_flush(cards)
+    if flush:
+        return flush
+
+    straight = get_straight(cards)
+    if straight:
+        return straight
+
+    tk = get_three_kind(cards)
+    if tk:
+        return tk
+
+    tk = get_three_kind(cards)
+    if tk:
+        return tk
+
+    ttk = get_two_two_kind(cards)
+    if ttk:
+        return ttk
+
+    two = get_two_kind(cards)
+    if two:
+        return two
+
+    nh = get_no_hand(cards)
+    if nh:
+        return nh
 
     
 
