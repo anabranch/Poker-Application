@@ -38,17 +38,12 @@ def group_by_num(cards, add_low_ace=False):
                 card_dictionary[1].append(val)
     return card_dictionary
 
-def group_by_suit(cards, add_low_ace=False):
+def group_by_suit(cards):
     suit_dictionary = {}
     for card in cards:
         if card.suit not in suit_dictionary:
             suit_dictionary[card.suit] = []
         suit_dictionary[card.suit].append(card)
-    if add_low_ace:
-        for k, vals in suit_dictionary.items():
-            nums = [card.number for card in vals]
-            if 14 in nums:
-                suit_dictionary[k].append(Card(1,k))
     return suit_dictionary
 
 def get_no_hand(cards):
@@ -56,7 +51,7 @@ def get_no_hand(cards):
     Takes in a list of cards and a max return count
     and returns a hand val generated dictionary
     """
-    cards = sorted([card for card in cards], reverse=True, key=operator.attrgetter('number'))[:5]
+    cards = sorted([card for card in cards], key=operator.attrgetter('number'))[-5:]
     resp = hand_val_gen(hand_rank=0,name="High Card", \
     all_cards=cards, ordered_kickers=cards)
     return resp
@@ -90,7 +85,7 @@ def get_two_kind(cards):
 
     if not two_kind_val:
         return {}
-
+    print two_kind
     two_kind = c_by_num[two_kind_val][:2]
     kickers = get_kickers(cards, two_kind, 3)
     resp = hand_val_gen(hand_rank=1,name='Pair',two_kind_value=two_kind_val)
@@ -171,7 +166,6 @@ def get_straight(cards):
     straight = []
 
     c_by_num = group_by_num(cards,add_low_ace=True)
-    print c_by_num
     nums = c_by_num.keys()
     if len(nums) < 5:
         return {}
@@ -182,8 +176,8 @@ def get_straight(cards):
     for c in sequence:
         straight.append(c_by_num[c][0])
 
-    resp = hand_val_gen(hand_rank=4,name='Straight',s_or_sf_high_card=high_card)
-    resp['all_cards'] = straight
+    resp = hand_val_gen(hand_rank=4,name='Straight',s_or_sf_high_card=high_card.number)
+    resp['all_cards'] = straight[-5:]
     return resp
 
 def get_flush(cards):
@@ -204,7 +198,7 @@ def get_flush(cards):
 def get_full_house(cards):
     three_kind_info = get_three_kind(cards)
     two_two_kind_info = get_two_two_kind(cards)
-    if not three_kind_info and not two_two_kind_info:
+    if not three_kind_info or not two_two_kind_info:
         return {}
 
     fh = []
@@ -212,26 +206,38 @@ def get_full_house(cards):
         if card not in three_kind_info['ordered_kickers']:
             fh.append(card)
     full_of_value = 0
-
+    print two_two_kind_info
     if three_kind_info['three_kind_value'] != two_two_kind_info['two_kind_value']:
         full_of_value = two_two_kind_info['two_kind_value']
 
     elif three_kind_info['three_kind_value'] != two_two_kind_info['two_kind_value_2'] and full_of_value == 0:
         full_of_value = two_two_kind_info['two_kind_value_2']
     else:
-        print {}
+        return {}
 
     for card in two_two_kind_info['all_cards']:
         if card not in two_two_kind_info['ordered_kickers'] and card.number == full_of_value:
             fh.append(card)
-    print fh
     resp = hand_val_gen(hand_rank=6,name="Full House", \
         three_kind_value=three_kind_info['three_kind_value'], two_kind_value=full_of_value)
     resp['all_cards'] = fh
     return resp
 
 def get_straight_flush(cards):
-    pass
+    suit = None
+    suited_cards = []
+    c_by_suit = group_by_suit(cards)
+    for s, cs in c_by_suit.items():
+        if len(cs) >= 5:
+            suit = s
+            suited_cards = get_straight(cs)
+    if not suited_cards:
+        return {}
+    resp = hand_val_gen(hand_rank=8, name='Straight Flush', \
+            s_or_sf_high_card=suited_cards['s_or_sf_high_card'], \
+            suit=suit)
+    resp['all_cards'] = suited_cards['all_cards']
+    return resp
 
 
 
