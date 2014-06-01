@@ -80,7 +80,6 @@ class TestPokerHand:
             "amount": self.hand.hand_status()['bet']['bet_delta'],
             "seat": 4
             }) == True
-        
         assert self.hand.action({
             "action": "call",
             "amount": self.hand.hand_status()['bet']['bet_delta'],
@@ -97,5 +96,78 @@ class TestPokerHand:
             "seat": 6
             }) == False
         pretty(self.hand.hand_status())
+
+    def test_flop(self):
+        self.hand.pregame(4)
+        self.hand.deal_pocket()
+        assert self.hand.action({ # 10 folds
+            "action":"fold",
+            "amount":0,
+            "seat": 10
+            }) == True
+        assert self.hand.action({
+            "action": "bet",
+            "amount": 60,
+            "seat": 2
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 4
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 5
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 6
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 6
+            }) == False
+        assert self.hand.currentstate == "dealflop"
+        self.hand.deal_flop()
+        assert self.hand.action({
+            "action": "check",
+            "amount": self.hand.hand_status()['bet']['bet_delta'],
+            "seat": 5
+            }) == True
+        assert self.hand.action({
+            "action": "bet",
+            "amount": 500,
+            "seat": 6
+            }) == True
+        assert self.hand.action({
+            "action": "bet",
+            "amount": 500,
+            "seat": 4
+            }) == False
+        assert self.hand.action({
+            "action": "fold",
+            "amount": 0,
+            "seat": 10
+            }) == False
+        assert self.hand.action({
+            "action": "fold",
+            "amount": 0,
+            "seat": 2
+            }) == True
+        assert self.hand.action({
+            "action": "call",
+            "amount": self.hand.hand_status()['bet']['pot']['commit_requirement'],
+            "seat": 4
+            }) == True
+        assert self.hand.action({
+            "action": "fold",
+            "amount": 0,
+            "seat": 5
+            }) == True
+        pretty(self.hand.hand_status())
+        assert self.hand.currentstate == "dealturn"
 
 

@@ -26,6 +26,11 @@ class BettingController(object):
         self.bigblind = bigblind
         self.smallblind = smallblind
 
+    def reset_before_betting(self):
+        self.minraise = self.bigblind
+        self.raiseplayer = self.table.get_actor_as_player()
+        self.raiseposition = self.table.get_actor_as_seat()
+
     def reset_after_betting(self):
         self.minraise = self.bigblind
         self.raiseplayer = None
@@ -37,6 +42,7 @@ class BettingController(object):
         self.pot.player_commit_amounts[self.table.get_actor_as_player()]
         if temp < 0:
             temp = 0
+        # work
         return temp
 
     def bet(self, amount):
@@ -75,10 +81,10 @@ class BettingController(object):
 
     def get_actions(self):
         actions = copy(self.defaultactions)
-        if self.raiseplayer == None:
+        if self.pot.commitrequirement == 0:
             actions.remove("call")
-            return actions
-        actions.remove("check")
+        elif self.pot.commitrequirement != 0:
+            actions.remove("check")
         return actions
 
 

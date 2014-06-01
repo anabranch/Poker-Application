@@ -2,10 +2,6 @@ from baseclasses.generics import Player
 from cardgroups import PocketCardGroup
 from chips import PlayerChips
 
-
-# think this will need to be split into hand and game player
-
-
 class PokerPlayer(Player):
     """docstring for PokerPlayer"""
     def __init__(self, pk, name):
