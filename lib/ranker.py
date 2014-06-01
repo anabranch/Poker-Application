@@ -66,11 +66,13 @@ def get_kickers(cards, exclude_cards=[], mx=5):
     Takes in a list of cards and a max return count
     and returns an ordered list of kickers
     """
+    cs = []
     if mx > 5:
         mx = 5
-    for card in exclude_cards:
-        cards.remove(card)
-    return sorted([card for card in cards], key=operator.attrgetter('number'))[-mx:]
+    for card in cards:
+        if card not in exclude_cards:
+            cs.append(card)
+    return sorted(cs, key=operator.attrgetter('number'))[-mx:]
 
 def get_two_kind(cards):
     """
@@ -101,10 +103,10 @@ def get_two_two_kind(cards):
     c_by_num = group_by_num(cards)
     for number, card_list in c_by_num.items():
         if len(card_list) >= 2:
-            doubles.append((number, card_list))
+            doubles.append((number, card_list[:2]))
     if len(doubles) < 2:
         return {}
-
+    doubles = sorted(doubles)
     tpv, tp = doubles.pop()
     bpv, bp = doubles.pop()
     kicker = get_kickers(cards, tp+bp, 1)
@@ -155,7 +157,7 @@ def get_four_kind(cards):
         return {}
     four_kind = c_by_num[four_kind_val][:4]
     kickers = get_kickers(cards, four_kind, 1)
-    resp = hand_val_gen(hand_rank=6,name='Four of a Kind',four_kind_value=four_kind_val)
+    resp = hand_val_gen(hand_rank=7,name='Four of a Kind',four_kind_value=four_kind_val)
     resp['all_cards'] = four_kind + kickers
     resp['ordered_kickers'] = kickers
     return resp
@@ -199,5 +201,39 @@ def get_flush(cards):
     resp['ordered_kickers'] = suited_cards
     return resp
 
+def get_full_house(cards):
+    three_kind_info = get_three_kind(cards)
+    two_two_kind_info = get_two_two_kind(cards)
+    if not three_kind_info and not two_two_kind_info:
+        return {}
 
+    fh = []
+    for card in three_kind_info['all_cards']:
+        if card not in three_kind_info['ordered_kickers']:
+            fh.append(card)
+    full_of_value = 0
+
+    if three_kind_info['three_kind_value'] != two_two_kind_info['two_kind_value']:
+        full_of_value = two_two_kind_info['two_kind_value']
+
+    elif three_kind_info['three_kind_value'] != two_two_kind_info['two_kind_value_2'] and full_of_value == 0:
+        full_of_value = two_two_kind_info['two_kind_value_2']
+    else:
+        print {}
+
+    for card in two_two_kind_info['all_cards']:
+        if card not in two_two_kind_info['ordered_kickers'] and card.number == full_of_value:
+            fh.append(card)
+    print fh
+    resp = hand_val_gen(hand_rank=6,name="Full House", \
+        three_kind_value=three_kind_info['three_kind_value'], two_kind_value=full_of_value)
+    resp['all_cards'] = fh
+    return resp
+
+def get_straight_flush(cards):
+    pass
+
+
+
+    
 
