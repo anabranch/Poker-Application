@@ -244,7 +244,7 @@ class DeckCardGroup(BaseCardGroup):
     def pop_pocket(self):
         return self.cards.pop()
         
-    def _pop_burn(self):
+    def pop_burn(self):
         return self._pop_card()
 
     def pop_turn(self):

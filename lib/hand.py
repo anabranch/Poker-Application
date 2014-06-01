@@ -64,6 +64,21 @@ class PokerHand(StatedObject):
         self.table.next_active_player()
         self.state_change()
 
+    def deal_flop(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_flop(self.deck.pop_flop())
+        self.state_change()
+
+    def deal_turn(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_turn(self.deck.pop_turn())
+        self.state_change()
+
+    def deal_river(self):
+        self.burn.burn(self.deck.pop_burn())
+        self.board.add_turn(self.deck.pop_river())
+        self.state_change()
+
     def reset_after_betting(self):
         self.state_change()
         self.bet.reset_after_betting()
