@@ -1,6 +1,6 @@
 from lib.baseclasses.generics import Card
 from lib.ranker import *
-import json
+from random import shuffle
 
 def pretty(d, indent=2):
    for key, value in d.iteritems():
@@ -2373,4 +2373,51 @@ class TestRankerBestHand:
         r2 = get_straight_flush(self.hand_is_straight_flush_5)
         pretty(result)
         assert result == r2
+
+class TestRankHandsAlgorithm:
+    def setUp(self):
+        rand = list(set([d2,da,sa,s13,d13,c13,h13,d12,d10,d11,d6,d3,c12,c10,s10,c11,c6,c3,h12,h10,h11,h6,h3,d4,c5,d7,d8,d9,d5]))
+        shuffle(rand)
+        self.hands = {}
+        board = [rand.pop() for x in range(0,5)]
+        for x in range(1, 4):
+            temp = [rand.pop() for z in range(0,2)]
+            self.hands[x] = temp + board
+
+    def test_ranking_algo(self):
+        print self.hands
+        rank_hands(self.hands)
+        assert False
+
+class TestRankHandsAlgorithmParts:
+    def setUp(self):
+        board = [c12,c10,c11,c6,c3]
+        self.same_flush = {2: [s10, d3] + board, 5: [sa, da] + board}
+
+    # def test_compare_hands_of_0(self):
+    #     pass
+    # def test_compare_hands_of_1(self):
+    #     pass
+    # def test_compare_hands_of_2(self):
+    #     pass
+    # def test_compare_hands_of_3(self):
+    #     pass
+    # def test_compare_hands_of_4(self):
+    #     pass
+    def test_compare_hands_of_5(self):
+        rank_hands(self.same_flush)
+        assert False
+        
+    # def test_compare_hands_of_6(self):
+    #     pass
+    # def test_compare_hands_of_7(self):
+    #     pass
+    # def test_compare_hands_of_8(self):
+    #     pass
+
+
+
+
+
+
 

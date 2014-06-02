@@ -95,6 +95,8 @@ class PokerHand(StatedObject):
     def showdown(self):
         ranked = rank_hands(dict([(seat, (person.pocket.cards + self.board.cards)) for seat, person in self.table.active.items()]))
         # print self.bet.pot.player_commit_amounts
+        print "S"*70
+        print ranked
         return False
 
     def action(self, details):

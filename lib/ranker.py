@@ -1,9 +1,16 @@
 from collections import Counter
 import operator
 from utils import longest_sequence, pretty
-
 from baseclasses.generics import Card
 
+class Ranker(object):
+    """docstring for Ranker"""
+    def __init__(self, seat, rank_info):
+        super(Ranker, self).__init__()
+        self.seat = seat
+        self.rank_info = rank_info
+
+        
 def hand_val_gen(**kwargs):
     dic = {
         "name": None,
@@ -251,27 +258,73 @@ def get_best_hand(cards):
     if nh:
         return nh
 
-# def rank_pairs()
+def compare_hands_of_0(list_of_rank_objs):
+    pass
+
+def compare_hands_of_1(list_of_rank_objs):
+    all_cards = [x['all_cards'] for x in list_of_rank_objs]
+    print all_cards
+    rankd = sorted(list_of_rank_objs, key=operator.itemgetter( \
+        'two_kind_value', 'kicker_2', 'kicker_1', 'kicker_0'))
+
+
+def compare_hands_of_2(list_of_rank_objs):
+    all_cards = set([x['all_cards'] for x in list_of_rank_objs])
+    print all_cards
+    print sorted(list_of_rank_objs, key=operator.itemgetter( \
+        'two_kind_value', 'two_kind_value_2', 'kicker_0'))
+
+def compare_hands_of_3(list_of_rank_objs):
+    pass
+def compare_hands_of_4(list_of_rank_objs):
+    pass
+def compare_hands_of_5(list_of_rank_objs):
+    all_cards = []
+    for x in list_of_rank_objs:
+        all_cards += x['all_cards']
+    all_cards = set(all_cards)
+    print len(all_cards)
+def compare_hands_of_6(list_of_rank_objs):
+    pass
+def compare_hands_of_7(list_of_rank_objs):
+    pass
+def compare_hands_of_8(list_of_rank_objs):
+    pass
 
 def rank_hands(hands):
-    ranked = dict((count, []) for count in range(0,9))
-    final_rank = []
-
+    final_rankings = []
+    ranked = dict([(x, []) for x in range(0,9)])
     for seat, hand in hands.items():
         bh = get_best_hand(hand)
-        ranked[bh['hand_rank']].append({
-            "seat": seat,
-            "original": hand,
-            "ranked": bh
-            })
-    for x in reversed(range(0,9)):
-        if len(ranked[x]) == 1:
-            final_rank.append(ranked[x][0])
-        if len(ranked[x]) > 1:
-            print "**"*20
-            pretty(ranked[x])
-    print "-"*50
-    pretty(final_rank)
-    # ranked = sorted(ranked, key=operator.attrgetter('ranked.hand_rank'))
-    
+        if bh['ordered_kickers']:
+            for count, kick in enumerate(bh['ordered_kickers']):
+                bh["kicker_" + str(count)] = kick
+            bh['seat'] = seat
+        ranked[bh['hand_rank']].append(bh)
+    pretty(ranked)
 
+    for hand_rank in reversed(range(0,9)):
+        if len(ranked[hand_rank]) == 1:
+            final_rankings.append([ranked[hand_rank]])
+        elif len(ranked[hand_rank]) > 1:
+            if hand_rank == 0:
+                temp = compare_hands_of_0(ranked[hand_rank])
+            elif hand_rank == 1:
+                temp = compare_hands_of_1(ranked[hand_rank])
+            elif hand_rank == 2:
+                temp = compare_hands_of_2(ranked[hand_rank])
+            elif hand_rank == 3:
+                temp = compare_hands_of_3(ranked[hand_rank])
+            elif hand_rank == 4:
+                temp = compare_hands_of_4(ranked[hand_rank])
+            elif hand_rank == 5:
+                temp = compare_hands_of_5(ranked[hand_rank])
+            elif hand_rank == 6:
+                temp = compare_hands_of_6(ranked[hand_rank])
+            elif hand_rank == 7:
+                temp = compare_hands_of_7(ranked[hand_rank])
+            elif hand_rank == 8:
+                temp = compare_hands_of_8(ranked[hand_rank])
+            final_rankings.append(temp)
+
+    return final_rankings
