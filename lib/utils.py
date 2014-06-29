@@ -24,6 +24,7 @@ def longest_sequence(ls):
     return max(sequences)
 
 def pretty(d, indent=1):
+    """Prints a dictionary in JSON like format"""
     if isinstance(d, dict):
         for key, value in d.iteritems():
             print '\t' * indent + str(key)

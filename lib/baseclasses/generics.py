@@ -3,6 +3,8 @@ from copy import copy
 from random import choice
 
 class CommonEqualityMixin(object):
+    """Provides basic equality information for objects, 
+    does an object equal another object"""
     def __eq__(self, other):
         return (isinstance(other, self.__class__)
             and self.__dict__ == other.__dict__)
@@ -122,7 +124,7 @@ class Player(object):
         return str(self)
 
 class Table(object):
-    """docstring for Table"""
+    """Generic Table class"""
     def __init__(self):
         super(Table, self).__init__()
         self.seat_count = 12
@@ -135,23 +137,28 @@ class Table(object):
         self.currentactor = 0
 
     def add_player(self, seatnumber, player):
+        """Adds a player to the table"""
         if seatnumber > self.seat_count:
             raise ValueError("Seat Number too High")
         self.active[seatnumber] = player
 
     def remove_by_seat(self, seatnumber):
+        """Removes a player through their seat number"""
         if seatnumber in self.active:
             del(self.active[seatnumber])
 
     def remove_by_player(self, player):
+        """Removes a player through the active players list"""
         active_players = {v:k for k,v in self.active.items()}
         if player in active_players.keys():
             self.remove_by_seat(active_players[player])
 
     def active_players_list(self):
+        """returns a list of all active players"""
         return self.active.values()
 
     def set_actor(self, position=0):
+        """Sets the person that is responsible for acting"""
         if not position:
             self.currentactor = self.dealerposition
         else:
@@ -159,12 +166,18 @@ class Table(object):
 
 
     def get_actor_as_player(self):
+        """Returns the person that has to act"""
         return self.active[self.currentactor]
 
     def get_actor_as_seat(self):
+        """Returns the seat number of the person 
+        that has to act"""
         return self.currentactor
 
     def next_active_seat(self, position=0):
+        """Sets the next active seat, this affects state
+        because it will automatically change the active 
+        player"""
         if len(self.active) == 0 or self.dealerposition == 0:
             return # verified that there are people at the table
 
@@ -190,9 +203,12 @@ class Table(object):
                     position = 0
 
     def next_active_player(self, position=0):
+        """Uses the next active seat to return the player who 
+        acts next """
         return self.active[self.next_active_seat(position)]
 
     def set_button(self, button=0):
+        """Sets the button or dealer chip"""
         if not button:
             self.dealerposition = choice(self.active.keys())
         else:
