@@ -8,3 +8,11 @@ It can:
 
 
 It is currently under development so it is not functional.
+
+Testing is done with nose at the top level directory 
+
+
+    nosetests
+
+
+will run all tests
