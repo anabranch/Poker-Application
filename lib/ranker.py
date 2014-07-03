@@ -119,25 +119,6 @@ def get_three_kind(cards):
     resp['ordered_kickers'] = kickers
     return resp
 
-def get_four_kind(cards):
-    four_kind_val = 0
-    four_kind = []
-    c_by_num = group_by_num(cards)
-
-    for number, card_list in c_by_num.items():
-        if len(card_list) >= 4:
-            if number > four_kind_val:
-                four_kind_val = number
-
-    if not four_kind_val:
-        return {}
-    four_kind = c_by_num[four_kind_val][:4]
-    kickers = get_kickers(cards, four_kind, 1)
-    resp = hand_val_gen(hand_rank=7,name='Four of a Kind',four_kind_value=four_kind_val)
-    resp['all_cards'] = four_kind + kickers
-    resp['ordered_kickers'] = kickers
-    return resp
-
 def get_straight(cards):
     high_card = 0
     straight = []
@@ -200,6 +181,25 @@ def get_full_house(cards):
     resp['all_cards'] = fh
     return resp
 
+def get_four_kind(cards):
+    four_kind_val = 0
+    four_kind = []
+    c_by_num = group_by_num(cards)
+
+    for number, card_list in c_by_num.items():
+        if len(card_list) >= 4:
+            if number > four_kind_val:
+                four_kind_val = number
+
+    if not four_kind_val:
+        return {}
+    four_kind = c_by_num[four_kind_val][:4]
+    kickers = get_kickers(cards, four_kind, 1)
+    resp = hand_val_gen(hand_rank=7,name='Four of a Kind',four_kind_value=four_kind_val)
+    resp['all_cards'] = four_kind + kickers
+    resp['ordered_kickers'] = kickers
+    return resp
+
 def get_straight_flush(cards):
     suit = None
     suited_cards = []
@@ -257,43 +257,9 @@ def get_best_hand(cards):
     if nh:
         return nh
 
-def compare_hands_of_0(list_of_rank_objs):
-    pass
-
-def compare_hands_of_1(list_of_rank_objs):
-    all_cards = [x['all_cards'] for x in list_of_rank_objs]
-    print all_cards
-    rankd = sorted(list_of_rank_objs, key=operator.itemgetter( \
-        'two_kind_value', 'kicker_2', 'kicker_1', 'kicker_0'))
-
-
-def compare_hands_of_2(list_of_rank_objs):
-    all_cards = set([x['all_cards'] for x in list_of_rank_objs])
-    print all_cards
-    print sorted(list_of_rank_objs, key=operator.itemgetter( \
-        'two_kind_value', 'two_kind_value_2', 'kicker_0'))
-
-def compare_hands_of_3(list_of_rank_objs):
-    pass
-def compare_hands_of_4(list_of_rank_objs):
-    pass
-def compare_hands_of_5(list_of_rank_objs):
-    all_cards = []
-    for x in list_of_rank_objs:
-        all_cards += x['all_cards']
-    all_cards = set(all_cards)
-    print len(all_cards)
-def compare_hands_of_6(list_of_rank_objs):
-    pass
-def compare_hands_of_7(list_of_rank_objs):
-    pass
-def compare_hands_of_8(list_of_rank_objs):
-    pass
-
 def rank_hands(hands):
     final_rankings = []
     ranked = dict([(x, []) for x in range(0,9)])
-    print hands
     for seat, hand in hands.items():
         bh = get_best_hand(hand)
         if bh['ordered_kickers']:
@@ -302,29 +268,5 @@ def rank_hands(hands):
             bh['seat'] = seat
         ranked[bh['hand_rank']].append(bh)
     pretty(ranked)
-
-    for hand_rank in reversed(range(0,9)):
-        if len(ranked[hand_rank]) == 1:
-            final_rankings.append([ranked[hand_rank]])
-        elif len(ranked[hand_rank]) > 1:
-            if hand_rank == 0:
-                temp = compare_hands_of_0(ranked[hand_rank])
-            elif hand_rank == 1:
-                temp = compare_hands_of_1(ranked[hand_rank])
-            elif hand_rank == 2:
-                temp = compare_hands_of_2(ranked[hand_rank])
-            elif hand_rank == 3:
-                temp = compare_hands_of_3(ranked[hand_rank])
-            elif hand_rank == 4:
-                temp = compare_hands_of_4(ranked[hand_rank])
-            elif hand_rank == 5:
-                temp = compare_hands_of_5(ranked[hand_rank])
-            elif hand_rank == 6:
-                temp = compare_hands_of_6(ranked[hand_rank])
-            elif hand_rank == 7:
-                temp = compare_hands_of_7(ranked[hand_rank])
-            elif hand_rank == 8:
-                temp = compare_hands_of_8(ranked[hand_rank])
-            final_rankings.append(temp)
 
     return final_rankings
