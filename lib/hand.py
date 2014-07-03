@@ -125,7 +125,8 @@ class PokerHand(StatedObject):
     def showdown(self):
         """Showdown will determine who wins the hand, it will defer
         to the ranking algorithm in order to decide who wins"""
-        ranked = rank_hands(dict([(seat, (person.pocket.cards + self.board.cards)) for seat, person in self.table.active.items()]))
+        ranked = rank_hands(dict([(seat, (person.pocket.cards + self.board.cards)) \
+            for seat, person in self.table.active.items()]))
         # print self.bet.pot.player_commit_amounts
         print "S"*70
         print ranked
@@ -170,7 +171,6 @@ class PokerHand(StatedObject):
 
         # if no one in the game, go to showdown
         return success
-
 
     def hand_status(self):
         """

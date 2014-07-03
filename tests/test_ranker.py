@@ -2385,7 +2385,7 @@ class TestRankHandsAlgorithm:
             self.hands[x] = temp + board
 
     def test_ranking_algo(self):
-        print self.hands
+        # print self.hands
         rank_hands(self.hands)
         assert False
 

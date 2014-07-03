@@ -9,7 +9,6 @@ class Ranker(object):
         super(Ranker, self).__init__()
         self.seat = seat
         self.rank_info = rank_info
-
         
 def hand_val_gen(**kwargs):
     dic = {
@@ -294,6 +293,7 @@ def compare_hands_of_8(list_of_rank_objs):
 def rank_hands(hands):
     final_rankings = []
     ranked = dict([(x, []) for x in range(0,9)])
+    print hands
     for seat, hand in hands.items():
         bh = get_best_hand(hand)
         if bh['ordered_kickers']:
