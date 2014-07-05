@@ -51,8 +51,12 @@ def group_by_suit(cards):
 def get_no_hand(cards):
     cards = sorted([card for card in cards], key=operator.attrgetter('number'))[-5:]
     resp = hand_val_gen(hand_rank=0,name="High Card", \
-    all_cards=cards, ordered_kickers=cards)
+    all_cards = cards, ordered_kickers=cards)
     return resp
+
+def compare_no_hand(hands):
+    print hands
+    pass
 
 def get_kickers(cards, exclude_cards=[], mx=5):
     cs = []
@@ -152,6 +156,28 @@ def get_flush(cards):
     resp['all_cards'] = suited_cards
     resp['ordered_kickers'] = suited_cards
     return resp
+
+def compare_flush(hands):
+    above_first = []
+    below_first = []
+    equals_first = []
+
+    first = [val.number for val in hands[0]['ordered_kickers']]
+    for hand in hands:
+        curr_numbs = [val.number for val in hand['ordered_kickers']]
+        for count in reversed(range(0, 4)):
+            if curr_numbs[count] < first[count]:
+                below_first.append(hand)
+                break
+            if curr_numbs[count] > first[count]:
+                above_first.append(hand)
+                break
+            if count == 0:
+                equals_first.append(hand)
+
+    print above_first
+    print below_first
+    print equals_first
 
 def get_full_house(cards):
     three_kind_info = get_three_kind(cards)
@@ -267,6 +293,12 @@ def rank_hands(hands):
                 bh["kicker_" + str(count)] = kick
             bh['seat'] = seat
         ranked[bh['hand_rank']].append(bh)
-    pretty(ranked)
+    # now we're ready to get the best hands
+    for rank, hands in ranked.items():
+        if len(hands) > 1:
+            if rank == 0:
+                compare_no_hand(hands)
+            if rank == 5:
+                compare_flush(hands)
 
     return final_rankings

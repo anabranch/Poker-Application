@@ -2394,27 +2394,9 @@ class TestRankHandsAlgorithmParts:
         board = [c12,c10,c11,c6,c3]
         self.same_flush = {2: [s10, d3] + board, 5: [sa, da] + board}
 
-    # def test_compare_hands_of_0(self):
-    #     pass
-    # def test_compare_hands_of_1(self):
-    #     pass
-    # def test_compare_hands_of_2(self):
-    #     pass
-    # def test_compare_hands_of_3(self):
-    #     pass
-    # def test_compare_hands_of_4(self):
-    #     pass
     def test_compare_hands_of_5(self):
         rank_hands(self.same_flush)
         assert False
-        
-    # def test_compare_hands_of_6(self):
-    #     pass
-    # def test_compare_hands_of_7(self):
-    #     pass
-    # def test_compare_hands_of_8(self):
-    #     pass
-
 
 
 
