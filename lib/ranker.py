@@ -15,6 +15,7 @@ def hand_val_gen(**kwargs):
         "name": None,
         "hand_rank": None,
         "suit": None,
+        "suit_rank": 0,
         "all_cards": [],
         "s_or_sf_high_card": None,
         "three_kind_value": None,
@@ -54,10 +55,6 @@ def get_no_hand(cards):
     all_cards = cards, ordered_kickers=cards)
     return resp
 
-def compare_no_hand(hands):
-    print hands
-    pass
-
 def get_kickers(cards, exclude_cards=[], mx=5):
     cs = []
     if mx > 5:
@@ -86,6 +83,9 @@ def get_two_kind(cards):
     resp['ordered_kickers'] = kickers
     return resp
 
+def compare_two_kind(cards):
+    pass
+
 def get_two_two_kind(cards):
     doubles = []
     c_by_num = group_by_num(cards)
@@ -98,7 +98,7 @@ def get_two_two_kind(cards):
     tpv, tp = doubles.pop()
     bpv, bp = doubles.pop()
     kicker = get_kickers(cards, tp+bp, 1)
-    resp = hand_val_gen(hand_rank=2,name="Two Pair", \
+    resp = hand_val_gen(hand_rank=2, name="Two Pair", \
         two_kind_value=tpv, two_kind_value_2=bpv)
     resp['all_cards'] = tp + bp + kicker
     resp['ordered_kickers'] = kicker
@@ -152,32 +152,11 @@ def get_flush(cards):
             suited_cards = get_kickers(cs,[],5)
     if not suit:
         return {}
-    resp = hand_val_gen(hand_rank=5,name="Flush", suit=suit)
+    resp = hand_val_gen(hand_rank=5,name="Flush", \
+        suit=suit, suit_rank=suited_cards[0].suit_rank)
     resp['all_cards'] = suited_cards
     resp['ordered_kickers'] = suited_cards
     return resp
-
-def compare_flush(hands):
-    above_first = []
-    below_first = []
-    equals_first = []
-
-    first = [val.number for val in hands[0]['ordered_kickers']]
-    for hand in hands:
-        curr_numbs = [val.number for val in hand['ordered_kickers']]
-        for count in reversed(range(0, 4)):
-            if curr_numbs[count] < first[count]:
-                below_first.append(hand)
-                break
-            if curr_numbs[count] > first[count]:
-                above_first.append(hand)
-                break
-            if count == 0:
-                equals_first.append(hand)
-
-    print above_first
-    print below_first
-    print equals_first
 
 def get_full_house(cards):
     three_kind_info = get_three_kind(cards)
@@ -284,21 +263,40 @@ def get_best_hand(cards):
         return nh
 
 def rank_hands(hands):
-    final_rankings = []
     ranked = dict([(x, []) for x in range(0,9)])
     for seat, hand in hands.items():
         bh = get_best_hand(hand)
-        if bh['ordered_kickers']:
-            for count, kick in enumerate(bh['ordered_kickers']):
-                bh["kicker_" + str(count)] = kick
-            bh['seat'] = seat
+        bh['seat'] = seat
         ranked[bh['hand_rank']].append(bh)
     # now we're ready to get the best hands
     for rank, hands in ranked.items():
         if len(hands) > 1:
             if rank == 0:
-                compare_no_hand(hands)
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "ordered_kickers"))
+            if rank == 1:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "two_kind_value", "ordered_kickers"))
+            if rank == 2:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "two_kind_value", "two_kind_value_2", "ordered_kickers"))
+            if rank == 3:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "three_kind_value", "ordered_kickers"))
+            if rank == 4:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "three_kind_value", "ordered_kickers"))
             if rank == 5:
-                compare_flush(hands)
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "suit_rank", "ordered_kickers"))
+            if rank == 6:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "three_kind_value", "two_kind_value"))
+            if rank == 7:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "four_kind_value", 'ordered_kickers'))
+            if rank == 8:
+                ranked[rank] = sorted(hands, key=operator.itemgetter(\
+                    "ordered_kickers", "suit_rank"))
 
-    return final_rankings
+    return ranked
