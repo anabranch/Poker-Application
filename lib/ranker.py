@@ -15,14 +15,14 @@ def hand_val_gen(**kwargs):
         "name": None,
         "hand_rank": None,
         "suit": None,
-        "suit_rank": 0,
         "all_cards": [],
         "s_or_sf_high_card": None,
         "three_kind_value": None,
         "four_kind_value": None,
         "two_kind_value": None,
         "two_kind_value_2": None,
-        "ordered_kickers": []
+        "ordered_kickers": [],
+        "ordered_kickers_as_list": []
     }
     for name, val in kwargs.items():
         dic[name] = val
@@ -152,10 +152,10 @@ def get_flush(cards):
             suited_cards = get_kickers(cs,[],5)
     if not suit:
         return {}
-    resp = hand_val_gen(hand_rank=5,name="Flush", \
-        suit=suit, suit_rank=suited_cards[0].suit_rank)
+    resp = hand_val_gen(hand_rank=5, name="Flush", suit=suit)
     resp['all_cards'] = suited_cards
     resp['ordered_kickers'] = suited_cards
+    resp['ordered_kickers_as_list'] = sorted([card.number for card in suited_cards])
     return resp
 
 def get_full_house(cards):
@@ -287,8 +287,7 @@ def rank_hands(hands):
                 ranked[rank] = sorted(hands, key=operator.itemgetter(\
                     "three_kind_value", "ordered_kickers"))
             if rank == 5:
-                ranked[rank] = sorted(hands, key=operator.itemgetter(\
-                    "suit_rank", "ordered_kickers"))
+                ranked[rank] = sorted(hands, key=operator.itemgetter("ordered_kickers_as_list"))
             if rank == 6:
                 ranked[rank] = sorted(hands, key=operator.itemgetter(\
                     "three_kind_value", "two_kind_value"))
