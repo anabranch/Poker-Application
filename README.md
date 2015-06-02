@@ -1,3 +1,5 @@
+*this project is currently dead.*
+
 ## Poker Engine Written in Python
 
 This is a poker application written in Python.
